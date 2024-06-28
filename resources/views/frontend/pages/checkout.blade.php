@@ -125,7 +125,7 @@
                                                 Phí Giao Hàng
                                                 @if(count(Helper::shipping())>0 && Helper::cartCount()>0)
                                                     <select name="shipping" class="nice-select">
-                                                        <option value="">Lựa chọn địa chỉ của bạn</option>
+                                                        <!-- <option value="">Lựa chọn địa chỉ của bạn</option> -->
                                                         @foreach(Helper::shipping() as $shipping)
                                                         <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: {{$shipping->price}}đ</option>
                                                         @endforeach
@@ -155,13 +155,13 @@
                                 <!--/ End Order Widget -->
                                 <!-- Order Widget -->
                                 <div class="single-widget">
-                                    <h2>Payments</h2>
+                                    <h2>Phương Thức Thanh Toán</h2>
                                     <div class="content">
                                         <div class="checkbox">
                                             {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                             <form-group>
                                                 <input name="payment_method"  type="radio" value="cod"> <label> Thanh Toán Khi Giao Hàng</label><br>
-{{--                                                <input name="payment_method"  type="radio" value="paypal"> <label> PayPal</label>--}}
+                                                <input name="payment_method"  type="radio" value="paypal"> <label> PayPal</label>
                                             </form-group>
 
                                         </div>
@@ -169,11 +169,11 @@
                                 </div>
                                 <!--/ End Order Widget -->
                                 <!-- Payment Method Widget -->
-                                <div class="single-widget payement">
-{{--                                    <div class="content">--}}
-{{--                                        <img src="{{('backend/img/payment-method.png')}}" alt="#">--}}
-{{--                                    </div>--}}
-                                </div>
+                                <!-- <div class="single-widget payement">
+                                    <div class="content">
+                                        <img src="{{('backend/img/payment-method.png')}}" alt="#">
+                                    </div>
+                                </div> -->
                                 <!--/ End Payment Method Widget -->
                                 <!-- Button Widget -->
                                 <div class="single-widget get-button">
