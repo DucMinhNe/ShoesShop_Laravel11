@@ -61,8 +61,8 @@
         <div class="form-group">
           <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
           <select name="status" class="form-control">
-              <option value="active" {{(($category->status=='active')? 'selected' : '')}}>Active</option>
-              <option value="inactive" {{(($category->status=='inactive')? 'selected' : '')}}>Inactive</option>
+              <option value="active" {{(($category->status=='active')? 'selected' : '')}}>Hoạt Động</option>
+              <option value="inactive" {{(($category->status=='inactive')? 'selected' : '')}}>Ngưng Hoạt Động</option>
           </select>
           @error('status')
           <span class="text-danger">{{$message}}</span>

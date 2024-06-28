@@ -502,7 +502,7 @@ big {
 	background-color: currentColor;
 	position: absolute;
 	left: 0;
-	animation: cp-preloader19_smoke 1s linear .2s infinite backwards;
+	animation: cp-preloader19_smoke 0.2s linear .2s infinite backwards;
 }
 .cp-preloader-inner::before {
 	top: 45%;

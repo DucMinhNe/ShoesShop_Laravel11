@@ -92,9 +92,9 @@
                     </td>
                     <td>
                         @if($product->status=='active')
-                            <span class="badge badge-success">{{$product->status}}</span>
+                            <span class="badge badge-success">Hoạt Động</span>
                         @else
-                            <span class="badge badge-warning">{{$product->status}}</span>
+                            <span class="badge badge-warning">Ngưng Hoạt Động</span>
                         @endif
                     </td>
                     <td>

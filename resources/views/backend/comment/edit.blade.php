@@ -21,8 +21,8 @@
         <label for="status">Trạng thái :</label>
         <select name="status" id="" class="form-control">
           <option value="">--Lựa chọn trạng thái--</option>
-          <option value="active" {{(($comment->status=='active')? 'selected' : '')}}>Active</option>
-          <option value="inactive" {{(($comment->status=='inactive')? 'selected' : '')}}>Inactive</option>
+          <option value="active" {{(($comment->status=='active')? 'selected' : '')}}>Hoạt Động</option>
+          <option value="inactive" {{(($comment->status=='inactive')? 'selected' : '')}}>Ngưng Hoạt Động</option>
         </select>
       </div>
       <button type="submit" class="btn btn-primary">Cập nhật</button>

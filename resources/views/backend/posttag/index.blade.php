@@ -42,9 +42,9 @@
                     <td>{{$data->slug}}</td>
                     <td>
                         @if($data->status=='active')
-                            <span class="badge badge-success">{{$data->status}}</span>
+                            <span class="badge badge-success">Hoạt Động</span>
                         @else
-                            <span class="badge badge-warning">{{$data->status}}</span>
+                            <span class="badge badge-warning">Ngưng Hoạt Động</span>
                         @endif
                     </td>
                     <td>

@@ -60,9 +60,9 @@
                     <td>{{$review->created_at->format('M d D, Y g: i a')}}</td>
                     <td>
                         @if($review->status=='active')
-                          <span class="badge badge-success">{{$review->status}}</span>
+                          <span class="badge badge-success">Hoạt Động</span>
                         @else
-                          <span class="badge badge-warning">{{$review->status}}</span>
+                          <span class="badge badge-warning">Ngưng Hoạt Động</span>
                         @endif
                     </td>
                     <td>

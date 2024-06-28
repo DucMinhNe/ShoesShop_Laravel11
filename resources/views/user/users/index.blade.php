@@ -56,9 +56,9 @@
                     <td>{{$user->role}}</td>
                     <td>
                         @if($user->status=='active')
-                            <span class="badge badge-success">{{$user->status}}</span>
+                            <span class="badge badge-success">Hoạt Động</span>
                         @else
-                            <span class="badge badge-warning">{{$user->status}}</span>
+                            <span class="badge badge-warning">Ngưng Hoạt Động</span>
                         @endif
                     </td>
                     <td>

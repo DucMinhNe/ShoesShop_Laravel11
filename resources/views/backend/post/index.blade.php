@@ -69,9 +69,9 @@
                     </td>
                     <td>
                         @if($post->status=='active')
-                            <span class="badge badge-success">{{$post->status}}</span>
+                            <span class="badge badge-success">Hoạt Động</span>
                         @else
-                            <span class="badge badge-warning">{{$post->status}}</span>
+                            <span class="badge badge-warning">Ngưng Hoạt Động</span>
                         @endif
                     </td>
                     <td>

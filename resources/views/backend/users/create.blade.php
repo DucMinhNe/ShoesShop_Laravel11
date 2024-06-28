@@ -64,8 +64,8 @@
           <div class="form-group">
             <label for="status" class="col-form-label">Trạng thái</label>
             <select name="status" class="form-control">
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="active">Hoạt Động</option>
+                <option value="active">Ngưng Hoạt Động</option>
             </select>
           @error('status')
           <span class="text-danger">{{$message}}</span>

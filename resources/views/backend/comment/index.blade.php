@@ -47,9 +47,9 @@
                     <td>{{$comment->created_at->format('M d D, Y g: i a')}}</td>
                     <td>
                         @if($comment->status=='active')
-                          <span class="badge badge-success">{{$comment->status}}</span>
+                           <span class="badge badge-success">Hoạt Động</span>
                         @else
-                          <span class="badge badge-warning">{{$comment->status}}</span>
+                           <span class="badge badge-warning">Ngưng Hoạt Động</span>
                         @endif
                     </td>
                     <td>

@@ -30,7 +30,7 @@
 							@php
 								$settings=DB::table('settings')->get();
 							@endphp
-							<h3>Chào mừng tới <span>Jelly</span>Boutique</h3>
+							<h3>Chào mừng tới <span>Shoes</span>Shop</h3>
 							<p>@foreach($settings as $data) {{$data->description}} @endforeach</p>
 							<div class="button">
 								<a href="{{route('blog')}}" class="btn">Bài Viết</a>
@@ -43,7 +43,8 @@
 							{{-- <div class="button">
 								<a href="https://www.youtube.com/watch?v=nh2aYrGMrIE" class="video video-popup mfp-iframe"><i class="fa fa-play"></i></a>
 							</div> --}}
-							<img src="@foreach($settings as $data) {{$data->photo}} @endforeach" alt="@foreach($settings as $data) {{$data->photo}} @endforeach">
+							<!-- <img src="@foreach($settings as $data) {{$data->photo}} @endforeach" alt=""> -->
+							<img src="{{ asset('images/nike-air.jpg') }}" alt="">
 						</div>
 					</div>
 				</div>

@@ -68,13 +68,11 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 d-flex justify-content-center">
                                     <div class="form-group login-btn">
                                         <button class="btn" type="submit">Đăng ký</button>
+                                        Hoặc bạn đã có tài khoản
                                         <a href="{{route('login.form')}}" class="btn">Đăng nhập</a>
-                                        OR
-                                        <a href="{{route('login.redirect','facebook')}}" class="btn btn-facebook"><i class="ti-facebook"></i></a>
-                                        <a href="{{route('login.redirect','google')}}" class="btn btn-google"><i class="ti-google"></i></a>
                                     </div>
                                 </div>
                             </div>

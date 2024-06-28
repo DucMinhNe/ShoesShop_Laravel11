@@ -15,7 +15,7 @@
 								$settings=DB::table('settings')->get();
 							@endphp
 							<p class="text">@foreach($settings as $data) {{$data->short_des}} @endforeach</p>
-							<p class="call">Nếu bạn có câu hỏi? Gọi ngay cho chúng tôi.<span style="margin-top: 10px"><a href="tel:0398314279" >@foreach($settings as $data) {{$data->phone}} @endforeach</a></span></p>
+							<!-- <p class="call">Nếu bạn có câu hỏi? Gọi ngay cho chúng tôi.<span style="margin-top: 10px"><a href="tel:0398314279" >@foreach($settings as $data) {{$data->phone}} @endforeach</a></span></p> -->
 						</div>
 						<!-- End Single Widget -->
 					</div>
@@ -61,8 +61,6 @@
 							</div>
 							<!-- End Single Widget -->
                             <br>
-                            <h6>Follow Me</h6>
-							<div class="sharethis-inline-share-buttons"></div>
 						</div>
 						<!-- End Single Widget -->
 					</div>
@@ -80,9 +78,9 @@
 							</div>
 						</div>
 						<div class="col-lg-6 col-12">
-							<div class="right">
+							<!-- <div class="right">
 								<img src="{{asset('backend/img/payments.png')}}" alt="#">
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>

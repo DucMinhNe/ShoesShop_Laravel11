@@ -38,8 +38,8 @@
         <div class="form-group">
           <label for="status" class="col-form-label">Trạng thái <span class="text-danger">*</span></label>
           <select name="status" class="form-control">
-            <option value="active" {{(($coupon->status=='active') ? 'selected' : '')}}>Active</option>
-            <option value="inactive" {{(($coupon->status=='inactive') ? 'selected' : '')}}>Inactive</option>
+            <option value="active" {{(($coupon->status=='active') ? 'selected' : '')}}>Hoạt Động</option>
+            <option value="inactive" {{(($coupon->status=='inactive') ? 'selected' : '')}}>Ngưng Hoạt Động</option>
           </select>
           @error('status')
           <span class="text-danger">{{$message}}</span>

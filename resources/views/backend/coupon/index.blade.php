@@ -56,9 +56,9 @@
                         @endif</td>
                     <td>
                         @if($coupon->status=='active')
-                            <span class="badge badge-success">{{$coupon->status}}</span>
+                            <span class="badge badge-success">Hoạt Động</span>
                         @else
-                            <span class="badge badge-warning">{{$coupon->status}}</span>
+                            <span class="badge badge-warning">Ngưng Hoạt Động</span>
                         @endif
                     </td>
                     <td>
