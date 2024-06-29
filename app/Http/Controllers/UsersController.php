@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
+
 class UsersController extends Controller
 {
     /**
@@ -14,8 +16,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users=User::orderBy('id','ASC')->paginate(10);
-        return view('backend.users.index')->with('users',$users);
+        $users = User::all();
+        return view('backend.users.index', compact('users'));
     }
 
     /**
@@ -36,29 +38,35 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,
-        [
-            'name'=>'string|required|max:30',
-            'email'=>'string|required|unique:users',
-            'password'=>'string|required',
-            'role'=>'required|in:admin,user',
-            'status'=>'required|in:active,inactive',
-            'photo'=>'nullable|string',
-        ]);
-        // dd($request->all());
-        $data=$request->all();
-        $data['password']=Hash::make($request->password);
-        // dd($data);
-        $status=User::create($data);
+        $this->validate(
+            $request,
+            [
+                'name' => 'string|required|max:30',
+                'email' => 'string|required|unique:users',
+                'password' => 'string|required',
+                'role' => 'required|in:admin,user',
+                'status' => 'required|in:active,inactive',
+                'photo' => 'image',
+            ]
+        );
+        $data = $request->all();
+        $data['password'] = Hash::make($request->password);
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = $request->name . "_" . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('user_img'), $filename);
+            $data['photo'] = 'user_img/' . $filename;
+        }
+        $status = User::create($data);
         // dd($status);
-        if($status){
-            request()->session()->flash('success','Thêm người dùng thành công');
+        if ($status) {
+            // Thông báo thành công bằng SweetAlert và chuyển hướng
+            return response()->json(['success' => 'Thêm người dùng thành công']);
+        } else {
+            // Thông báo lỗi bằng SweetAlert và chuyển hướng
+            return response()->json(['error' => 'Có lỗi xảy ra khi thêm người dùng'], 500);
         }
-        else{
-            request()->session()->flash('error','Có lỗi xảy ra khi thêm người dùng');
-        }
-        return redirect()->route('users.index');
-
+        // return redirect()->route('users.index');
     }
 
     /**
@@ -80,8 +88,8 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user=User::findOrFail($id);
-        return view('backend.users.edit')->with('user',$user);
+        $user = User::findOrFail($id);
+        return view('backend.users.edit')->with('user', $user);
     }
 
     /**
@@ -93,29 +101,42 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user=User::findOrFail($id);
-        $this->validate($request,
-        [
-            'name'=>'string|required|max:30',
-            'email'=>'string|required',
-            'role'=>'required|in:admin,user',
-            'status'=>'required|in:active,inactive',
-            'photo'=>'nullable|string',
+        $user = User::findOrFail($id);
+        $this->validate($request, [
+            'name' => 'string|required|max:30',
+            'email' => 'string|required',
+            'role' => 'required|in:admin,user',
+            'status' => 'required|in:active,inactive',
+            'photo' => 'nullable|image|max:2048',
         ]);
-        // dd($request->all());
-        $data=$request->all();
-        // dd($data);
 
-        $status=$user->fill($data)->save();
-        if($status){
-            request()->session()->flash('success','Cập nhật thành công');
+        $data = $request->all();
+
+        // Handle file upload
+        if ($request->hasFile('photo')) {
+            // Delete the old photo if it exists
+            if ($user->photo && file_exists(public_path($user->photo))) {
+                unlink(public_path($user->photo));
+            }
+
+            // Upload new photo
+            $file = $request->file('photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('user_img'), $filename);
+            $data['photo'] = 'user_img/' . $filename;
         }
-        else{
-            request()->session()->flash('error','Có lỗi xảy ra khi cập nhật');
+
+        $status = $user->fill($data)->save();
+        if ($status) {
+            // Thông báo thành công bằng SweetAlert và chuyển hướng
+            return response()->json(['success' => 'Cập nhật người dùng thành công']);
+        } else {
+            // Thông báo lỗi bằng SweetAlert và chuyển hướng
+            return response()->json(['error' => 'Có lỗi xảy ra khi cập nhật người dùng'], 500);
         }
         return redirect()->route('users.index');
-
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -125,13 +146,12 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $delete=User::findorFail($id);
-        $status=$delete->delete();
-        if($status){
-            request()->session()->flash('success','Xóa người dùng thành công');
-        }
-        else{
-            request()->session()->flash('error','Có lỗi xảy ra khi xóa');
+        $delete = User::findorFail($id);
+        $status = $delete->delete();
+        if ($status) {
+            request()->session()->flash('success', 'Xóa người dùng thành công');
+        } else {
+            request()->session()->flash('error', 'Có lỗi xảy ra khi xóa');
         }
         return redirect()->route('users.index');
     }

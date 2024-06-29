@@ -74,7 +74,6 @@
             @endforeach
           </tbody>
         </table>
-        <span style="float:right">{{$orders->links()}}</span>
         @else
           <h6 class="text-center">Không có đơn hàng nào!!!</h6>
         @endif

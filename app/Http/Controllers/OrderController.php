@@ -22,7 +22,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders=Order::orderBy('id','DESC')->paginate(10);
+        $orders=Order::all();
         return view('backend.order.index')->with('orders',$orders);
     }
 

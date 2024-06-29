@@ -5,7 +5,7 @@
 <div class="card">
     <h5 class="card-header">Thêm danh mục sản phẩm</h5>
     <div class="card-body">
-      <form method="post" action="{{route('category.store')}}">
+      <form method="post" action="{{route('category.store')}}" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="form-group">
           <label for="inputTitle" class="col-form-label">Tiêu đề <span class="text-danger">*</span></label>
@@ -41,16 +41,7 @@
 
         <div class="form-group">
           <label for="inputPhoto" class="col-form-label">Ảnh</label>
-          <div class="input-group">
-              <span class="input-group-btn">
-                  <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                  <i class="fa fa-picture-o"></i> Lựa chọn
-                  </a>
-              </span>
-          <input id="thumbnail" class="form-control" type="text" name="photo" value="{{old('photo')}}">
-        </div>
-        <div id="holder" style="margin-top:15px;max-height:100px;"></div>
-
+          <input id="inputPhoto" type="file" name="photo" class="form-control">
           @error('photo')
           <span class="text-danger">{{$message}}</span>
           @enderror

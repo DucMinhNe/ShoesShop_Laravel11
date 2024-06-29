@@ -43,7 +43,7 @@ class CategoryController extends Controller
         $this->validate($request,[
             'title'=>'string|required',
             'summary'=>'string|nullable',
-            'photo'=>'string|nullable',
+            'photo'=>'image|nullable',
             'status'=>'required|in:active,inactive',
             'is_parent'=>'sometimes|in:1',
             'parent_id'=>'nullable|exists:categories,id',
@@ -53,6 +53,12 @@ class CategoryController extends Controller
         $count=Category::where('slug',$slug)->count();
         if($count>0){
             $slug=$slug.'-'.date('ymdis').'-'.rand(0,999);
+        }
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = $request->title . "_" . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('category_img'), $filename);
+            $data['photo'] = 'category_img/' . $filename;
         }
         $data['slug']=$slug;
         $data['is_parent']=$request->input('is_parent',0);
@@ -107,7 +113,7 @@ class CategoryController extends Controller
         $this->validate($request,[
             'title'=>'string|required',
             'summary'=>'string|nullable',
-            'photo'=>'string|nullable',
+            'photo'=>'image|nullable',
             'status'=>'required|in:active,inactive',
             'is_parent'=>'sometimes|in:1',
             'parent_id'=>'nullable|exists:categories,id',
@@ -115,6 +121,18 @@ class CategoryController extends Controller
         $data= $request->all();
         $data['is_parent']=$request->input('is_parent',0);
         // return $data;
+        if ($request->hasFile('photo')) {
+            // Delete the old photo if it exists
+            if ($category->photo && file_exists(public_path($category->photo))) {
+                unlink(public_path($category->photo));
+            }
+
+            // Upload new photo
+            $file = $request->file('photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('category_img'), $filename);
+            $data['photo'] = 'category_img/' . $filename;
+        }
         $status=$category->fill($data)->save();
         if($status){
             request()->session()->flash('success','Cập nhật danh mục thành công');

@@ -64,7 +64,6 @@
             @endforeach
           </tbody>
         </table>
-        <span style="float:right">{{$comments->links()}}</span>
         @else
           <h6 class="text-center">Chưa bình luận bài viết nào!!!</h6>
         @endif

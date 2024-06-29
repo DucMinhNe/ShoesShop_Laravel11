@@ -77,7 +77,6 @@
             @endforeach
           </tbody>
         </table>
-        <span style="float:right">{{$reviews->links()}}</span>
         @else
           <h6 class="text-center">Không có đánh giá nào!!!</h6>
         @endif

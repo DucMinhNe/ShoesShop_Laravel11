@@ -77,7 +77,6 @@
             @endforeach
           </tbody>
         </table>
-        <span style="float:right">{{$reviews->links()}}</span>
         @else
           <h6 class="text-center">Không có đánh giá nào!!!</h6>
         @endif
@@ -86,69 +85,84 @@
 </div>
 @endsection
 
-@push('styles')
-  <link href="{{asset('backend/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-  <style>
-      div.dataTables_wrapper div.dataTables_paginate{
-          display: none;
-      }
-  </style>
-@endpush
-
 @push('scripts')
-
-  <!-- Page level plugins -->
-  <script src="{{asset('backend/vendor/datatables/jquery.dataTables.min.js')}}"></script>
-  <script src="{{asset('backend/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="{{asset('backend/js/demo/datatables-demo.js')}}"></script>
-  <script>
-
-      $('#order-dataTable').DataTable( {
-            "columnDefs":[
-                {
-                    "orderable":false,
-                    "targets":[5,6]
-                }
-            ]
-        } );
-
-        // Sweet alert
-
-        function deleteData(id){
-
+<script>
+  $(document).ready(function() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    var table = $('.table').DataTable({
+      language: {
+        "sEmptyTable": "Không có dữ liệu",
+        "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+        "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
+        "sInfoFiltered": "(được lọc từ _MAX_ tổng số bản ghi)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ",",
+        "sLengthMenu": "Hiển thị _MENU_ bản ghi",
+        "sLoadingRecords": "Đang tải...",
+        "sProcessing": "Đang xử lý...",
+        "sSearch": "Tìm kiếm:",
+        "sZeroRecords": "Không tìm thấy kết quả nào phù hợp",
+        "oPaginate": {
+          "sFirst": "Đầu",
+          "sLast": "Cuối",
+          "sNext": "Tiếp",
+          "sPrevious": "Trước"
+        },
+        "oAria": {
+          "sSortAscending": ": Sắp xếp tăng dần",
+          "sSortDescending": ": Sắp xếp giảm dần"
         }
-  </script>
-  <script>
-      $(document).ready(function(){
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-          $('.dltBtn').click(function(e){
-            var form=$(this).closest('form');
-              var dataID=$(this).data('id');
-              // alert(dataID);
-              e.preventDefault();
-              swal({
-                  title: "Bạn có chắc không?",
-                  text: "Khi xóa sẽ không thể khôi phục dữ liệu!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                       form.submit();
-                    } else {
-                        swal("Dữ liệu an toàn!");
-                    }
-                });
-          })
-      })
-  </script>
+      },
+      dom: 'Bfrtip',
+      buttons: [{
+          extend: 'copy',
+          text: 'Sao chép'
+        },
+        {
+          extend: 'excel',
+          text: 'Xuất Excel'
+        },
+        {
+          extend: 'pdf',
+          text: 'Xuất PDF'
+        },
+        {
+          extend: 'print',
+          text: 'In'
+        },
+        {
+          extend: 'colvis',
+          text: 'Hiển thị cột'
+        },
+        {
+          extend: 'pageLength',
+          text: 'Số bản ghi trên trang'
+        }
+      ],
+    });
+    $('.dltBtn').click(function(e) {
+      var form = $(this).closest('form');
+      var dataID = $(this).data('id');
+      e.preventDefault();
+      Swal.fire({
+        title: "Bạn có chắc không?",
+        text: "Khi xóa sẽ không thể khôi phục dữ liệu!",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: "Xóa",
+        denyButtonText: `Hủy`
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit();
+        } else if (result.isDenied) {
+          Swal.fire("Dữ liệu an toàn!", "", "info");
+        }
+      });
+    })
+  })
+</script>
 @endpush
