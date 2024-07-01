@@ -56,6 +56,8 @@ Route::get('/wishlist',function(){
 Route::get('/wishlist/{slug}','WishlistController@wishlist')->name('add-to-wishlist')->middleware('user');
 Route::get('wishlist-delete/{id}','WishlistController@wishlistDelete')->name('wishlist-delete');
 Route::post('cart/order','OrderController@store')->name('cart.order');
+Route::post('cart/order','OrderController@checkPayment')->name('cart.checkPayment');
+
 Route::get('order/pdf/{id}','OrderController@pdf')->name('order.pdf');
 Route::get('/income','OrderController@incomeChart')->name('product.order.income');
 Route::get('/incomequarterly','OrderController@incomeChartQuarterly')->name('product.order.income.quarterly');

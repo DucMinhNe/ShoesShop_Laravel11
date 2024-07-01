@@ -24,7 +24,9 @@
     <!-- Start Checkout -->
     <section class="shop checkout section">
         <div class="container">
-                <form class="form" method="POST" action="{{route('cart.order')}}">
+
+                <form class="form" method="POST" action="{{route('cart.checkPayment')}}">
+                
                     @csrf
                     <div class="row">
 
@@ -70,7 +72,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-12">
+                                    <!-- <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Quốc Gia<span>*</span></label>
                                             <select name="country" id="country">
@@ -80,7 +82,7 @@
 
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Địa chỉ 1<span>*</span></label>
@@ -90,7 +92,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-12">
+                                    <!-- <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Địa chỉ 2</label>
                                             <input type="text" name="address2" placeholder="" value="{{old('address2')}}">
@@ -98,8 +100,8 @@
                                                 <span class='text-danger'>{{$message}}</span>
                                             @enderror
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-12">
+                                    </div> -->
+                                    <!-- <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Mã bưu chính</label>
                                             <input type="text" name="post_code" placeholder="" value="{{old('post_code')}}">
@@ -107,7 +109,7 @@
                                                 <span class='text-danger'>{{$message}}</span>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                 </div>
                                 <!--/ End Form -->
@@ -161,7 +163,8 @@
                                             {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                             <form-group>
                                                 <input name="payment_method"  type="radio" value="cod"> <label> Thanh Toán Khi Giao Hàng</label><br>
-                                                <input name="payment_method"  type="radio" value="paypal"> <label> PayPal</label>
+                                                <input name="payment_method"  type="radio" value="paypal"> <label> PayPal</label><br>
+                                                <input name="payment_method"  type="radio" value="momo"> <label> Momo</label>
                                             </form-group>
 
                                         </div>

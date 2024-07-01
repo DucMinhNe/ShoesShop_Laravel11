@@ -12,9 +12,98 @@ use Notification;
 use Helper;
 use Illuminate\Support\Str;
 use App\Notifications\StatusNotification;
-
+use Illuminate\Support\Facades\Http;
 class OrderController extends Controller
 {
+    private $partnerCode = "MOMOBKUN20180529";
+    private $returnUrl = "https://localhost:7196/api/payment/momo-return";
+    private $paymentUrl = "https://test-payment.momo.vn/v2/gateway/api/create";
+    private $ipnUrl = "https://localhost:7196/payment/api/momo-ipn";
+    private $accessKey = "klm05TvNBzhg7h7j";
+    private $secretKey = "at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa";
+
+    private function hmacSHA256($inputData, $key)
+    {
+        return hash_hmac('sha256', $inputData, $key);
+    }
+
+    private function makeSignature($accessKey, $secretKey, $amount, $extraData, $ipnUrl, $orderId, $orderInfo, $partnerCode, $redirectUrl, $requestId, $requestType)
+    {
+        $rawHash = "accessKey=" . $accessKey .
+                   "&amount=" . $amount .
+                   "&extraData=" . $extraData .
+                   "&ipnUrl=" . $ipnUrl .
+                   "&orderId=" . $orderId .
+                   "&orderInfo=" . $orderInfo .
+                   "&partnerCode=" . $partnerCode .
+                   "&redirectUrl=" . $redirectUrl .
+                   "&requestId=" . $requestId .
+                   "&requestType=" . $requestType;
+
+        return $this->hmacSHA256($rawHash, $secretKey);
+    }
+
+    public function createMomoPayment($requiredAmount)
+    {
+        $orderId = now()->timestamp;
+        $requestId = uniqid();
+
+        $signature = $this->makeSignature(
+            $this->accessKey,
+            $this->secretKey,
+            $requiredAmount,
+            '',
+            $this->ipnUrl,
+            $orderId,
+            'ThanhToan',
+            $this->partnerCode,
+            $this->returnUrl,
+            $requestId,
+            'captureWallet'
+        );
+
+        $momoRequest = [
+            'partnerCode' => $this->partnerCode,
+            'partnerName' => 'Test',
+            'storeId' => 'Merchant',
+            'requestType' => 'captureWallet',
+            'ipnUrl' => $this->ipnUrl,
+            'redirectUrl' => $this->returnUrl,
+            'orderId' => $orderId,
+            'amount' => (string)$requiredAmount,
+            'lang' => 'en',
+            'autoCapture' => false,
+            'orderInfo' => 'ThanhToan',
+            'requestId' => $requestId,
+            'extraData' => '',
+            'signature' => $signature
+        ];
+
+        $response = Http::post($this->paymentUrl, $momoRequest);
+
+        if ($response->successful()) {
+            return response()->json($response->json());
+        } else {
+            return response()->json(['message' => 'Payment creation failed'], $response->status());
+        }
+    }
+    public function checkPayment(Request $request)
+    {
+        // Retrieve all data from the request
+        $order_data = $request->all();
+        // Initialize the payment URL variable
+        $payUrl = '';
+    
+        if ($request->input('payment_method') == 'momo') {
+            // Assuming createMomoPayment() is a function that returns an object with properties including 'payUrl'
+            $momoPayment = $this->createMomoPayment(10000); // Adjust the amount (10000) as per your requirement
+            // dd($momoPayment->getdata()->payUrl);
+            $payUrl = $momoPayment->getdata()->payUrl; // Assuming 'payUrl' is a property of the returned object
+        }
+        
+        // Redirect to the payment URL
+        return redirect()->away($payUrl);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,6 +124,7 @@ class OrderController extends Controller
     {
         //
     }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -46,13 +136,13 @@ class OrderController extends Controller
     {
         $this->validate($request,[
             'first_name'=>'string|required',
-            'last_name'=>'string|required',
-            'address1'=>'string|required',
+            'last_name'=>'string|nullable',
+            'address1'=>'string|nullable',
             'address2'=>'string|nullable',
             'coupon'=>'nullable|numeric',
-            'phone'=>'numeric|required',
+            'phone'=>'numeric|nullable',
             'post_code'=>'string|nullable',
-            'email'=>'string|required'
+            'email'=>'string|nullable'
         ]);
         // return $request->all();
 
