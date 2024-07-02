@@ -87,6 +87,66 @@ class OrderController extends Controller
             return response()->json(['message' => 'Payment creation failed'], $response->status());
         }
     }
+    public function createVnPayPayment()
+    {
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = "https://localhost/vnpay_php/vnpay_return.php";
+        $vnp_TmnCode = "UDOPNWS1";
+        $vnp_HashSecret = "EBAHADUGCOEWYXCMYZRMTMLSHGKNRPBN"; //Chuỗi bí mật
+        
+        $vnp_TxnRef = '222';
+        $vnp_OrderInfo = 'tess thanh toan';
+        $vnp_OrderType = 'billpayment';
+        $vnp_Amount = 200000 * 100;
+        $vnp_Locale = 'vn';
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        //Add Params
+        $inputData = array(
+            "vnp_Version" => "2.1.0", //Phiên bản cũ là 2.0.0, 2.0.1 thay đổi sang 2.1.0
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef
+        );
+
+        
+        //var_dump($inputData);
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+    
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+                $vnpSecureHash = hash('sha256', $vnp_HashSecret . $hashdata);
+                $vnp_Url .= 'vnp_SecureHashType=SHA256&vnp_SecureHash=' . $vnpSecureHash;
+        }
+     $returnData = array('code' => '00','message' => 'success','data' => $vnp_Url);
+        if (isset($_POST['redirect'])) {
+            header('Location: ' . $vnp_Url);
+            die();
+        } else {
+            echo json_encode($returnData);
+        }
+    }
+
     public function checkPayment(Request $request)
     {
         // Retrieve all data from the request
@@ -100,7 +160,12 @@ class OrderController extends Controller
             // dd($momoPayment->getdata()->payUrl);
             $payUrl = $momoPayment->getdata()->payUrl; // Assuming 'payUrl' is a property of the returned object
         }
-        
+        if ($request->input('payment_method') == 'vnpay') {
+            // Assuming createMomoPayment() is a function that returns an object with properties including 'payUrl'
+            $vnpayPayment = $this->createMomoPayment(10000); // Adjust the amount (10000) as per your requirement
+            // dd($momoPayment->getdata()->payUrl);
+            $payUrl = $vnpayPayment->getdata()->payUrl; // Assuming 'payUrl' is a property of the returned object
+        }
         // Redirect to the payment URL
         return redirect()->away($payUrl);
     }
