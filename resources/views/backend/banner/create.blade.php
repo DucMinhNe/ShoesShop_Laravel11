@@ -26,18 +26,11 @@
         </div>
 
         <div class="form-group">
-        <label for="inputPhoto" class="col-form-label">Ảnh <span class="text-danger">*</span></label>
-        <div class="input-group">
-            <span class="input-group-btn">
-                <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                <i class="fa fa-picture-o"></i> Lựa chọn
-                </a>
-            </span>
-          <input id="thumbnail" class="form-control" type="text" name="photo" value="{{old('photo')}}">
-        </div>
-        <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+          <label for="inputPhoto" class="col-form-label">Ảnh</label>
+          <input id="inputPhoto" type="file" name="photo" class="form-control" onchange="previewImage(event)">
+          <img id="photoPreview" src="#" alt="Ảnh người dùng" class="img-fluid rounded-circle mt-3" style="max-width: 100px; display: none;">
           @error('photo')
-          <span class="text-danger">{{$message}}</span>
+          <span class="text-danger">{{ $message }}</span>
           @enderror
         </div>
 
@@ -77,5 +70,56 @@
         height: 150
     });
     });
+</script>
+@endpush
+@push('scripts')
+<script>
+  function previewImage(event) {
+    var input = event.target;
+    var reader = new FileReader();
+    reader.onload = function() {
+      var dataURL = reader.result;
+      var photoPreview = document.getElementById('photoPreview');
+      photoPreview.src = dataURL;
+      photoPreview.style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+</script>
+<script>
+  $(document).ready(function() {
+    $('form').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          Swal.fire({
+            icon: "success",
+            title: response.success,
+            showConfirmButton: false,
+            timer: 1000
+          }).then(function() {
+            window.location.href = '{{ route("banner.index") }}';
+          });
+        },
+        error: function(xhr, status, error) {
+          var errorMessage = xhr.status + ': ' + xhr.statusText;
+          Swal.fire({
+            title: 'Lỗi',
+            text: 'Có lỗi xảy ra khi thực hiện thao tác',
+            icon: 'error',
+            closeOnClickOutside: false,
+          });
+        }
+      });
+    });
+  });
 </script>
 @endpush

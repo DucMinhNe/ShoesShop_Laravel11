@@ -60,12 +60,16 @@
                       @endforeach
                     </td>
                     <td>
-                        @if($post->photo)
-                            <img src="{{$post->photo}}" class="img-fluid zoom" style="max-width:80px" alt="{{$post->photo}}">
-                        @else
-                            <img src="{{asset('backend/img/thumbnail-default.jpg')}}" class="img-fluid" style="max-width:80px" alt="avatar.png">
-                        @endif
-                    </td>
+                          @if ($post->photo)
+                
+                                            <img src="{{ asset($post->photo) }}" class="img-fluid zoom" style="max-width:80px"
+                                                alt="{{ $post->photo }}">
+                                        @else
+                                            <img src="{{ asset('backend/img/thumbnail-default.jpg') }}" class="img-fluid"
+                                                style="max-width:80px" alt="avatar.png">
+                                        @endif
+                                    </td>
+    
                     <td>
                         @if($post->status=='active')
                             <span class="badge badge-success">Hoạt Động</span>
