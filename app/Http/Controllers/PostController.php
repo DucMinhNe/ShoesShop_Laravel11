@@ -50,7 +50,7 @@ class PostController extends Controller
             'quote'=>'string|nullable',
             'summary'=>'string|required',
             'description'=>'string|nullable',
-            'photo'=>'string|nullable',
+            'photo'=>'image|nullable',
             'tags'=>'nullable',
             'added_by'=>'nullable',
             'post_cat_id'=>'required',
@@ -58,7 +58,12 @@ class PostController extends Controller
         ]);
 
         $data=$request->all();
-
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = $request->name . "_" . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('post_img'), $filename);
+            $data['photo'] = 'post_img/' . $filename;
+        }
         $slug=Str::slug($request->title);
         $count=Post::where('slug',$slug)->count();
         if($count>0){
@@ -76,13 +81,12 @@ class PostController extends Controller
         // return $data;
 
         $status=Post::create($data);
-        if($status){
-            request()->session()->flash('success','Post Successfully added');
+        if ($status) {
+            return response()->json(['success' => 'Cập nhật bài viết thành công']);
+        } else {
+            return response()->json(['error' => 'Có lỗi xảy ra khi cập nhật bài viết'], 500);
         }
-        else{
-            request()->session()->flash('error','Please try again!!');
-        }
-        return redirect()->route('post.index');
+        // return redirect()->route('post.index');
     }
 
     /**
@@ -127,7 +131,7 @@ class PostController extends Controller
             'quote'=>'string|nullable',
             'summary'=>'string|required',
             'description'=>'string|nullable',
-            'photo'=>'string|nullable',
+            'photo'=>'image|nullable',
             'tags'=>'nullable',
             'added_by'=>'nullable',
             'post_cat_id'=>'required',
@@ -135,6 +139,18 @@ class PostController extends Controller
         ]);
 
         $data=$request->all();
+        if ($request->hasFile('photo')) {
+            // Delete the old photo if it exists
+            if ($post->photo && file_exists(public_path($post->photo))) {
+                unlink(public_path($post->photo));
+            }
+
+            // Upload new photo
+            $file = $request->file('photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('post_img'), $filename);
+            $data['photo'] = 'post_img/' . $filename;
+        }
         $tags=$request->input('tags');
         // return $tags;
         if($tags){
@@ -146,13 +162,12 @@ class PostController extends Controller
         // return $data;
 
         $status=$post->fill($data)->save();
-        if($status){
-            request()->session()->flash('success','Post Successfully updated');
+        if ($status) {
+            return response()->json(['success' => 'Cập nhật bài viết thành công']);
+        } else {
+            return response()->json(['error' => 'Có lỗi xảy ra khi cập nhật bài viết'], 500);
         }
-        else{
-            request()->session()->flash('error','Please try again!!');
-        }
-        return redirect()->route('post.index');
+        // return redirect()->route('post.index');
     }
 
     /**

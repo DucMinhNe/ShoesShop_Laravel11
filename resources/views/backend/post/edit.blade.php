@@ -5,7 +5,7 @@
 <div class="card">
     <h5 class="card-header">Chỉnh sửa bài viết</h5>
     <div class="card-body">
-      <form method="post" action="{{route('post.update',$post->id)}}">
+      <form method="post" action="{{route('post.update',$post->id)}}" enctype="multipart/form-data" >
         @csrf
         @method('PATCH')
         <div class="form-group">
@@ -74,21 +74,21 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="inputPhoto" class="col-form-label">Ảnh <span class="text-danger">*</span></label>
-          <div class="input-group">
-              <span class="input-group-btn">
-                  <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                  <i class="fa fa-picture-o"></i> Lựa chọn
-                  </a>
-              </span>
-          <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$post->photo}}">
-        </div>
-        <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+        <label for="inputPhoto" class="col-form-label">Ảnh</label>
+        <input id="inputPhoto" type="file" name="photo" class="form-control" onchange="previewImage(event)">
+        @error('photo')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+      </div>
 
-          @error('photo')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
+      @if($post->photo)
+      <div class="form-group">
+        <img id="currentPhoto" src="{{ asset($post->photo) }}" alt="post Photo" class="img-fluid rounded-circle mt-3" style="max-width: 100px;">
+      </div>
+      @endif
+      <img id="photoPreview" src="#" alt="Ảnh người dùng" class="img-fluid rounded-circle mt-3" style="max-width: 100px; display: none;">
+
+
 
         <div class="form-group">
           <label for="status" class="col-form-label">Trạng thái <span class="text-danger">*</span></label>
@@ -144,5 +144,61 @@
           height: 150
       });
     });
+</script>
+@endpush
+@push('scripts')
+<script>
+  function previewImage(event) {
+    var input = event.target;
+    var reader = new FileReader();
+    reader.onload = function() {
+      var dataURL = reader.result;
+      var photoPreview = document.getElementById('photoPreview');
+      photoPreview.src = dataURL;
+      photoPreview.style.display = 'block';
+      // Hide the current photo if a new one is selected
+      var currentPhoto = document.getElementById('currentPhoto');
+      if (currentPhoto) {
+        currentPhoto.style.display = 'none';
+      }
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+</script>
+<script>
+  $(document).ready(function() {
+    $('form').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          Swal.fire({
+            icon: "success",
+            title: response.success,
+            showConfirmButton: false,
+            timer: 1000
+          }).then(function() {
+            window.location.href = '{{ route("post.index") }}';
+          });
+        },
+        error: function(xhr, status, error) {
+          var errorMessage = xhr.status + ': ' + xhr.statusText;
+          Swal.fire({
+            title: 'Lỗi',
+            text: 'Có lỗi xảy ra khi thực hiện thao tác',
+            icon: 'error',
+            closeOnClickOutside: false,
+          });
+        }
+      });
+    });
+  });
 </script>
 @endpush

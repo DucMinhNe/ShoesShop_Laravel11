@@ -40,10 +40,16 @@ class BannerController extends Controller
         $this->validate($request,[
             'title'=>'string|required|max:50',
             'description'=>'string|nullable',
-            'photo'=>'string|required',
+            'photo'=>'image|nullable',
             'status'=>'required|in:active,inactive',
         ]);
         $data=$request->all();
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = $request->name . "_" . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('banner_img'), $filename);
+            $data['photo'] = 'banner_img/' . $filename;
+        }
         $slug=Str::slug($request->title);
         $count=Banner::where('slug',$slug)->count();
         if($count>0){
@@ -52,13 +58,12 @@ class BannerController extends Controller
         $data['slug']=$slug;
         // return $slug;
         $status=Banner::create($data);
-        if($status){
-            request()->session()->flash('success','Thêm Banner thành công');
+        if ($status) {
+            return response()->json(['success' => 'Cập nhật Banner thành công']);
+        } else {
+            return response()->json(['error' => 'Có lỗi xảy ra khi cập nhật Banner'], 500);
         }
-        else{
-            request()->session()->flash('error','Có lỗi xảy ra trong quá trình thêm Banner');
-        }
-        return redirect()->route('banner.index');
+        // return redirect()->route('banner.index');
     }
 
     /**
@@ -97,7 +102,7 @@ class BannerController extends Controller
         $this->validate($request,[
             'title'=>'string|required|max:50',
             'description'=>'string|nullable',
-            'photo'=>'string|required',
+            'photo'=>'image|nullable',
             'status'=>'required|in:active,inactive',
         ]);
         $data=$request->all();
@@ -108,14 +113,24 @@ class BannerController extends Controller
         // }
         // $data['slug']=$slug;
         // return $slug;
+        if ($request->hasFile('photo')) {
+            // Delete the old photo if it exists
+            if ($banner->photo && file_exists(public_path($banner->photo))) {
+                unlink(public_path($banner->photo));
+            }
+            // Upload new photo
+            $file = $request->file('photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('banner_img'), $filename);
+            $data['photo'] = 'banner_img/' . $filename;
+        }
         $status=$banner->fill($data)->save();
-        if($status){
-            request()->session()->flash('success','Banner cập nhật thành công');
+        if ($status) {
+            return response()->json(['success' => 'Cập nhật bài viết thành công']);
+        } else {
+            return response()->json(['error' => 'Có lỗi xảy ra khi cập nhật bài viết'], 500);
         }
-        else{
-            request()->session()->flash('error','Có lỗi trong quá trình cập nhật Banner');
-        }
-        return redirect()->route('banner.index');
+        // return redirect()->route('banner.index');
     }
 
     /**

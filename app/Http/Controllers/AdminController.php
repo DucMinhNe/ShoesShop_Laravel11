@@ -56,8 +56,8 @@ class AdminController extends Controller
         $this->validate($request,[
             'short_des'=>'required|string',
             'description'=>'required|string',
-            'photo'=>'required',
-            'logo'=>'required',
+            'photo'=>'image|nullable',
+            'logo'=>'image|nullable',
             'address'=>'required|string',
             'email'=>'required|email',
             'phone'=>'required|string',
@@ -65,15 +65,38 @@ class AdminController extends Controller
         $data=$request->all();
         // return $data;
         $settings=Settings::first();
+        if ($request->hasFile('photo')) {
+            // Delete the old photo if it exists
+            if ($settings->photo && file_exists(public_path($settings->photo))) {
+                unlink(public_path($settings->photo));
+            }
+            // Upload new photo
+            $file = $request->file('photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('setting_img'), $filename);
+            $data['photo'] = 'setting_img/' . $filename;
+        }
+        if ($request->hasFile('logo')) {
+            // Delete the old photo if it exists
+            if ($settings->logo && file_exists(public_path($settings->logo))) {
+                unlink(public_path($settings->logo));
+            }
+            // Upload new photo
+            $file = $request->file('logo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('logo_img'), $filename);
+            $data['logo'] = 'logo_img/' . $filename;
+        }
         // return $settings;
         $status=$settings->fill($data)->save();
-        if($status){
-            request()->session()->flash('success','Cập nhật cài đặt thành công');
+        if ($status) {
+            // Thông báo thành công bằng SweetAlert và chuyển hướng
+            return response()->json(['success' => 'Cập nhật sản phẩm thành công']);
+        } else {
+            // Thông báo lỗi bằng SweetAlert và chuyển hướng
+            return response()->json(['error' => 'Có lỗi xảy ra khi cập nhật sản phẩm'], 500);
         }
-        else{
-            request()->session()->flash('error','Vui lòng thử lại');
-        }
-        return redirect()->route('admin');
+        // return redirect()->route('admin');
     }
 
     public function changePassword(){

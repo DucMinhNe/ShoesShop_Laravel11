@@ -49,7 +49,7 @@ class ProductController extends Controller
             'title'=>'string|required',
             'summary'=>'string|required',
             'description'=>'string|nullable',
-            'photo'=>'string|required',
+            'photo'=>'image|nullable',
             'size'=>'nullable',
             'stock'=>"required|numeric",
             'cat_id'=>'required|exists:categories,id',
@@ -63,6 +63,12 @@ class ProductController extends Controller
         ]);
 
         $data=$request->all();
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = $request->name . "_" . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('product_img'), $filename);
+            $data['photo'] = 'product_img/' . $filename;
+        }
         $slug=Str::slug($request->title);
         $count=Product::where('slug',$slug)->count();
         if($count>0){
@@ -80,14 +86,13 @@ class ProductController extends Controller
         // return $size;
         // return $data;
         $status=Product::create($data);
-        if($status){
-            request()->session()->flash('success','Thêm sản phâm thành công');
+        if ($status) {
+            // Thông báo thành công bằng SweetAlert và chuyển hướng
+            return response()->json(['success' => 'Cập nhật sản phẩm thành công']);
+        } else {
+            // Thông báo lỗi bằng SweetAlert và chuyển hướng
+            return response()->json(['error' => 'Có lỗi xảy ra khi cập nhật sản phẩm'], 500);
         }
-        else{
-            request()->session()->flash('error','Vui lòng thử lại!!');
-        }
-        return redirect()->route('product.index');
-
     }
 
     /**
@@ -130,23 +135,36 @@ class ProductController extends Controller
     {
         $product=Product::findOrFail($id);
         $this->validate($request,[
-            'title'=>'string|required',
-            'summary'=>'string|required',
+            'title'=>'string|nullable',
+            'summary'=>'string|nullable',
             'description'=>'string|nullable',
-            'photo'=>'string|required',
+            'photo'=>'image|nullable',
             'size'=>'nullable',
-            'stock'=>"required|numeric",
-            'cat_id'=>'required|exists:categories,id',
+            'stock'=>"nullable|numeric",
+            'cat_id'=>'nullable|exists:categories,id',
             'child_cat_id'=>'nullable|exists:categories,id',
             'is_featured'=>'sometimes|in:1',
             'brand_id'=>'nullable|exists:brands,id',
-            'status'=>'required|in:active,inactive',
-            'condition'=>'required|in:default,new,hot',
-            'price'=>'required|numeric',
+            'status'=>'nullable|in:active,inactive',
+            'condition'=>'nullable|in:default,new,hot',
+            'price'=>'nullable|numeric',
             'discount'=>'nullable|numeric'
         ]);
 
         $data=$request->all();
+         // Handle file upload
+         if ($request->hasFile('photo')) {
+            // Delete the old photo if it exists
+            if ($product->photo && file_exists(public_path($product->photo))) {
+                unlink(public_path($product->photo));
+            }
+
+            // Upload new photo
+            $file = $request->file('photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('product_img'), $filename);
+            $data['photo'] = 'product_img/' . $filename;
+        }
         $data['is_featured']=$request->input('is_featured',0);
         $size=$request->input('size');
         if($size){
@@ -157,13 +175,12 @@ class ProductController extends Controller
         }
         // return $data;
         $status=$product->fill($data)->save();
-        if($status){
-            request()->session()->flash('success','Cập nhật sản phẩm thành công');
+        if ($status) {
+            return response()->json(['success' => 'Cập nhật sản phẩm thành công']);
+        } else {
+            return response()->json(['error' => 'Có lỗi xảy ra khi cập nhật sản phẩm'], 500);
         }
-        else{
-            request()->session()->flash('error','Vui lòng thử lại!!');
-        }
-        return redirect()->route('product.index');
+        // return redirect()->route('product.index');
     }
 
     /**
