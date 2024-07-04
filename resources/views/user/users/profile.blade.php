@@ -36,7 +36,7 @@
                   </div>
             </div>
             <div class="col-md-8">
-                <form class="border px-4 pt-2 pb-3" method="POST" action="{{route('user-profile-update',$profile->id)}}">
+                <form class="border px-4 pt-2 pb-3" method="POST" action="{{route('user-profile-update',$profile->id)}}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="inputTitle" class="col-form-label">Tên</label>
@@ -55,30 +55,19 @@
                       </div>
 
                       <div class="form-group">
-                      <label for="inputPhoto" class="col-form-label">Ảnh đại diện</label>
-                      <div class="input-group">
-                          <span class="input-group-btn">
-                              <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                              <i class="fa fa-picture-o"></i> Chọn ảnh
-                              </a>
-                          </span>
-                          <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$profile->photo}}">
-                      </div>
-                        @error('photo')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                      </div>
-{{--                      <div class="form-group">--}}
-{{--                          <label for="role" class="col-form-label">Role</label>--}}
-{{--                          <select name="role" class="form-control">--}}
-{{--                              <option value="">-----Select Role-----</option>--}}
-{{--                                  <option value="admin" {{(($profile->role=='admin')? 'selected' : '')}}>Admin</option>--}}
-{{--                                  <option value="user" {{(($profile->role=='user')? 'selected' : '')}}>User</option>--}}
-{{--                          </select>--}}
-{{--                        @error('role')--}}
-{{--                        <span class="text-danger">{{$message}}</span>--}}
-{{--                        @enderror--}}
-{{--                        </div>--}}
+        <label for="inputPhoto" class="col-form-label">Ảnh</label>
+        <input id="inputPhoto" type="file" name="photo" class="form-control" onchange="previewImage(event)">
+        @error('photo')
+        <span class="text-danger">{{$message}}</span>
+        @enderror
+      </div>
+
+      @if($profile->photo)
+      <div class="form-group">
+        <img id="currentPhoto" src="{{ asset($profile->photo) }}" alt="User Photo" class="img-fluid rounded-circle mt-3" style="max-width: 100px;">
+      </div>
+      @endif
+      <img id="photoPreview" src="#" alt="Ảnh người dùng" class="img-fluid rounded-circle mt-3" style="max-width: 100px; display: none;">
 
                         <button type="submit" class="btn btn-success btn-sm">Cập nhật</button>
                 </form>
@@ -126,8 +115,58 @@
   </style>
 
 @push('scripts')
-<script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 <script>
-    $('#lfm').filemanager('image');
+  function previewImage(event) {
+    var input = event.target;
+    var reader = new FileReader();
+    reader.onload = function() {
+      var dataURL = reader.result;
+      var photoPreview = document.getElementById('photoPreview');
+      photoPreview.src = dataURL;
+      photoPreview.style.display = 'block';
+      // Hide the current photo if a new one is selected
+      var currentPhoto = document.getElementById('currentPhoto');
+      if (currentPhoto) {
+        currentPhoto.style.display = 'none';
+      }
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+</script>
+<script>
+  $(document).ready(function() {
+    $('form').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          Swal.fire({
+            icon: "success",
+            title: response.success,
+            showConfirmButton: false,
+            timer: 1000
+          }).then(function() {
+            window.location.href = '{{ route("users.index") }}';
+          });
+        },
+        error: function(xhr, status, error) {
+          var errorMessage = xhr.status + ': ' + xhr.statusText;
+          swal({
+            title: 'Lỗi',
+            text: 'Có lỗi xảy ra khi thực hiện thao tác',
+            icon: 'error',
+            closeOnClickOutside: false,
+          });
+        }
+      });
+    });
+  });
 </script>
 @endpush

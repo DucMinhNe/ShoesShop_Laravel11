@@ -159,15 +159,20 @@ class OrderController extends Controller
             $momoPayment = $this->createMomoPayment(10000); // Adjust the amount (10000) as per your requirement
             // dd($momoPayment->getdata()->payUrl);
             $payUrl = $momoPayment->getdata()->payUrl; // Assuming 'payUrl' is a property of the returned object
+            return redirect()->away($payUrl);
         }
         if ($request->input('payment_method') == 'vnpay') {
             // Assuming createMomoPayment() is a function that returns an object with properties including 'payUrl'
             $vnpayPayment = $this->createMomoPayment(10000); // Adjust the amount (10000) as per your requirement
             // dd($momoPayment->getdata()->payUrl);
             $payUrl = $vnpayPayment->getdata()->payUrl; // Assuming 'payUrl' is a property of the returned object
+            return redirect()->away($payUrl);
+        }
+        if ($request->input('payment_method') == 'cod') {
+            store($request);
         }
         // Redirect to the payment URL
-        return redirect()->away($payUrl);
+        return null;
     }
     /**
      * Display a listing of the resource.
@@ -279,7 +284,7 @@ class OrderController extends Controller
         }
         else{
             $order_data['payment_method']='cod';
-            $order_data['payment_status']='Unpaid';
+            $order_data['payment_status']='Chưa Thanh Toán';
         }
         $order->fill($order_data);
         $status=$order->save();

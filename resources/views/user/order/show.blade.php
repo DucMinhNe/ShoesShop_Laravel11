@@ -130,6 +130,7 @@
                     </tr>
               </table>
             </div>
+            <button type="button" class="btn btn-danger">Hủy Đơn Hàng</button>
           </div>
         </div>
       </div>

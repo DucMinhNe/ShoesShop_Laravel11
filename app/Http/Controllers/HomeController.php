@@ -43,14 +43,29 @@ class HomeController extends Controller
         // return $request->all();
         $user=User::findOrFail($id);
         $data=$request->all();
-        $status=$user->fill($data)->save();
-        if($status){
-            request()->session()->flash('success','Cập nhật thành công thông tin cá nhân');
+       
+       // Handle file upload
+       if ($request->hasFile('photo')) {
+        // Delete the old photo if it exists
+        if ($user->photo && file_exists(public_path($user->photo))) {
+            unlink(public_path($user->photo));
         }
-        else{
-            request()->session()->flash('error','Vui lòng thử lại!');
-        }
-        return redirect()->back();
+
+        // Upload new photo
+        $file = $request->file('photo');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('user_img'), $filename);
+        $data['photo'] = 'user_img/' . $filename;
+    }
+    $status=$user->fill($data)->save();
+    if ($status) {
+        // Thông báo thành công bằng SweetAlert và chuyển hướng
+        return response()->json(['success' => 'Cập nhật thành công thông tin cá nhân']);
+    } else {
+        // Thông báo lỗi bằng SweetAlert và chuyển hướng
+        return response()->json(['error' => 'Có lỗi xảy ra khi cập nhật người dùng'], 500);
+    }
+        // return redirect()->back();
     }
 
     // Order

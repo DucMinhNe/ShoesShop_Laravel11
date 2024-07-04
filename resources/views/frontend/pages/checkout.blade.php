@@ -25,7 +25,7 @@
     <section class="shop checkout section">
         <div class="container">
 
-                <form class="form" method="POST" action="{{route('cart.checkPayment')}}">
+                <form class="form" method="POST" action="{{route('cart.order')}}">
                 
                     @csrf
                     <div class="row">
@@ -72,7 +72,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <!-- <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Quốc Gia<span>*</span></label>
                                             <select name="country" id="country">
@@ -82,7 +82,7 @@
 
                                             </select>
                                         </div>
-                                    </div> -->
+                                    </div>
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Địa chỉ 1<span>*</span></label>

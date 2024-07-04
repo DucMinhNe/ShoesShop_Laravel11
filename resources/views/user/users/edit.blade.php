@@ -83,9 +83,60 @@
 
 @endsection
 
+
 @push('scripts')
-<script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 <script>
-    $('#lfm').filemanager('image');
+  function previewImage(event) {
+    var input = event.target;
+    var reader = new FileReader();
+    reader.onload = function() {
+      var dataURL = reader.result;
+      var photoPreview = document.getElementById('photoPreview');
+      photoPreview.src = dataURL;
+      photoPreview.style.display = 'block';
+      // Hide the current photo if a new one is selected
+      var currentPhoto = document.getElementById('currentPhoto');
+      if (currentPhoto) {
+        currentPhoto.style.display = 'none';
+      }
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+</script>
+<script>
+  $(document).ready(function() {
+    $('form').submit(function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          Swal.fire({
+            icon: "success",
+            title: response.success,
+            showConfirmButton: false,
+            timer: 1000
+          }).then(function() {
+            window.location.href = '{{ route("users.index") }}';
+          });
+        },
+        error: function(xhr, status, error) {
+          var errorMessage = xhr.status + ': ' + xhr.statusText;
+          swal({
+            title: 'Lỗi',
+            text: 'Có lỗi xảy ra khi thực hiện thao tác',
+            icon: 'error',
+            closeOnClickOutside: false,
+          });
+        }
+      });
+    });
+  });
 </script>
 @endpush
