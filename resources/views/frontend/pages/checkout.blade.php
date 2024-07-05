@@ -163,8 +163,8 @@
                                             {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                             <form-group>
                                                 <input name="payment_method"  type="radio" value="cod"> <label> Thanh Toán Khi Giao Hàng</label><br>
-                                                <input name="payment_method"  type="radio" value="momo"> <label> Momo</label><br>
-                                                <input name="payment_method"  type="radio" value="vnpay"> <label> VnPay</label>
+                                                <!-- <input name="payment_method"  type="radio" value="momo"> <label> Momo</label><br>
+                                                <input name="payment_method"  type="radio" value="vnpay"> <label> VnPay</label> -->
                                             </form-group>
 
                                         </div>

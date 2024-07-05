@@ -52,7 +52,7 @@
 													@endphp
 													@foreach($photo as $data)
 														<li data-thumb="{{$data}}" rel="adjustX:10, adjustY:">
-															<img src="{{$data}}" alt="{{$data}}">
+															<img src="{{ asset($data) }}" alt="{{$data}}">
 														</li>
 													@endforeach
 												</ul>

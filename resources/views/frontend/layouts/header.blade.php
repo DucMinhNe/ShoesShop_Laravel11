@@ -27,7 +27,7 @@
                                 @if(Auth::user()->role=='admin')
                                     <li><i class="ti-user"></i> <a href="{{route('admin')}}"  target="_blank">Quản lý tài khoản</a></li>
                                 @else
-                                    <li><i class="ti-user"></i> <a href="{{route('user')}}"  target="_blank">Quản lý tài khoản</a></li>
+                                    <li><i class="ti-user"></i> <a href="{{route('user.dashboard')}}"  target="_blank">Quản lý tài khoản</a></li>
                                 @endif
                                 <li><i class="ti-power-off"></i> <a href="{{route('user.logout')}}">Đăng xuất</a></li>
 
@@ -193,7 +193,7 @@
                                             <li class="{{Request::path()=='about-us' ? 'active' : ''}}"><a href="{{route('about-us')}}">Giới Thiệu</a></li>
                                             <li class="@if(Request::path()=='product-grids'||Request::path()=='product-lists')  active  @endif"><a href="{{route('product-grids')}}">Sản Phẩm</a><span class="new">New</span></li>
                                                 {{Helper::getHeaderCategory()}}
-                                            <li class="{{Request::path()=='blog' ? 'active' : ''}}"><a href="{{route('blog')}}">Bài Viết</a></li>
+                                            <!-- <li class="{{Request::path()=='blog' ? 'active' : ''}}"><a href="{{route('blog')}}">Bài Viết</a></li> -->
 
                                             <li class="{{Request::path()=='contact' ? 'active' : ''}}"><a href="{{route('contact')}}">Liên Hệ</a></li>
                                         </ul>

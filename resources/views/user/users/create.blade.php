@@ -80,10 +80,3 @@
 </div>
 
 @endsection
-
-@push('scripts')
-
-<script>
-    $('#lfm').filemanager('image');
-</script>
-@endpush

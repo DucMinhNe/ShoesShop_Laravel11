@@ -9,7 +9,7 @@
 						<!-- Single Widget -->
 						<div class="single-footer about">
 							<div class="logo">
-								<a href="index.html"><img src="{{asset('/storage/photos/33/LOGO_Footer_1.png')}}" alt="#"></a>
+								<!-- <a href="index.html"><img src="{{asset('/storage/photos/33/LOGO_Footer_1.png')}}" alt="#"></a> -->
 							</div>
 							@php
 								$settings=DB::table('settings')->get();

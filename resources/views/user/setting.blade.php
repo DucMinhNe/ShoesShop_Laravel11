@@ -111,8 +111,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
 <script>
-    $('#lfm').filemanager('image');
-
     $(document).ready(function() {
     $('#summary').summernote({
       placeholder: "Viết một đoạn mô tả ngắn.....",

@@ -125,9 +125,3 @@
     }
   </style>
 
-@push('scripts')
-
-<script>
-    $('#lfm').filemanager('image');
-</script>
-@endpush

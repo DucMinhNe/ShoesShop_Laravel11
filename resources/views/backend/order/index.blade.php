@@ -57,7 +57,7 @@
                     <td>
                         @if($order->status=='new')
                           <span class="badge badge-primary">Mới</span>
-                        @elseif($order->status=='process ')
+                        @elseif($order->status=='process')
                           <span class="badge badge-warning">Đang xử lý</span>
                         @elseif($order->status=='delivered')
                           <span class="badge badge-success">Đã giao</span>

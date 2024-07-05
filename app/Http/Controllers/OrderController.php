@@ -26,7 +26,38 @@ class OrderController extends Controller
     {
         return hash_hmac('sha256', $inputData, $key);
     }
+    public static function formatDateToVietnamese($date)
+    {
+        $days = [
+            'Mon' => 'Thứ Hai',
+            'Tue' => 'Thứ Ba',
+            'Wed' => 'Thứ Tư',
+            'Thu' => 'Thứ Năm',
+            'Fri' => 'Thứ Sáu',
+            'Sat' => 'Thứ Bảy',
+            'Sun' => 'Chủ Nhật',
+        ];
 
+        $months = [
+            'Jan' => 'Tháng 1',
+            'Feb' => 'Tháng 2',
+            'Mar' => 'Tháng 3',
+            'Apr' => 'Tháng 4',
+            'May' => 'Tháng 5',
+            'Jun' => 'Tháng 6',
+            'Jul' => 'Tháng 7',
+            'Aug' => 'Tháng 8',
+            'Sep' => 'Tháng 9',
+            'Oct' => 'Tháng 10',
+            'Nov' => 'Tháng 11',
+            'Dec' => 'Tháng 12',
+        ];
+
+        $day = $days[$date->format('D')];
+        $month = $months[$date->format('M')];
+
+        return "{$day} {$date->format('d')} {$month}, {$date->format('Y')} - {$date->format('g:i a')}";
+    }
     private function makeSignature($accessKey, $secretKey, $amount, $extraData, $ipnUrl, $orderId, $orderInfo, $partnerCode, $redirectUrl, $requestId, $requestType)
     {
         $rawHash = "accessKey=" . $accessKey .
@@ -284,7 +315,7 @@ class OrderController extends Controller
         }
         else{
             $order_data['payment_method']='cod';
-            $order_data['payment_status']='Chưa Thanh Toán';
+            $order_data['payment_status']='unpaid';
         }
         $order->fill($order_data);
         $status=$order->save();

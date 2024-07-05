@@ -5,7 +5,7 @@
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
       </div>
-      <div class="sidebar-brand-text mx-3">Admin</div>
+      <div class="sidebar-brand-text mx-3">Quản Trị Viên</div>
     </a>
 
     <!-- Divider -->
@@ -88,48 +88,48 @@
 
 
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    <!-- <hr class="sidebar-divider"> -->
 
     <!-- Heading -->
-    <div class="sidebar-heading">
+    <!-- <div class="sidebar-heading">
       Bài viết
-    </div>
+    </div> -->
 
     <!-- Posts -->
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link" href="{{route('post.index')}}">
         <i class="fas fa-fw fa-folder"></i>
         <span>Bài viết</span>
       </a>
-    </li>
+    </li> -->
 
      <!-- Category -->
-     <li class="nav-item">
+     <!-- <li class="nav-item">
         <a class="nav-link" href="{{route('post-category.index')}}">
           <i class="fas fa-sitemap fa-folder"></i>
           <span>Danh mục bài viết</span>
         </a>
-      </li>
+      </li> -->
 
       <!-- Tags -->
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link" href="{{route('post-tag.index')}}">
             <i class="fas fa-tags fa-folder"></i>
             <span>Thẻ</span>
         </a>
-    </li>
+    </li> -->
 
       <!-- Comments -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="{{route('comment.index')}}">
             <i class="fas fa-comments fa-chart-area"></i>
             <span>Bình luận</span>
         </a>
-      </li>
+      </li> -->
 
 
     <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    <!-- <hr class="sidebar-divider d-none d-md-block"> -->
      <!-- Heading -->
     <div class="sidebar-heading">
         Cài đặt chung

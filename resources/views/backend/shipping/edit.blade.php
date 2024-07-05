@@ -48,7 +48,6 @@
 
 <script src="{{asset('backend/summernote/summernote.min.js')}}"></script>
 <script>
-    $('#lfm').filemanager('image');
 
     $(document).ready(function() {
     $('#description').summernote({
