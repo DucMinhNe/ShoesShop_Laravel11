@@ -184,23 +184,23 @@ class OrderController extends Controller
         $order_data = $request->all();
         // Initialize the payment URL variable
         $payUrl = '';
-    
+        $totalCartPrice =Helper::totalCartPrice();
         if ($request->input('payment_method') == 'momo') {
             // Assuming createMomoPayment() is a function that returns an object with properties including 'payUrl'
-            $momoPayment = $this->createMomoPayment(10000); // Adjust the amount (10000) as per your requirement
+            $momoPayment = $this->createMomoPayment($totalCartPrice); // Adjust the amount (10000) as per your requirement
             // dd($momoPayment->getdata()->payUrl);
             $payUrl = $momoPayment->getdata()->payUrl; // Assuming 'payUrl' is a property of the returned object
             return redirect()->away($payUrl);
         }
         if ($request->input('payment_method') == 'vnpay') {
             // Assuming createMomoPayment() is a function that returns an object with properties including 'payUrl'
-            $vnpayPayment = $this->createMomoPayment(10000); // Adjust the amount (10000) as per your requirement
+            $vnpayPayment = $this->createMomoPayment($totalCartPrice); // Adjust the amount (10000) as per your requirement
             // dd($momoPayment->getdata()->payUrl);
             $payUrl = $vnpayPayment->getdata()->payUrl; // Assuming 'payUrl' is a property of the returned object
             return redirect()->away($payUrl);
         }
         if ($request->input('payment_method') == 'cod') {
-            store($request);
+            return $this->store($request);
         }
         // Redirect to the payment URL
         return null;
