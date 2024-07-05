@@ -179,7 +179,3 @@ Route::group(['prefix'=>'/user','middleware'=>['user']],function(){
     Route::post('change-password', 'HomeController@changPasswordStore')->name('change.password');
 
 });
-
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-    \UniSharp\LaravelFilemanager\Lfm::routes();
-});
