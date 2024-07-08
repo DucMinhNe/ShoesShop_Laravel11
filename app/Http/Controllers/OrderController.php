@@ -118,17 +118,17 @@ class OrderController extends Controller
             return response()->json(['message' => 'Payment creation failed'], $response->status());
         }
     }
-    public function createVnPayPayment()
+    public function createVnPayPayment($requiredAmount)
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = "https://localhost/vnpay_php/vnpay_return.php";
-        $vnp_TmnCode = "UDOPNWS1";
-        $vnp_HashSecret = "EBAHADUGCOEWYXCMYZRMTMLSHGKNRPBN"; //Chuỗi bí mật
+        $vnp_TmnCode = "S6RMUB02";//Mã website tại VNPAY 
+        $vnp_HashSecret = "3R1YUK6L2EVEHT36KDR7S5K25OTXI7M9"; //Chuỗi bí mật
         
         $vnp_TxnRef = '222';
-        $vnp_OrderInfo = 'tess thanh toan';
+        $vnp_OrderInfo = 'tessthanhtoan';
         $vnp_OrderType = 'billpayment';
-        $vnp_Amount = 200000 * 100;
+        $vnp_Amount = $requiredAmount * 100;
         $vnp_Locale = 'vn';
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         //Add Params
@@ -147,7 +147,9 @@ class OrderController extends Controller
             "vnp_TxnRef" => $vnp_TxnRef
         );
 
-        
+        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        }
         //var_dump($inputData);
         ksort($inputData);
         $query = "";
@@ -166,16 +168,10 @@ class OrderController extends Controller
     
         $vnp_Url = $vnp_Url . "?" . $query;
         if (isset($vnp_HashSecret)) {
-                $vnpSecureHash = hash('sha256', $vnp_HashSecret . $hashdata);
-                $vnp_Url .= 'vnp_SecureHashType=SHA256&vnp_SecureHash=' . $vnpSecureHash;
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-     $returnData = array('code' => '00','message' => 'success','data' => $vnp_Url);
-        if (isset($_POST['redirect'])) {
-            header('Location: ' . $vnp_Url);
-            die();
-        } else {
-            echo json_encode($returnData);
-        }
+        return $vnp_Url;
     }
 
     public function checkPayment(Request $request)
@@ -194,9 +190,9 @@ class OrderController extends Controller
         }
         if ($request->input('payment_method') == 'vnpay') {
             // Assuming createMomoPayment() is a function that returns an object with properties including 'payUrl'
-            $vnpayPayment = $this->createMomoPayment($totalCartPrice); // Adjust the amount (10000) as per your requirement
+            $vnpayPayment = $this->createVnPayPayment($totalCartPrice); // Adjust the amount (10000) as per your requirement
             // dd($momoPayment->getdata()->payUrl);
-            $payUrl = $vnpayPayment->getdata()->payUrl; // Assuming 'payUrl' is a property of the returned object
+            $payUrl = $vnpayPayment; // Assuming 'payUrl' is a property of the returned object
             return redirect()->away($payUrl);
         }
         if ($request->input('payment_method') == 'cod') {

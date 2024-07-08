@@ -75,21 +75,17 @@
           </select>
         </div>
         <div class="row">
-          <div class="col">
+        <div class="col">
             <div class="form-group">
               <label for="size">Size</label>
               <select name="size[]" class="form-control selectpicker" multiple data-live-search="true">
-                <option value="">--Lựa chọn kích thước--</option>
-                @foreach($items as $item)
-                @php
-                $data=explode(',',$item->size);
-                // dd($data);
-                @endphp
-                <option value="S" @if( in_array( "S" ,$data ) ) selected @endif>Small</option>
-                <option value="M" @if( in_array( "M" ,$data ) ) selected @endif>Medium</option>
-                <option value="L" @if( in_array( "L" ,$data ) ) selected @endif>Large</option>
-                <option value="XL" @if( in_array( "XL" ,$data ) ) selected @endif>Extra Large</option>
-                @endforeach
+                <option value="">--Lựa chọn size--</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
               </select>
             </div>
           </div>
