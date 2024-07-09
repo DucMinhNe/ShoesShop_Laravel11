@@ -122,7 +122,7 @@
                                                     <span class="new">New</span
                                                 @elseif($product->condition=='hot')
                                                     <span class="hot">Hot</span>
-                                                @else
+                                                @elseif($product->discount!=0)
                                                     <span class="price-dec">{{$product->discount}}% Off</span>
                                                 @endif
 

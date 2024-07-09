@@ -97,7 +97,7 @@ use App\Http\Controllers\OrderController;
                   $shipping_charge=DB::table('shippings')->where('id',$order->shipping_id)->pluck('price');
                   @endphp
                   <td>Phí vận chuyển</td>
-                  <td> : {{$order->shipping->price}}đ</td>
+                  <td> : {{number_format($order->shipping->price,0)}}đ</td>
                 </tr>
                 <tr>
                   <td>Tổng</td>
@@ -149,7 +149,12 @@ use App\Http\Controllers\OrderController;
                 </tr>
               </table>
             </div>
-            <button type="button" class="btn btn-danger">Hủy Đơn Hàng</button>
+            @if($order->status == 'new' || $order->status == 'process')
+            <form method="POST" action="{{ route('order.cancel', $order->id) }}">
+                @csrf
+                <button type="submit" class="btn btn-danger">Hủy Đơn Hàng</button>
+            </form>
+            @endif
           </div>
         </div>
       </div>

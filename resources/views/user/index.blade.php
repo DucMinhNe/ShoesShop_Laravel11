@@ -129,16 +129,16 @@
                     <td>{{$order->quantity}}</td>
                     <td>{{number_format($order->total_amount,0)}}đ</td>
                     <td>
-                        @if($order->status=='new')
-                          <span class="badge badge-primary">{{$order->status}}</span>
-                        @elseif($order->status=='process')
-                          <span class="badge badge-warning">{{$order->status}}</span>
-                        @elseif($order->status=='delivered')
-                          <span class="badge badge-success">{{$order->status}}</span>
-                        @else
-                          <span class="badge badge-danger">{{$order->status}}</span>
-                        @endif
-                    </td>
+              @if($order->status=='new')
+              <span class="badge badge-primary">Mới</span>
+              @elseif($order->status=='process')
+              <span class="badge badge-warning">Đang xử lý</span>
+              @elseif($order->status=='delivered')
+              <span class="badge badge-success">Đã giao</span>
+              @else
+              <span class="badge badge-danger">Hủy</span>
+              @endif
+            </td>
                     <td>
                         <a href="{{route('user.order.show',$order->id)}}" class="btn btn-warning btn-sm float-left ml-3" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
 {{--                        <form method="POST" action="{{route('user.order.delete',[$order->id])}}">--}}

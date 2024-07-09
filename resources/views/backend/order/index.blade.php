@@ -118,32 +118,6 @@
           "sSortDescending": ": Sắp xếp giảm dần"
         }
       },
-      dom: 'Bfrtip',
-      buttons: [{
-          extend: 'copy',
-          text: 'Sao chép'
-        },
-        {
-          extend: 'excel',
-          text: 'Xuất Excel'
-        },
-        {
-          extend: 'pdf',
-          text: 'Xuất PDF'
-        },
-        {
-          extend: 'print',
-          text: 'In'
-        },
-        {
-          extend: 'colvis',
-          text: 'Hiển thị cột'
-        },
-        {
-          extend: 'pageLength',
-          text: 'Số bản ghi trên trang'
-        }
-      ],
     });
     $('.dltBtn').click(function(e) {
       var form = $(this).closest('form');

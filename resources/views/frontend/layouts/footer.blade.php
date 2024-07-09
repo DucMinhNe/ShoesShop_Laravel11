@@ -14,7 +14,7 @@
 							@php
 								$settings=DB::table('settings')->get();
 							@endphp
-							<p class="text">@foreach($settings as $data) {{$data->short_des}} @endforeach</p>
+							<p class="text">Mong muốn đáp ứng nhu cầu của khách hàng.</p>
 							<!-- <p class="call">Nếu bạn có câu hỏi? Gọi ngay cho chúng tôi.<span style="margin-top: 10px"><a href="tel:0398314279" >@foreach($settings as $data) {{$data->phone}} @endforeach</a></span></p> -->
 						</div>
 						<!-- End Single Widget -->
@@ -25,10 +25,10 @@
 							<h4>Thông tin</h4>
 							<ul>
 								<li><a href="{{route('about-us')}}">Thông Tin</a></li>
-								<li><a href="#">FaQ</a></li>
-								<li><a href="#">Điều Khoản & Điều Kiện</a></li>
+								<li><a>FaQ</a></li>
+								<li><a>Điều Khoản & Điều Kiện</a></li>
 								<li><a href="{{route('contact')}}">Liên Hệ</a></li>
-								<li><a href="#">Hỗ Trợ</a></li>
+								<li><a>Hỗ Trợ</a></li>
 							</ul>
 						</div>
 						<!-- End Single Widget -->
@@ -38,25 +38,25 @@
 						<div class="single-footer links">
 							<h4>Dịch Vụ</h4>
 							<ul>
-								<li><a href="#">Phương Thức Thanh Toán</a></li>
-								<li><a href="#">Hoàn Trả Tiền</a></li>
-								<li><a href="#">Hoàn Trả</a></li>
-								<li><a href="#">Giao Hàng</a></li>
-								<li><a href="#">Chính Sách Bảo Mật</a></li>
+								<li><a>Phương Thức Thanh Toán</a></li>
+								<li><a>Hoàn Trả Tiền</a></li>
+								<li><a>Hoàn Trả</a></li>
+								<li><a>Giao Hàng</a></li>
+								<li><a>Chính Sách Bảo Mật</a></li>
 							</ul>
 						</div>
 						<!-- End Single Widget -->
 					</div>
-					<div class="col-lg-3 col-md-6 col-12">
+					<div class="col-lg-3 col-md-12 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer social">
 							<h4>Liên Hệ</h4>
 							<!-- Single Widget -->
 							<div class="contact">
 								<ul>
-									<li>@foreach($settings as $data)Địa chỉ:&nbsp{{$data->address}} @endforeach</li>
-									<li>@foreach($settings as $data)Email:&nbsp &nbsp {{$data->email}} @endforeach</li>
-									<li>@foreach($settings as $data)SĐT:&nbsp &nbsp &nbsp &nbsp{{$data->phone}} @endforeach</li>
+									<li><a>Địa chỉ: 65 Đ. Huỳnh Thúc Kháng, Bến Nghé, Quận 1, Hồ Chí Minh</a></li>
+									<li><a>Email: caothang@caothang.edu.vn</a></li>
+									<li><a>SĐT: 0969798999</a></li>
 								</ul>
 							</div>
 							<!-- End Single Widget -->

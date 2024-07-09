@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Shipping;
 use App\User;
 use PDF;
@@ -124,8 +125,8 @@ class OrderController extends Controller
         $vnp_Returnurl = "https://localhost/vnpay_php/vnpay_return.php";
         $vnp_TmnCode = "S6RMUB02";//Mã website tại VNPAY 
         $vnp_HashSecret = "3R1YUK6L2EVEHT36KDR7S5K25OTXI7M9"; //Chuỗi bí mật
-        
-        $vnp_TxnRef = '222';
+
+        $vnp_TxnRef = Str::uuid()->toString();
         $vnp_OrderInfo = 'tessthanhtoan';
         $vnp_OrderType = 'billpayment';
         $vnp_Amount = $requiredAmount * 100;
@@ -201,6 +202,18 @@ class OrderController extends Controller
         // Redirect to the payment URL
         return null;
     }
+
+    public function cancelOrder($id)
+{
+    $order = Order::find($id);
+    if ($order && ($order->status == 'new' || $order->status == 'process')) {
+        $order->status = 'cancel';
+        $order->save();
+        return redirect()->back()->with('success', 'Order has been canceled successfully.');
+    }
+    return redirect()->back()->with('error', 'Unable to cancel the order.');
+}
+
     /**
      * Display a listing of the resource.
      *

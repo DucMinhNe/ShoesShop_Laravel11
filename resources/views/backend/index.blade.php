@@ -5,113 +5,40 @@
     @include('backend.layouts.notification')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
     </div>
 
     <!-- Content Row -->
     <div class="row">
 
-      <!-- Category -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Danh mục sản phẩm</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{\App\Models\Category::countActiveCategory()}}</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-sitemap fa-2x text-gray-300"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Products -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Sản phẩm</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{\App\Models\Product::countActiveProduct()}}</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-cubes fa-2x text-gray-300"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Order -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Đơn hàng</div>
-                <div class="row no-gutters align-items-center">
-                  <div class="col-auto">
-                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{\App\Models\Order::countActiveOrder()}}</div>
-                  </div>
-
-                </div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!--Posts-->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Bài viết</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{\App\Models\Post::countActivePost()}}</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-folder fa-2x text-gray-300"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-        <div class="row">
-
-            <!-- Số lượng khách hàng -->
-            <div class="col-xl-3 col-md-6 mb-4">
+        <!-- Category -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a href="{{ route('category.index') }}" class="card-link">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Khách Hàng</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{\App\User::countActiveUser()}}</div>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Danh mục sản phẩm</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Category::countActiveCategory() }}</div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-user fa-2x text-gray-300"></i>
+                                <i class="fas fa-sitemap fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
+        </div>
 
-            <!-- Hàng tồn -->
-            <div class="col-xl-3 col-md-6 mb-4">
+        <!-- Products -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a href="{{ route('product.index') }}" class="card-link">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Hàng tồn kho</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{\App\Models\Product::sumActiveProduct()}}</div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Sản phẩm</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Product::countActiveProduct() }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-cubes fa-2x text-gray-300"></i>
@@ -119,10 +46,91 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
+        </div>
 
-            <!-- Đơn hàng chưa duyệt -->
-            <div class="col-xl-3 col-md-6 mb-4">
+        <!-- Order -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a href="{{ route('order.index') }}" class="card-link">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Đơn hàng</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Order::countActiveOrder() }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Posts / Revenue -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a href="{{ route('post.index') }}" class="card-link">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Bài viết</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Post::countActivePost() }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-folder fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- Số lượng khách hàng -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a href="{{ route('users.index') }}" class="card-link">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Khách Hàng</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\User::countActiveUser() }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Hàng tồn -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a href="{{ route('product.index') }}" class="card-link">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Hàng tồn kho</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Product::sumActiveProduct() }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-cubes fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Đơn hàng chưa duyệt -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a href="{{ route('order.index') }}" class="card-link">
                 <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -130,9 +138,8 @@
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Đơn hàng chưa duyệt</div>
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{\App\Models\Order::countNewOrder()}}</div>
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ \App\Models\Order::countNewOrder() }}</div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -141,16 +148,18 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
+        </div>
 
-            <!--Đơn hàng đã hủy-->
-            <div class="col-xl-3 col-md-6 mb-4">
+        <!-- Đơn hàng đã hủy -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <a href="{{ route('order.index') }}" class="card-link">
                 <div class="card border-left-danger shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Đơn hàng đã hủy</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{\App\Models\Order::countCancelOrder()}}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Order::countCancelOrder() }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-trash-alt fa-2x text-gray-300"></i>
@@ -158,86 +167,38 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
+    </div>
 
-        <div class="row">
-
-            <!-- Tổng doanh thu -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Tổng doanh thu</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{number_format(\App\Models\Cart::totalOfSales(),0)}}đ</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-money-bill fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
+    <div class="row">
+        <!-- Area Chart -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Tổng quan doanh thu các tháng</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="myAreaChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
 
-    <div class="row">
-
-      <!-- Area Chart -->
-      <div class="col-xl-8 col-lg-7">
-        <div class="card shadow mb-4">
-          <!-- Card Header - Dropdown -->
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Tổng quan doanh thu các tháng</h6>
-
-          </div>
-          <!-- Card Body -->
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="myAreaChart"></canvas>
+        <!-- Pie Chart -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Tài khoản đăng ký trong 7 ngày gần nhất</h6>
+                </div>
+                <div class="card-body" style="overflow:hidden">
+                    <div id="pie_chart" style="width:350px; height:320px;"></div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-
-      <!-- Pie Chart -->
-      <div class="col-xl-4 col-lg-5">
-        <div class="card shadow mb-4">
-          <!-- Card Header - Dropdown -->
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Tài khoản đăng ký trong 7 ngày gần nhất</h6>
-          </div>
-          <!-- Card Body -->
-          <div class="card-body" style="overflow:hidden">
-            <div id="pie_chart" style="width:350px; height:320px;">
-          </div>
-        </div>
-      </div>
     </div>
-    <!-- Content Row -->
-
-  </div>
-{{--    <div class="row">--}}
-
-{{--            <!-- Area Chart -->--}}
-{{--            <div class="col-xl-8 col-lg-7">--}}
-{{--                <div class="card shadow mb-4">--}}
-{{--                    <!-- Card Header - Dropdown -->--}}
-{{--                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">--}}
-{{--                        <h6 class="m-0 font-weight-bold text-primary">Tổng quan doanh thu theo quý</h6>--}}
-
-{{--                    </div>--}}
-{{--                    <!-- Card Body -->--}}
-{{--                    <div class="card-body">--}}
-{{--                        <div class="chart-area">--}}
-{{--                            <canvas id="myAreaChart"></canvas>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <!-- Content Row -->--}}
-
-{{--        </div>--}}
+</div>
 @endsection
 
 @push('scripts')

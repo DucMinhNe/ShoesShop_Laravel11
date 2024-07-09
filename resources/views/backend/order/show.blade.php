@@ -7,9 +7,7 @@
 
 @section('main-content')
 <div class="card">
-  <h5 class="card-header">Đơn hàng 
-    <!-- <a href="{{route('order.pdf',$order->id)}}" class=" btn btn-sm btn-primary shadow-sm float-right"><i class="fas fa-download fa-sm text-white-50"></i> Generate PDF</a> -->
-  </h5>
+  <h5 class="card-header">Đơn hàng</h5>
   <div class="card-body">
     @if($order)
     <table class="table table-striped table-hover">
@@ -73,7 +71,6 @@
                 <tr>
                   <td>Ngày đặt hàng</td>
                   <td>: {{ OrderController::formatDateToVietnamese($order->created_at) }}</td>
-                  <!-- <td> : {{$order->created_at->format('D d M, Y')}}, {{$order->created_at->format('g : i a')}} </td> -->
                 </tr>
                 <tr>
                   <td>Số lượng</td>
@@ -94,7 +91,7 @@
                 </tr>
                 <tr>
                   <td>Phí vận chuyển</td>
-                  <td> : {{$order->shipping->price}}đ</td>
+                  <td> : {{number_format($order->shipping->price,0)}}đ</td>
                 </tr>
                 <tr>
                   <td>Mã giảm giá</td>
