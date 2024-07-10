@@ -11,14 +11,14 @@
         {{-- {{dd($data)}} --}}
         <div class="form-group">
           <label for="short_des" class="col-form-label">Mô tả vắn tắt<span class="text-danger">*</span></label>
-          <textarea class="form-control" id="quote" name="short_des">{{$data->short_des}}</textarea>
+          <textarea class="form-control" id="quote" name="short_des"></textarea>
           @error('short_des')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
         <div class="form-group">
           <label for="description" class="col-form-label">Mô tả đầy đủ <span class="text-danger">*</span></label>
-          <textarea class="form-control" id="description" name="description">{{$data->description}}</textarea>
+          <textarea class="form-control" id="description" name="description"></textarea>
           @error('description')
           <span class="text-danger">{{$message}}</span>
           @enderror

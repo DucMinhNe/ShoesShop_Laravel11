@@ -33,7 +33,7 @@
 							<h3>Chào mừng tới <span>Shoes</span>Shop</h3>
 							<p>@foreach($settings as $data) {{$data->description}} @endforeach</p>
 							<div class="button">
-								<a href="{{route('blog')}}" class="btn">Bài Viết</a>
+								<!-- <a href="{{route('blog')}}" class="btn">Bài Viết</a> -->
 								<a href="{{route('contact')}}" class="btn primary">Liên Hệ</a>
 							</div>
 						</div>

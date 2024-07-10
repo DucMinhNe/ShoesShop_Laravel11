@@ -43,9 +43,9 @@
                     <td>{{$coupon->code}}</td>
                     <td>
                         @if($coupon->type=='fixed')
-                            <span class="badge badge-primary">{{$coupon->type}}</span>
+                            <span class="badge badge-primary">Giá</span>
                         @else
-                            <span class="badge badge-warning">{{$coupon->type}}</span>
+                            <span class="badge badge-warning">Phần Trăm</span>
                         @endif
                     </td>
                     <td>

@@ -46,14 +46,74 @@
           </td>
           <td>
             <a href="{{route('order.edit',$order->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
-            {{-- <form method="POST" action="{{route('order.destroy',[$order->id])}}">--}}
-            {{-- @csrf--}}
-            {{-- @method('delete')--}}
-            {{-- <button class="btn btn-danger btn-sm dltBtn" data-id={{$order->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>--}}
-            {{-- </form>--}}
           </td>
-
         </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-striped table-hover" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tiêu đề</th>
+          <th>Danh mục</th>
+          <th>Nổi bật ?</th>
+          <th>Giá</th>
+          <th>Giảm giá</th>
+          <th>Size</th>
+          <th>Tình trạng</th>
+          <th>Thương hiệu</th>
+          <th>Kho</th>
+          <th>Ảnh</th>
+          <th>Trạng thái</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach ($products as $product)
+          <tr>
+            <td>{{ $product->id }}</td>
+            <td>{{ $product->title }}</td>
+            <td>{{ $product->cat_info['title'] }}
+              <sub>/{{ $product->sub_cat_info->title ?? '' }}</sub>
+            </td>
+            <td>{{ $product->is_featured == 1 ? 'Yes' : 'No' }}</td>
+            <td>{{ $product->price }} đ</td>
+            <td>{{ $product->discount }}%</td>
+            <td>{{ $product->size }}</td>
+            <td>{{ $product->condition }}</td>
+            <td>{{ ucfirst($product->brand->title) }}</td>
+            <td>
+              @if ($product->stock > 0)
+                <span class="badge badge-primary">{{ $product->stock }}</span>
+              @else
+                <span class="badge badge-danger">{{ $product->stock }}</span>
+              @endif
+            </td>
+            <td>
+              @if ($product->photo)
+                <img src="{{ asset($product->photo) }}" class="img-fluid zoom" style="max-width:80px" alt="{{ $product->photo }}">
+              @else
+                <img src="{{ asset('backend/img/thumbnail-default.jpg') }}" class="img-fluid" style="max-width:80px" alt="avatar.png">
+              @endif
+            </td>
+            <td>
+              @if ($product->status == 'active')
+                <span class="badge badge-success">Hoạt Động</span>
+              @else
+                <span class="badge badge-warning">Ngưng Hoạt Động</span>
+              @endif
+            </td>
+            <td>
+              <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+              <form method="POST" action="{{ route('product.destroy', [$product->id]) }}">
+                @csrf
+                @method('delete')
+                <button class="btn btn-danger btn-sm dltBtn" data-id={{ $product->id }} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
+              </form>
+            </td>
+          </tr>
+        @endforeach
       </tbody>
     </table>
 

@@ -1,3 +1,6 @@
+@php
+use App\Http\Controllers\OrderController;
+@endphp
 @extends('user.layouts.master')
 
 @section('main-content')
@@ -23,7 +26,7 @@
               <th>Đánh giá</th>
               <th>Sao</th>
               <th>Ngày đánh giá</th>
-              <th>Trạng thái</th>
+              <!-- <th>Trạng thái</th> -->
               <th>Thao tác</th>
             </tr>
           </thead>
@@ -35,7 +38,7 @@
               <th>Đánh giá</th>
               <th>Sao</th>
               <th>Ngày đánh giá</th>
-              <th>Trạng thái</th>
+              <!-- <th>Trạng thái</th> -->
               <th>Thao tác</th>
               </tr>
           </tfoot>
@@ -57,21 +60,22 @@
                         @endfor
                      </ul>
                     </td>
-                    <td>{{$review->created_at->format('M d D, Y g: i a')}}</td>
-                    <td>
+                    <td>{{ OrderController::formatDateToVietnamese($review->created_at) }}</td>
+                    <!-- <td>{{$review->created_at->format('M d D, Y g: i a')}}</td> -->
+                    <!-- <td>
                         @if($review->status=='active')
                           <span class="badge badge-success">Hoạt Động</span>
                         @else
                           <span class="badge badge-warning">Ngưng Hoạt Động</span>
                         @endif
-                    </td>
+                    </td> -->
                     <td>
                         <a href="{{route('user.productreview.edit',$review->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
-                        <form method="POST" action="{{route('user.productreview.delete',[$review->id])}}">
+                        <!-- <form method="POST" action="{{route('user.productreview.delete',[$review->id])}}">
                           @csrf
                           @method('delete')
                               <button class="btn btn-danger btn-sm dltBtn" data-id={{$review->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
-                        </form>
+                        </form> -->
                     </td>
                 </tr>
             @endforeach

@@ -75,8 +75,8 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Bài viết</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Post::countActivePost() }}</div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Tổng doanh thu</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{number_format(\App\Models\Cart::totalOfSales(),0)}}đ</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-folder fa-2x text-gray-300"></i>

@@ -29,9 +29,9 @@
                         @endif
                     </div>
                     <div class="card-body mt-4 ml-2">
-                      <h5 class="card-title text-left"><small><i class="fas fa-user"></i> {{$profile->name}}</small></h5>
-                      <p class="card-text text-left"><small><i class="fas fa-envelope"></i> {{$profile->email}}</small></p>
-                      <p class="card-text text-left"><small class="text-muted"><i class="fas fa-hammer"></i> {{$profile->role}}</small></p>
+                      <h5 class="card-title text-left"><small><i class="fas fa-user"></i>Họ tên: {{$profile->name}}</small></h5>
+                      <p class="card-text text-left"><small><i class="fas fa-envelope"></i>Email: {{$profile->email}}</small></p>
+                      <!-- <p class="card-text text-left"><small class="text-muted"><i class="fas fa-hammer"></i> {{$profile->role}}</small></p> -->
                     </div>
                   </div>
             </div>
@@ -153,7 +153,7 @@
             showConfirmButton: false,
             timer: 1000
           }).then(function() {
-            window.location.href = '{{ route("users.index") }}';
+            window.location.href = '{{ route("user") }}';
           });
         },
         error: function(xhr, status, error) {

@@ -95,7 +95,7 @@
                                         @endphp
                                         <div class="single-post first">
                                             <div class="image">
-                                                <img src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                                <img src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">
                                             </div>
                                             <div class="content">
                                                 <h5><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h5>
@@ -171,8 +171,8 @@
                                                     @php
                                                         $photo=explode(',',$product->photo);
                                                     @endphp
-                                                    <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                                    <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                                    <img class="default-img" src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">
+                                                    <img class="hover-img" src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">
                                                     @if($product->discount)
                                                                 <span class="price-dec">{{$product->discount}} % Off</span>
                                                     @endif
@@ -242,7 +242,7 @@
                                                     @endphp
                                                     @foreach($photo as $data)
                                                         <div class="single-slider">
-                                                            <img src="{{$data}}" alt="{{$data}}">
+                                                            <img src="{{asset($data)}}" alt="{{asset($data)}}">
                                                         </div>
                                                     @endforeach
                                                 </div>

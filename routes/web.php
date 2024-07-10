@@ -154,7 +154,7 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
 Route::get('/testuser','HomeController@index');
 // User section start
 Route::group(['prefix'=>'/user','middleware'=>['user']],function(){
-    Route::get('/dashboard','HomeController@index')->name('user.dashboard');
+    Route::get('/dashboard','HomeController@index')->name('user');
      // Profile
      Route::get('/profile','HomeController@profile')->name('user-profile');
      Route::post('/profile/{id}','HomeController@profileUpdate')->name('user-profile-update');

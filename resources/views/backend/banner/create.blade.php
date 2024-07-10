@@ -45,7 +45,7 @@
           @enderror
         </div>
         <div class="form-group mb-3">
-          <button type="reset" class="btn btn-warning">làm lại</button>
+          <button type="reset" class="btn btn-warning">Làm lại</button>
            <button class="btn btn-success" type="submit">Thêm Banner</button>
         </div>
       </form>

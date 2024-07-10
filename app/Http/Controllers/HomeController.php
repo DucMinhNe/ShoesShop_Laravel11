@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Models\Order;
+use App\Models\Cart;
+use App\Models\Product;
 use App\Models\ProductReview;
 use App\Models\PostComment;
 use App\Rules\MatchOldPassword;
@@ -99,9 +101,18 @@ class HomeController extends Controller
 
     public function orderShow($id)
     {
-        $order=Order::find($id);
-        // return $order;
-        return view('user.order.show')->with('order',$order);
+        $order = Order::find($id);
+        $cartItems = Cart::where('order_id', $id)->get();
+    
+        // Retrieve all products related to the cart items
+        $productIds = $cartItems->pluck('product_id')->toArray();
+        $products = Product::whereIn('id', $productIds)->get();
+    
+        return view('user.order.show')->with([
+            'order' => $order,
+            'cartItems' => $cartItems,
+            'products' => $products
+        ]);
     }
     // Product Review
     public function productReviewIndex(){

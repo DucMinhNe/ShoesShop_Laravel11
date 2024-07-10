@@ -21,13 +21,13 @@
                     <!-- Top Right -->
                     <div class="right-content">
                         <ul class="list-main">
-                        <li><i class="ti-location-pin"></i> <a href="{{route('order.track')}}">Trạng thái đơn hàng</a></li>
+                        <!-- <li><i class="ti-location-pin"></i> <a href="{{route('order.track')}}">Trạng thái đơn hàng</a></li> -->
                             {{-- <li><i class="ti-alarm-clock"></i> <a href="#">Daily deal</a></li> --}}
                             @auth
                                 @if(Auth::user()->role=='admin')
                                     <li><i class="ti-user"></i> <a href="{{route('admin')}}"  target="_blank">Quản lý tài khoản</a></li>
                                 @else
-                                    <li><i class="ti-user"></i> <a href="{{route('user.dashboard')}}"  target="_blank">Quản lý tài khoản</a></li>
+                                    <li><i class="ti-user"></i> <a href="{{route('user')}}"  target="_blank">Quản lý tài khoản</a></li>
                                 @endif
                                 <li><i class="ti-power-off"></i> <a href="{{route('user.logout')}}">Đăng xuất</a></li>
 
@@ -51,7 +51,7 @@
                         @php
                             $settings=DB::table('settings')->get();
                         @endphp
-                        <a href="{{route('home')}}"><img src="@foreach($settings as $data) {{asset($data->logo)}} @endforeach" alt="logo"></a>
+                        <a href="{{route('home')}}"><img style="height:80px" src="{{asset('logo_img/1720193913.png')}}" alt="logo"></a>
                     </div>
                     <!--/ End Logo -->
                     <!-- Search Form -->
@@ -118,7 +118,7 @@
                                                     @endphp
                                                     <li>
                                                         <a href="{{route('wishlist-delete',$data->id)}}" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-                                                        <a class="cart-img" href="#"><img src="{{$photo[0]}}" alt="{{$photo[0]}}"></a>
+                                                        <a class="cart-img" href="#"><img src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}"></a>
                                                         <h4><a href="{{route('product-detail',$data->product['slug'])}}" target="_blank">{{$data->product['title']}}</a></h4>
                                                         <p class="quantity">{{$data->quantity}} x - <span class="amount">${{number_format($data->price,2)}}</span></p>
                                                     </li>
@@ -155,7 +155,7 @@
                                                     @endphp
                                                     <li>
                                                         <a href="{{route('cart-delete',$data->id)}}" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-                                                        <a class="cart-img" href="#"><img src="{{$photo[0]}}" alt="{{$photo[0]}}"></a>
+                                                        <a class="cart-img" href="#"><img src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}"></a>
                                                         <h4><a href="{{route('product-detail',$data->product['slug'])}}" target="_blank">{{$data->product['title']}}</a></h4>
                                                         <p class="quantity">{{$data->quantity}} x - <span class="amount">{{number_format($data->price,0)}}đ</span></p>
                                                     </li>

@@ -359,9 +359,18 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order=Order::find($id);
-        // return $order;
-        return view('backend.order.show')->with('order',$order);
+        $order = Order::find($id);
+        $cartItems = Cart::where('order_id', $id)->get();
+    
+        // Retrieve all products related to the cart items
+        $productIds = $cartItems->pluck('product_id')->toArray();
+        $products = Product::whereIn('id', $productIds)->get();
+    
+        return view('backend.order.show')->with([
+            'order' => $order,
+            'cartItems' => $cartItems,
+            'products' => $products
+        ]);
     }
 
     /**
@@ -385,27 +394,31 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $order=Order::find($id);
-        $this->validate($request,[
-            'status'=>'required|in:new,process,delivered,cancel'
+        $order = Order::find($id);
+        $this->validate($request, [
+            'status' => 'required|in:new,process,delivered,cancel',
+            'payment_status' => 'nullable'
         ]);
-        $data=$request->all();
-        // return $request->status;
-        if($request->status=='delivered'){
+    
+        $data = $request->all();
+    
+        if($request->status == 'delivered'){
             foreach($order->cart as $cart){
-                $product=$cart->product;
-                // return $product;
-                $product->stock -=$cart->quantity;
+                $product = $cart->product;
+                $product->stock -= $cart->quantity;
                 $product->save();
             }
+            $data['payment_status'] = 'paid';
         }
-        $status=$order->fill($data)->save();
+    
+        $status = $order->fill($data)->save();
+    
         if($status){
-            request()->session()->flash('success','Cập nhật đơn hàng thành công');
+            request()->session()->flash('success', 'Cập nhật đơn hàng thành công');
+        } else {
+            request()->session()->flash('error', 'Có lỗi khi cập nhật đơn hàng');
         }
-        else{
-            request()->session()->flash('error','Có lỗi khi cập nhật đơn hàng');
-        }
+    
         return redirect()->route('order.index');
     }
 
@@ -480,56 +493,63 @@ class OrderController extends Controller
     }
     // Income chart
     public function incomeChart(Request $request){
-        $year=\Carbon\Carbon::now()->year;
-        // dd($year);
-        $items=Order::with(['cart_info'])->whereYear('created_at',$year)->where('status','delivered')->get()
+        $year = \Carbon\Carbon::now()->year;
+        \Carbon\Carbon::setLocale('vi'); // Set locale to Vietnamese
+    
+        $items = Order::with(['cart_info'])
+            ->whereYear('created_at', $year)
+            ->where('status', 'delivered')
+            ->get()
             ->groupBy(function($d){
                 return \Carbon\Carbon::parse($d->created_at)->format('m');
             });
-            // dd($items);
-        $result=[];
-        foreach($items as $month=>$item_collections){
+    
+        $result = [];
+        foreach($items as $month => $item_collections){
             foreach($item_collections as $item){
-                $amount=$item->cart_info->sum('amount');
-                // dd($amount);
-                $m=intval($month);
-                // return $m;
-                isset($result[$m]) ? $result[$m] += $amount :$result[$m]=$amount;
+                $amount = $item->cart_info->sum('amount');
+                $m = intval($month);
+                isset($result[$m]) ? $result[$m] += $amount : $result[$m] = $amount;
             }
         }
-        $data=[];
-        for($i=1; $i <=12; $i++){
-            $monthName=date('F', mktime(0,0,0,$i,1));
-            $data[$monthName] = (!empty($result[$i]))? number_format((float)($result[$i]), 2, '.', '') : 0.0;
+    
+        $data = [];
+        for($i = 1; $i <= 12; $i++){
+            $monthName = \Carbon\Carbon::createFromFormat('m', $i)->translatedFormat('F'); // Translate month name
+            $data[$monthName] = (!empty($result[$i])) ? number_format((float)($result[$i]), 2, '.', '') : 0.0;
         }
-        return $data;
+    
+        return response()->json($data);
     }
+    
 
     // Income chart quarterly
     public function incomeChartQuarterly(Request $request){
-        $year=\Carbon\Carbon::now()->year;
-        $quarter=\Carbon\Carbon::quartersUntil($endDate = null, $factor = 1);
-        // dd($year);
-        $items=Order::with(['cart_info'])->whereMonth('created_at',$quarter)->where('status','delivered')->get()
-            ->groupBy(function($d){
-                return \Carbon\Carbon::parse($d->created_at)->format('m');
+        $year = \Carbon\Carbon::now()->year;
+        \Carbon\Carbon::setLocale('vi'); // Set locale to Vietnamese
+    
+        $items = Order::with(['cart_info'])
+            ->whereYear('created_at', $year)
+            ->where('status', 'delivered')
+            ->get()
+            ->groupBy(function($order) {
+                return ceil(\Carbon\Carbon::parse($order->created_at)->month / 3); // Group by quarters
             });
-        // dd($items);
-        $result=[];
-        foreach($items as $month=>$item_collections){
-            foreach($item_collections as $item){
-                $amount=$item->cart_info->sum('amount');
-                // dd($amount);
-                $m=intval($month);
-                // return $m;
-                isset($result[$m]) ? $result[$m] += $amount :$result[$m]=$amount;
+    
+        $result = [];
+        foreach($items as $quarter => $orderCollections){
+            foreach($orderCollections as $order){
+                $amount = $order->cart_info->sum('amount');
+                isset($result[$quarter]) ? $result[$quarter] += $amount : $result[$quarter] = $amount;
             }
         }
-        $data=[];
-        for($i=1; $i <=4; $i++){
-            $monthName=date('n', mktime(0,0,0,$i,1));
-            $data[$monthName] = (!empty($result[$i]))? number_format((float)($result[$i]), 2, '.', '') : 0.0;
+    
+        $data = [];
+        for($i = 1; $i <= 4; $i++){
+            $quarterName = 'Quý ' . $i;
+            $data[$quarterName] = (!empty($result[$i])) ? number_format((float)($result[$i]), 2, '.', '') : 0.0;
         }
-        return $data;
-    }
+    
+        return response()->json($data);
+    }    
 }

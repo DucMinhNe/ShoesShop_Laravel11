@@ -58,7 +58,39 @@ use App\Http\Controllers\OrderController;
         </tr>
       </tbody>
     </table>
-
+    <table class="table table-striped table-hover" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tiêu đề</th>
+          <th>Giá</th>
+          <th>Giảm giá</th>
+          <th>Size</th>
+          <th>Thương hiệu</th>
+          <th>Ảnh</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach ($products as $product)
+          <tr>
+            <td>{{ $product->id }}</td>
+            <td>{{ $product->title }}</td>
+            <td>{{ $product->price }} đ</td>
+            <td>{{ $product->discount }}%</td>
+            <td>{{ $product->size }}</td>
+            <td>{{ ucfirst($product->brand->title) }}</td>
+            <td>
+              @if ($product->photo)
+                <img src="{{ asset($product->photo) }}" class="img-fluid zoom" style="max-width:80px" alt="{{ $product->photo }}">
+              @else
+                <img src="{{ asset('backend/img/thumbnail-default.jpg') }}" class="img-fluid" style="max-width:80px" alt="avatar.png">
+              @endif
+            </td>
+        
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
     <section class="confirmation_part section_padding">
       <div class="order_boxes">
         <div class="row">
@@ -150,9 +182,9 @@ use App\Http\Controllers\OrderController;
               </table>
             </div>
             @if($order->status == 'new' || $order->status == 'process')
-            <form method="POST" action="{{ route('order.cancel', $order->id) }}">
+            <form id="cancel-order-form" method="POST" action="{{ route('order.cancel', $order->id) }}">
                 @csrf
-                <button type="submit" class="btn btn-danger">Hủy Đơn Hàng</button>
+                <button type="button" id="cancel-order-btn" class="btn btn-danger">Hủy Đơn Hàng</button>
             </form>
             @endif
           </div>
@@ -178,4 +210,25 @@ use App\Http\Controllers\OrderController;
     text-decoration: underline;
   }
 </style>
+@endpush
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  document.getElementById('cancel-order-btn').addEventListener('click', function(e) {
+    Swal.fire({
+      title: 'Bạn có chắc chắn?',
+      text: "Bạn có muốn hủy đơn hàng này không?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('cancel-order-form').submit();
+      }
+    })
+  });
+</script>
 @endpush

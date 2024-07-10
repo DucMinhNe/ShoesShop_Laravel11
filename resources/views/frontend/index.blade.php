@@ -114,8 +114,8 @@
                                                     $photo=explode(',',$product->photo);
                                                 // dd($photo);
                                                 @endphp
-                                                <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                                <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                                <img class="default-img" src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">
+                                                <img class="hover-img" src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">
                                                 @if($product->stock<=0)
                                                     <span class="out-of-stock">Sold out</span>
                                                 @elseif($product->condition=='new')
@@ -179,7 +179,7 @@
 {{--                            @php--}}
 {{--                                $photo=explode(',',$data->photo);--}}
 {{--                            @endphp--}}
-{{--                            <img src="{{$photo[0]}}" alt="{{$photo[0]}}">--}}
+{{--                            <img src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">--}}
 {{--                            <div class="content">--}}
 {{--                                <p>{{$data->cat_info['title']}}</p>--}}
 {{--                                <h3>{{$data->title}} <br>Giảm tới<span> {{$data->discount}}%</span></h3>--}}
@@ -218,8 +218,8 @@
                                         $photo=explode(',',$product->photo);
                                     // dd($photo);
                                     @endphp
-                                    <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                    <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                    <img class="default-img" src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">
+                                    <img class="hover-img" src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">
                                     {{-- <span class="out-of-stock">Hot</span> --}}
                                 </a>
                                 <div class="button-head">
@@ -280,7 +280,7 @@
                                             $photo=explode(',',$product->photo);
                                             // dd($photo);
                                         @endphp
-                                        <img src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                        <img src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">
                                         <a href="{{route('add-to-cart',$product->slug)}}" class="buy"><i class="fa fa-shopping-bag"></i></a>
                                     </div>
                                 </div>
@@ -402,7 +402,7 @@
                                                 @endphp
                                                 @foreach($photo as $data)
                                                     <div class="single-slider">
-                                                        <img src="{{$data}}" alt="{{$data}}">
+                                                        <img src="{{asset($data)}}" alt="{{asset($data)}}">
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -517,8 +517,8 @@
 @endsection
 
 @push('styles')
-    <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=5f2e5abf393162001291e431&product=inline-share-buttons' async='async'></script>
-    <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=5f2e5abf393162001291e431&product=inline-share-buttons' async='async'></script>
+    <!-- <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=5f2e5abf393162001291e431&product=inline-share-buttons' async='async'></script> -->
+    <!-- <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=5f2e5abf393162001291e431&product=inline-share-buttons' async='async'></script> -->
     <style>
         /* Banner Sliding */
         #Gslider .carousel-inner {

@@ -51,8 +51,8 @@
 													// dd($photo);
 													@endphp
 													@foreach($photo as $data)
-														<li data-thumb="{{$data}}" rel="adjustX:10, adjustY:">
-															<img src="{{ asset($data) }}" alt="{{$data}}">
+														<li data-thumb="{{asset($data)}}" rel="adjustX:10, adjustY:">
+															<img src="{{asset($data)}}" alt="{{asset($data)}}">
 														</li>
 													@endforeach
 												</ul>
@@ -325,8 +325,8 @@
 											@php
 												$photo=explode(',',$data->photo);
 											@endphp
-                                            <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                            <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                            <img class="default-img" src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">
+                                            <img class="hover-img" src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}">
                                             <span class="price-dec">{{$data->discount}} % Off</span>
                                                                     {{-- <span class="out-of-stock">Hot</span> --}}
                                         </a>

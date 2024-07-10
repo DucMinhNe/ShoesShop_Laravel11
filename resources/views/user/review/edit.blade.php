@@ -17,14 +17,14 @@
         <label for="review">Đánh giá</label>
       <textarea name="review" id="" cols="20" rows="10" class="form-control">{{$review->review}}</textarea>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="status">Trạng thái :</label>
         <select name="status" id="" class="form-control">
           <option value="">--Select Status--</option>
           <option value="active" {{(($review->status=='active')? 'selected' : '')}}>Hoạt Động</option>
           <option value="inactive" {{(($review->status=='inactive')? 'selected' : '')}}>Ngưng Hoạt Động</option>
         </select>
-      </div>
+      </div> -->
       <button type="submit" class="btn btn-primary">Cập nhật</button>
     </form>
   </div>
