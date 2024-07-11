@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Http;
 class OrderController extends Controller
 {
     private $partnerCode = "MOMOBKUN20180529";
-    private $returnUrl = "https://localhost:7196/api/payment/momo-return";
+    private $returnUrl = "http://localhost:8000/momo-return";
     private $paymentUrl = "https://test-payment.momo.vn/v2/gateway/api/create";
     private $ipnUrl = "https://localhost:7196/payment/api/momo-ipn";
     private $accessKey = "klm05TvNBzhg7h7j";
@@ -122,7 +122,7 @@ class OrderController extends Controller
     public function createVnPayPayment($requiredAmount)
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "https://localhost/vnpay_php/vnpay_return.php";
+        $vnp_Returnurl = "http://localhost:8000/vnpay-return";
         $vnp_TmnCode = "S6RMUB02";//Mã website tại VNPAY 
         $vnp_HashSecret = "3R1YUK6L2EVEHT36KDR7S5K25OTXI7M9"; //Chuỗi bí mật
 
@@ -202,17 +202,81 @@ class OrderController extends Controller
         // Redirect to the payment URL
         return null;
     }
-
-    public function cancelOrder($id)
-{
-    $order = Order::find($id);
-    if ($order && ($order->status == 'new' || $order->status == 'process')) {
-        $order->status = 'cancel';
-        $order->save();
-        return redirect()->back()->with('success', 'Order has been canceled successfully.');
+    public function momoReturn(Request $request)
+    {
+        // Extract the resultCode from the request
+        $resultCode = $request->input('resultCode');
+    
+        // Check if the resultCode indicates success
+        if ($resultCode == '9000') {
+            $user = auth()->user();
+            $firstName = $user->name; // or use $user->name if first_name is not available
+            $email = $user->email;
+    
+            // Merge first name and email into the request
+            $request->merge([
+            'first_name' => $firstName,
+            'last_name'=>'',
+            'address1'=>'',
+            'address2'=>null,
+            'coupon'=>'',
+            'phone'=>'',
+            'post_code'=>null,
+            'country'=>'VN',
+            'shipping'=> 2,
+            'email'=> $email,
+            'payment_method'=> 'momo'
+            ]);
+            // Call the store method
+            $this->store($request);
+            request()->session()->flash('success', 'Thanh toán thành công!');
+            return redirect()->route('home');
+        } else {
+          
+            request()->session()->flash('error', 'Thanh toán thất bại. Vui lòng thử lại.');
+            return redirect()->route('home');
+        }
     }
-    return redirect()->back()->with('error', 'Unable to cancel the order.');
-}
+    
+    public function vnpayReturn(Request $request)
+    {
+        // Extract the response code from the request
+        $responseCode = $request->input('vnp_ResponseCode');
+        
+        // Check if the response code indicates success
+        if ($responseCode == '00') {
+            // Get authenticated user's first name and email
+            $user = auth()->user();
+            $firstName = $user->name; // or use $user->name if first_name is not available
+            $email = $user->email;
+    
+            // Merge first name and email into the request
+            $request->merge([
+            'first_name' => $firstName,
+            'last_name'=>'',
+            'address1'=>'',
+            'address2'=>null,
+            'coupon'=>'',
+            'phone'=>'',
+            'post_code'=>null,
+            'country'=>'VN',
+            'shipping'=> 2,
+            'email'=> $email,
+            'payment_method'=> 'vnpay'
+            ]);
+            // Call the store method
+            $this->store($request);
+    
+            // Redirect to home with success message
+            request()->session()->flash('success', 'Thanh toán thành công!');
+            return redirect()->route('home');
+        } else {
+            // Payment failed, redirect to home page or show an error message
+            request()->session()->flash('error', 'Thanh toán thất bại. Vui lòng thử lại.');
+            return redirect()->route('home');
+        }
+    }
+    
 
     /**
      * Display a listing of the resource.
@@ -260,33 +324,6 @@ class OrderController extends Controller
             request()->session()->flash('error','Cart is Empty !');
             return back();
         }
-        // $cart=Cart::get();
-        // // return $cart;
-        // $cart_index='ORD-'.strtoupper(uniqid());
-        // $sub_total=0;
-        // foreach($cart as $cart_item){
-        //     $sub_total+=$cart_item['amount'];
-        //     $data=array(
-        //         'cart_id'=>$cart_index,
-        //         'user_id'=>$request->user()->id,
-        //         'product_id'=>$cart_item['id'],
-        //         'quantity'=>$cart_item['quantity'],
-        //         'amount'=>$cart_item['amount'],
-        //         'status'=>'new',
-        //         'price'=>$cart_item['price'],
-        //     );
-
-        //     $cart=new Cart();
-        //     $cart->fill($data);
-        //     $cart->save();
-        // }
-
-        // $total_prod=0;
-        // if(session('cart')){
-        //         foreach(session('cart') as $cart_items){
-        //             $total_prod+=$cart_items['quantity'];
-        //         }
-        // }
 
         $order=new Order();
         $order_data=$request->all();
@@ -297,8 +334,11 @@ class OrderController extends Controller
         // return session('coupon')['value'];
         $order_data['sub_total']=Helper::totalCartPrice();
         $order_data['quantity']=Helper::cartCount();
-        if(session('coupon')){
-            $order_data['coupon']=session('coupon')['value'];
+       // Check if coupon session exists
+        if (session('coupon')) {
+            $order_data['coupon'] = session('coupon')['value'];
+        } else {
+            $order_data['coupon'] = null; // Set to null if no coupon is present
         }
         if($request->shipping){
             if(session('coupon')){
@@ -318,10 +358,14 @@ class OrderController extends Controller
         }
         // return $order_data['total_amount'];
         $order_data['status']="new";
-        if(request('payment_method')=='paypal'){
-            $order_data['payment_method']='paypal';
+        if(request('payment_method')=='momo'){
+            $order_data['payment_method']='momo';
             $order_data['payment_status']='paid';
-        }
+        } else 
+        if(request('payment_method')=='vnpay'){
+            $order_data['payment_method']='vnpay';
+            $order_data['payment_status']='paid';
+        } 
         else{
             $order_data['payment_method']='cod';
             $order_data['payment_status']='unpaid';
@@ -345,12 +389,40 @@ class OrderController extends Controller
             session()->forget('coupon');
         }
         Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+        // Retrieve cart items for the user
+        $cartItems = Cart::where('user_id', auth()->user()->id)->where('order_id', $order->id)->get();
 
+        // Update the stock of each product
+        foreach ($cartItems as $item) {
+            $product = Product::find($item->product_id);
+            if ($product) {
+                $product->stock -= $item->quantity;
+                $product->save();
+            }
+        }
         // dd($users);
         request()->session()->flash('success','Bạn đã đặt hàng thành công');
         return redirect()->route('home');
     }
-
+    public function cancelOrder($id)
+    {
+        $order = Order::find($id);
+        $cartItems = Cart::where('user_id', auth()->user()->id)->where('order_id', $id)->get();
+        // Update the stock of each product
+        foreach ($cartItems as $item) {
+        $product = Product::find($item->product_id);
+        if ($product) {
+            $product->stock += $item->quantity;
+            $product->save();
+            }
+        }
+        if ($order && ($order->status == 'new' || $order->status == 'process')) {
+            $order->status = 'cancel';
+            $order->save();
+        return redirect()->back()->with('success', 'Order has been canceled successfully.');
+        }
+        return redirect()->back()->with('error', 'Unable to cancel the order.');
+    }
     /**
      * Display the specified resource.
      *

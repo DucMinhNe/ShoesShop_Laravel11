@@ -59,8 +59,8 @@
           <th>Danh mục</th>
           <th>Nổi bật ?</th>
           <th>Giá</th>
-          <th>Giảm giá</th>
-          <th>Size</th>
+          <!-- <th>Giảm giá</th> -->
+          <!-- <th>Size</th> -->
           <th>Tình trạng</th>
           <th>Thương hiệu</th>
           <th>Kho</th>
@@ -79,8 +79,8 @@
             </td>
             <td>{{ $product->is_featured == 1 ? 'Yes' : 'No' }}</td>
             <td>{{ $product->price }} đ</td>
-            <td>{{ $product->discount }}%</td>
-            <td>{{ $product->size }}</td>
+            <!-- <td>{{ $product->discount }}%</td> -->
+            <!-- <td>{{ $product->size }}</td> -->
             <td>{{ $product->condition }}</td>
             <td>{{ ucfirst($product->brand->title) }}</td>
             <td>
@@ -198,14 +198,14 @@
                   <td>Địa chỉ</td>
                   <td> : {{$order->address1}}, {{$order->address2}}</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td>Quốc Gia</td>
                   <td> : {{$order->country}}</td>
                 </tr>
                 <tr>
                   <td>Mã bưu điện</td>
                   <td> : {{$order->post_code}}</td>
-                </tr>
+                </tr> -->
               </table>
             </div>
           </div>

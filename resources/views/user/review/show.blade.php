@@ -118,14 +118,14 @@
                         <td>Địa chỉ</td>
                         <td> : {{$order->address1}}, {{$order->address2}}</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>Quốc gia</td>
                         <td> : {{$order->country}}</td>
-                    </tr>
-                    <tr>
+                    </tr> -->
+                    <!-- <tr>
                         <td>Mã bưu điện</td>
                         <td> : {{$order->post_code}}</td>
-                    </tr>
+                    </tr> -->
               </table>
             </div>
           </div>

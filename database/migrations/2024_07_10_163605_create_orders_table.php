@@ -22,7 +22,7 @@ return new class extends Migration
             $table->double('coupon', 10, 2)->nullable();
             $table->double('total_amount', 10, 2);
             $table->integer('quantity');
-            $table->enum('payment_method', ['cod', 'paypal'])->default('cod');
+            $table->enum('payment_method', ['cod', 'vnpay','momo'])->default('cod');
             $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
             $table->enum('status', ['new', 'process', 'delivered', 'cancel'])->default('new');
             $table->string('first_name', 191);

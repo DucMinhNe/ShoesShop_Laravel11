@@ -19,7 +19,7 @@ use App\Http\Controllers\OrderController;
           <th>Mã đơn hàng</th>
           <th>Tên</th>
           <th>Email</th>
-          <th>Số lượng</th>
+          <!-- <th>Số lượng</th> -->
           <th>Phí vận chuyển</th>
           <th>Tổng</th>
           <th>Trạng thái</th>
@@ -32,9 +32,9 @@ use App\Http\Controllers\OrderController;
           <td>{{$order->order_number}}</td>
           <td>{{$order->first_name}} {{$order->last_name}}</td>
           <td>{{$order->email}}</td>
-          <td>{{$order->quantity}}</td>
-          <td>{{$order->shipping->price}}đ</td>
-          <td>{{number_format($order->total_amount,0)}}đ</td>
+          <!-- <td>{{$order->quantity}}</td> -->
+          <td>{{$order->shipping->price}} đ</td>
+          <td>{{number_format($order->total_amount,0)}} đ</td>
           <td>
             @if($order->status=='new')
             <span class="badge badge-primary">Chờ Xử Lý</span>
@@ -64,8 +64,9 @@ use App\Http\Controllers\OrderController;
           <th>STT</th>
           <th>Tiêu đề</th>
           <th>Giá</th>
-          <th>Giảm giá</th>
-          <th>Size</th>
+          <!-- <th>Giảm giá</th> -->
+          <!-- <th>Size</th> -->
+          <th>Số lượng</th>
           <th>Thương hiệu</th>
           <th>Ảnh</th>
         </tr>
@@ -76,8 +77,21 @@ use App\Http\Controllers\OrderController;
             <td>{{ $product->id }}</td>
             <td>{{ $product->title }}</td>
             <td>{{ $product->price }} đ</td>
-            <td>{{ $product->discount }}%</td>
-            <td>{{ $product->size }}</td>
+            <!-- <td>{{ $product->discount }}%</td> -->
+            <!-- <td>{{ $product->size }}</td> -->
+            <td>
+                @php
+                    $cartItem = \App\Models\Cart::where('user_id', auth()->user()->id)
+                        ->where('product_id', $product->id)
+                        ->where('order_id', $order->id)
+                        ->first();
+                @endphp
+                @if ($cartItem)
+                    {{ $cartItem->quantity }}
+                @else
+                    0
+                @endif
+            </td>
             <td>{{ ucfirst($product->brand->title) }}</td>
             <td>
               @if ($product->photo)
@@ -129,15 +143,16 @@ use App\Http\Controllers\OrderController;
                   $shipping_charge=DB::table('shippings')->where('id',$order->shipping_id)->pluck('price');
                   @endphp
                   <td>Phí vận chuyển</td>
-                  <td> : {{number_format($order->shipping->price,0)}}đ</td>
+                  <td> : {{number_format($order->shipping->price,0)}} đ</td>
                 </tr>
                 <tr>
                   <td>Tổng</td>
-                  <td> : {{number_format($order->total_amount,0)}}đ</td>
+                  <td> : {{number_format($order->total_amount,0)}} đ</td>
                 </tr>
                 <tr>
                   <td>Phương thức vận chyển</td>
-                  <td> : @if($order->payment_method=='cod') Thanh toán khi nhận hàng @else Thanh toán qua PayPal @endif</td>
+                  <td> : @if($order->payment_method=='cod') Thanh toán khi nhận hàng @elseif($order->payment_method=='vnpay') Thanh toán qua VnPay 
+                  @elseif($order->payment_method=='momo') Thanh toán qua Momo @endif</td>
                 </tr>
                 <tr>
                   <td>Trạng thái thanh toán</td>
@@ -171,14 +186,14 @@ use App\Http\Controllers\OrderController;
                   <td>Địa chỉ</td>
                   <td> : {{$order->address1}}, {{$order->address2}}</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td>Quốc gia</td>
                   <td> : {{$order->country}}</td>
                 </tr>
                 <tr>
                   <td>Mã bưu điện</td>
                   <td> : {{$order->post_code}}</td>
-                </tr>
+                </tr> -->
               </table>
             </div>
             @if($order->status == 'new' || $order->status == 'process')

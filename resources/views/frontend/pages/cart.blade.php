@@ -122,10 +122,10 @@
 							<div class="col-lg-4 col-md-7 col-12">
 								<div class="right">
 									<ul>
-										<li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Tổng Số Tiền <span>{{number_format(Helper::totalCartPrice(),0)}}đ</span></li>
+										<li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Tổng Số Tiền <span>{{number_format(Helper::totalCartPrice(),0)}} đ</span></li>
 
 										@if(session()->has('coupon'))
-										<li class="coupon_price" data-price="{{Session::get('coupon')['value']}}">Bạn tiết kiệm được<span>{{number_format(Session::get('coupon')['value'],0)}}đ</span></li>
+										<li class="coupon_price" data-price="{{Session::get('coupon')['value']}}">Bạn tiết kiệm được<span>{{number_format(Session::get('coupon')['value'],0)}} đ</span></li>
 										@endif
 										@php
 											$total_amount=Helper::totalCartPrice();
@@ -134,9 +134,9 @@
 											}
 										@endphp
 										@if(session()->has('coupon'))
-											<li class="last" id="order_total_price">Bạn cần thanh toán<span>{{number_format($total_amount,0)}}đ</span></li>
+											<li class="last" id="order_total_price">Bạn cần thanh toán<span>{{number_format($total_amount,0)}} đ</span></li>
 										@else
-											<li class="last" id="order_total_price">Bạn cần thanh toán<span>{{number_format($total_amount,0)}}đ</span></li>
+											<li class="last" id="order_total_price">Bạn cần thanh toán<span>{{number_format($total_amount,0)}} đ</span></li>
 										@endif
 									</ul>
 									<div class="button5">

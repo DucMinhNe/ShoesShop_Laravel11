@@ -24,12 +24,63 @@
     <!-- Start Checkout -->
     <section class="shop checkout section">
         <div class="container">
-
-            <form class="form" method="POST" action="{{ route('cart.checkPayment') }}">
-
+            <form class="form" id="form" method="POST" action="{{ route('cart.checkPayment') }}">
                 @csrf
                 <div class="row">
+	                <!-- Shopping Summery -->
+                    <table class="table shopping-summery">
+						<thead>
+							<tr class="main-hading">
+								<th>Ảnh Sản Phẩm</th>
+								<th>Tên Sản Phẩm</th>
+								<th class="text-center">Đơn Giá</th>
+								<th class="text-center">Số Lượng</th>
+								<th class="text-center">Tổng Tiền</th>
+					
+							</tr>
+						</thead>
+						<tbody id="cart_item_list">
+							<form action="{{route('cart.update')}}" method="POST">
+								@csrf
+								@if(Helper::getAllProductFromCart())
+									@foreach(Helper::getAllProductFromCart() as $key=>$cart)
+										<tr>
+											@php
+											$photo=explode(',',$cart->product['photo']);
+											@endphp
+											<td class="image" data-title="No"><img src="{{asset($photo[0])}}" alt="{{asset($photo[0])}}"></td>
+											<td class="product-des" data-title="Description">
+												<p class="product-name"><a href="{{route('product-detail',$cart->product['slug'])}}" target="_blank">{{$cart->product['title']}}</a></p>
+												<p class="product-des">{!!($cart['summary']) !!}</p>
+											</td>
+											<td class="price" data-title="Price"><span>{{number_format($cart['price'],0)}} đ</span></td>
+										
+                                            <td class="qty" data-title="Qty"><span class="money">{{$cart->quantity}}</span></td>
+											<td class="total-amount cart_single_price" data-title="Total"><span class="money">{{number_format($cart['amount']),0}} đ</span></td>
 
+											
+										</tr>
+									@endforeach
+									<track>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</track>
+								@else
+										<tr>
+											<td class="text-center">
+												Không có giỏ hàng nào có sẵn. <a href="{{route('product-grids')}}" style="color:blue;">Tiếp tục mua sắm.</a>
+
+											</td>
+										</tr>
+								@endif
+
+							</form>
+						</tbody>
+					</table>
+					<!--/ End Shopping Summery -->
                     <div class="col-lg-8 col-12">
                         <div class="checkout-form">
                             <h2>Thực Hiện Thanh Toán</h2>
@@ -76,24 +127,14 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
-                                        <label>Quốc Gia<span>*</span></label>
-                                        <select name="country" id="country">
-
-                                            <option value="VN">Vietnam</option>
-                                            <option value="WF">America</option>
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label>Địa chỉ 1<span>*</span></label>
+                                        <label>Địa chỉ<span>*</span></label>
                                         <input type="text" name="address1" placeholder="" value="{{ old('address1') }}">
                                         @error('address1')
                                             <span class='text-danger'>{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
+                                <input type="text" name="country" id="country" value="VN" hidden>
                                 <!-- <div class="col-lg-6 col-md-6 col-12">
                                                         <div class="form-group">
                                                             <label>Địa chỉ 2</label>
@@ -125,7 +166,7 @@
                                 <div class="content">
                                     <ul>
                                         <li class="order_subtotal" data-price="{{ Helper::totalCartPrice() }}">Tiền Sản
-                                            Phẩm<span>{{ number_format(Helper::totalCartPrice(), 0) }}đ</span></li>
+                                            Phẩm<span>{{ number_format(Helper::totalCartPrice(), 0) }} đ</span></li>
                                         <li class="shipping">
                                             Phí Giao Hàng
                                             @if (count(Helper::shipping()) > 0 && Helper::cartCount() > 0)
@@ -134,7 +175,7 @@
                                                     @foreach (Helper::shipping() as $shipping)
                                                         <option value="{{ $shipping->id }}" class="shippingOption"
                                                             data-price="{{ $shipping->price }}">{{ $shipping->type }}:
-                                                            {{ $shipping->price }}đ</option>
+                                                            {{ $shipping->price }} đ</option>
                                                     @endforeach
                                                 </select>
                                             @else
@@ -155,10 +196,10 @@
                                         @endphp
                                         @if (session('coupon'))
                                             <li class="last" id="order_total_price">Tổng
-                                                Tiền<span>{{ number_format($total_amount, 0) }}đ</span></li>
+                                                Tiền<span>{{ number_format($total_amount, 0) }} đ</span></li>
                                         @else
                                             <li class="last" id="order_total_price">Tổng
-                                                Tiền<span>{{ number_format($total_amount, 0) }}đ</span></li>
+                                                Tiền<span>{{ number_format($total_amount, 0) }} đ</span></li>
                                         @endif
                                     </ul>
                                 </div>
@@ -171,7 +212,7 @@
                                     <div class="checkbox">
                                         {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                         <form-group>
-                                            <input name="payment_method" type="radio" value="cod"> <label> Thanh Toán
+                                            <input name="payment_method" type="radio" value="cod" checked> <label> Thanh Toán
                                                 Khi Giao Hàng</label><br>
                                             <input name="payment_method" type="radio" value="momo"> <label>
                                                 Momo</label><br>
@@ -194,7 +235,7 @@
                             <div class="single-widget get-button">
                                 <div class="content">
                                     <div class="button">
-                                        <button type="submit" class="btn">Thanh Toán</button>
+                                        <button type="submit" class="btn" id="btn">Thanh Toán</button>
                                     </div>
                                 </div>
                             </div>
@@ -336,6 +377,26 @@
             $("select.select2").select2();
         });
         $('select.nice-select').niceSelect();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('btn').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            Swal.fire({
+                title: 'Xác Nhận Thanh Toán',
+                text: "Bạn có chắc chắn muốn thanh toán không?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('form').submit(); // Submit the form if confirmed
+                }
+            });
+        });
     </script>
     <script>
         function showMe(box) {
