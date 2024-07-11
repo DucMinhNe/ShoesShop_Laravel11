@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 100428 (10.4.28-MariaDB)
  Source Host           : localhost:3306
- Source Schema         : shoes_shop2
+ Source Schema         : shoes_shop
 
  Target Server Type    : MySQL
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 11/07/2024 00:56:39
+ Date: 12/07/2024 00:03:42
 */
 
 SET NAMES utf8mb4;
@@ -32,7 +32,7 @@ CREATE TABLE `banners`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `banners_slug_unique`(`slug` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of banners
@@ -54,7 +54,7 @@ CREATE TABLE `brands`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `brands_slug_unique`(`slug` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of brands
@@ -86,11 +86,18 @@ CREATE TABLE `carts`  (
   CONSTRAINT `carts_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `carts_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `carts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of carts
 -- ----------------------------
+INSERT INTO `carts` VALUES (2, 5, 1, 2, 2418000, 'new', 2, 5018000, '2024-07-11 14:00:16', '2024-07-11 14:42:05');
+INSERT INTO `carts` VALUES (3, 5, 2, 2, 2418000, 'new', 1, 2418000, '2024-07-11 15:05:32', '2024-07-11 15:07:32');
+INSERT INTO `carts` VALUES (4, 6, 3, 2, 1316000, 'new', 1, 1400000, '2024-07-11 15:15:09', '2024-07-11 16:42:38');
+INSERT INTO `carts` VALUES (5, 6, 4, 2, 1316000, 'new', 1, 1316000, '2024-07-11 16:46:46', '2024-07-11 16:47:37');
+INSERT INTO `carts` VALUES (6, 5, 5, 2, 2418000, 'new', 1, 2418000, '2024-07-11 16:49:30', '2024-07-11 16:49:42');
+INSERT INTO `carts` VALUES (7, 6, 6, 2, 1316000, 'new', 1, 1316000, '2024-07-11 16:50:55', '2024-07-11 16:53:25');
+INSERT INTO `carts` VALUES (8, 6, 7, 2, 1316000, 'new', 1, 1316000, '2024-07-11 16:54:04', '2024-07-11 17:00:27');
 
 -- ----------------------------
 -- Table structure for categories
@@ -114,7 +121,7 @@ CREATE TABLE `categories`  (
   INDEX `categories_added_by_foreign`(`added_by` ASC) USING BTREE,
   CONSTRAINT `categories_added_by_foreign` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `categories_parent_id_foreign` FOREIGN KEY (`parent_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of categories
@@ -137,7 +144,7 @@ CREATE TABLE `coupons`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `coupons_code_unique`(`code` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of coupons
@@ -156,7 +163,7 @@ CREATE TABLE `failed_jobs`  (
   `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of failed_jobs
@@ -178,7 +185,7 @@ CREATE TABLE `messages`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of messages
@@ -193,7 +200,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of migrations
@@ -242,11 +249,18 @@ CREATE TABLE `notifications`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `notifications_notifiable_type_notifiable_id_index`(`notifiable_type` ASC, `notifiable_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of notifications
 -- ----------------------------
+INSERT INTO `notifications` VALUES ('19ec69c0-de1d-4dda-8fd0-d63f3c0f84f8', 'App\\Notifications\\StatusNotification', 'App\\User', 1, '{\"title\":\"C\\u00f3 \\u0111\\u01a1n h\\u00e0ng m\\u1edbi\",\"actionURL\":\"http:\\/\\/localhost:8000\\/admin\\/order\\/5\",\"fas\":\"fa-file-alt\"}', NULL, '2024-07-11 16:49:42', '2024-07-11 16:49:42');
+INSERT INTO `notifications` VALUES ('62a31802-38cb-4b11-8ca9-5d02e893ecee', 'App\\Notifications\\StatusNotification', 'App\\User', 1, '{\"title\":\"C\\u00f3 \\u0111\\u01a1n h\\u00e0ng m\\u1edbi\",\"actionURL\":\"http:\\/\\/127.0.0.1:8000\\/admin\\/order\\/1\",\"fas\":\"fa-file-alt\"}', NULL, '2024-07-11 14:42:04', '2024-07-11 14:42:04');
+INSERT INTO `notifications` VALUES ('72e52083-30e8-433a-bb43-2cb0f7dd3b2e', 'App\\Notifications\\StatusNotification', 'App\\User', 1, '{\"title\":\"C\\u00f3 \\u0111\\u01a1n h\\u00e0ng m\\u1edbi\",\"actionURL\":\"http:\\/\\/localhost:8000\\/admin\\/order\\/3\",\"fas\":\"fa-file-alt\"}', NULL, '2024-07-11 16:42:38', '2024-07-11 16:42:38');
+INSERT INTO `notifications` VALUES ('7672855d-3733-4eb5-8ecd-106ee7ef6288', 'App\\Notifications\\StatusNotification', 'App\\User', 1, '{\"title\":\"C\\u00f3 \\u0111\\u01a1n h\\u00e0ng m\\u1edbi\",\"actionURL\":\"http:\\/\\/127.0.0.1:8000\\/admin\\/order\\/2\",\"fas\":\"fa-file-alt\"}', NULL, '2024-07-11 15:07:32', '2024-07-11 15:07:32');
+INSERT INTO `notifications` VALUES ('7fa315ea-c78f-4b73-9613-fafb872e4abf', 'App\\Notifications\\StatusNotification', 'App\\User', 1, '{\"title\":\"C\\u00f3 \\u0111\\u01a1n h\\u00e0ng m\\u1edbi\",\"actionURL\":\"http:\\/\\/localhost:8000\\/admin\\/order\\/4\",\"fas\":\"fa-file-alt\"}', NULL, '2024-07-11 16:47:37', '2024-07-11 16:47:37');
+INSERT INTO `notifications` VALUES ('bb4e9975-9f9d-4f10-b9f5-17f9954188d7', 'App\\Notifications\\StatusNotification', 'App\\User', 1, '{\"title\":\"C\\u00f3 \\u0111\\u01a1n h\\u00e0ng m\\u1edbi\",\"actionURL\":\"http:\\/\\/localhost:8000\\/admin\\/order\\/7\",\"fas\":\"fa-file-alt\"}', NULL, '2024-07-11 17:00:27', '2024-07-11 17:00:27');
+INSERT INTO `notifications` VALUES ('fc07a84f-53f8-4a85-8442-1204f6dba587', 'App\\Notifications\\StatusNotification', 'App\\User', 1, '{\"title\":\"C\\u00f3 \\u0111\\u01a1n h\\u00e0ng m\\u1edbi\",\"actionURL\":\"http:\\/\\/localhost:8000\\/admin\\/order\\/6\",\"fas\":\"fa-file-alt\"}', NULL, '2024-07-11 16:53:23', '2024-07-11 16:53:23');
 
 -- ----------------------------
 -- Table structure for orders
@@ -261,7 +275,7 @@ CREATE TABLE `orders`  (
   `coupon` double NULL DEFAULT NULL,
   `total_amount` double NOT NULL,
   `quantity` int NOT NULL,
-  `payment_method` enum('cod','paypal') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'cod',
+  `payment_method` enum('cod','vnpay','momo') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'cod',
   `payment_status` enum('paid','unpaid') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unpaid',
   `status` enum('new','process','delivered','cancel') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'new',
   `first_name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -280,11 +294,18 @@ CREATE TABLE `orders`  (
   INDEX `orders_shipping_id_foreign`(`shipping_id` ASC) USING BTREE,
   CONSTRAINT `orders_shipping_id_foreign` FOREIGN KEY (`shipping_id`) REFERENCES `shippings` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `orders_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
+INSERT INTO `orders` VALUES (1, 'ORD-EJCWDUHEVC', 2, 5018000, 2, NULL, 5048000, 2, 'cod', 'unpaid', 'cancel', 'aasfasdf', 'asdfasdf', 'hoainhan@gmail.com', '231412341234', 'VN', NULL, 'sadfasdfasdf', NULL, '2024-07-11 14:42:03', '2024-07-11 14:47:52');
+INSERT INTO `orders` VALUES (2, 'ORD-VTBYAAPKT1', 2, 2418000, 2, NULL, 2448000, 1, 'cod', 'unpaid', 'cancel', 'asdfasdf', 'asdfasdf', 'phu@gmail.com', '2314213412', 'VN', NULL, 'sadfsdfasdf', NULL, '2024-07-11 15:07:32', '2024-07-11 15:08:43');
+INSERT INTO `orders` VALUES (3, 'ORD-XGDN5M2YPV', 2, 1400000, 2, NULL, 1400000, 1, 'vnpay', 'paid', 'new', 'Hoài Nhân', '', 'hoainhan@gmail.com', '', '', '', '', '', '2024-07-11 16:42:37', '2024-07-11 16:42:37');
+INSERT INTO `orders` VALUES (4, 'ORD-0HBZTFFYLM', 2, 1316000, 2, NULL, 1316000, 1, 'vnpay', 'paid', 'new', 'Hoài Nhân', '', 'hoainhan@gmail.com', '', 'VN', NULL, '', NULL, '2024-07-11 16:47:37', '2024-07-11 16:47:37');
+INSERT INTO `orders` VALUES (5, 'ORD-K27YTL0JIO', 2, 2418000, 2, NULL, 2448000, 1, 'vnpay', 'paid', 'new', 'Hoài Nhân', '', 'hoainhan@gmail.com', '', 'VN', NULL, '', NULL, '2024-07-11 16:49:42', '2024-07-11 16:49:42');
+INSERT INTO `orders` VALUES (6, 'ORD-LEP5DWFWVP', 2, 1316000, 2, NULL, 1346000, 1, 'momo', 'paid', 'new', 'Hoài Nhân', '', 'hoainhan@gmail.com', '', 'VN', NULL, '', NULL, '2024-07-11 16:53:22', '2024-07-11 16:53:22');
+INSERT INTO `orders` VALUES (7, 'ORD-D6QPNG0CT0', 2, 1316000, 2, NULL, 1346000, 1, 'momo', 'paid', 'new', 'Hoài Nhân', '', 'hoainhan@gmail.com', '', 'VN', NULL, '', NULL, '2024-07-11 17:00:27', '2024-07-11 17:00:27');
 
 -- ----------------------------
 -- Table structure for password_resets
@@ -295,7 +316,7 @@ CREATE TABLE `password_resets`  (
   `token` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   INDEX `password_resets_email_index`(`email` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of password_resets
@@ -314,7 +335,7 @@ CREATE TABLE `post_categories`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `post_categories_slug_unique`(`slug` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of post_categories
@@ -339,7 +360,7 @@ CREATE TABLE `post_comments`  (
   INDEX `post_comments_post_id_foreign`(`post_id` ASC) USING BTREE,
   CONSTRAINT `post_comments_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `post_comments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of post_comments
@@ -358,7 +379,7 @@ CREATE TABLE `post_tags`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `post_tags_slug_unique`(`slug` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of post_tags
@@ -391,7 +412,7 @@ CREATE TABLE `posts`  (
   CONSTRAINT `posts_added_by_foreign` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `posts_post_cat_id_foreign` FOREIGN KEY (`post_cat_id`) REFERENCES `post_categories` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `posts_post_tag_id_foreign` FOREIGN KEY (`post_tag_id`) REFERENCES `post_tags` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of posts
@@ -415,7 +436,7 @@ CREATE TABLE `product_reviews`  (
   INDEX `product_reviews_product_id_foreign`(`product_id` ASC) USING BTREE,
   CONSTRAINT `product_reviews_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `product_reviews_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of product_reviews
@@ -452,7 +473,7 @@ CREATE TABLE `products`  (
   CONSTRAINT `products_brand_id_foreign` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `products_cat_id_foreign` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `products_child_cat_id_foreign` FOREIGN KEY (`child_cat_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of products
@@ -461,8 +482,8 @@ INSERT INTO `products` VALUES (1, 'VANS OLD SKOOL CLASSIC BLACK/WHITE', 'vans-ol
 INSERT INTO `products` VALUES (2, 'Vans Old Skool Navy', 'vans-old-skool-navy', '<p><span style=\"color: rgb(51, 51, 51); font-family: Roboto, sans-serif; font-size: 15px;\">Giữ nguyên thiết kế của Vans Old Skool với sự kết hợp của chất liệu vải Canvas màu xanh ở phần thân giày và da lộn đen ở phần mũi giày, đế giày. Sự phối hợp giữa 3 tone màu xanh - đen - trắng chắc chắn sẽ mang đến cho bạn sự độc đáo mới lạ hơn khi mix&amp;match với các outfit.</span><br></p>', '<ul class=\"attribute-list\" style=\"margin-right: 0px; margin-bottom: 0px; margin-left: 0px; list-style: none; padding: 0px; color: rgb(51, 51, 51); font-family: Roboto, sans-serif;\"><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">MÃ SẢN PHẨM</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">VN000D3HNVY</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">DÒNG SẢN PHẨM</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Old Skool</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">NƠI SẢN XUẤT</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Việt Nam / Trung Quốc</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">CHẾ ĐỘ BẢO HÀNH</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Bảo hành chính hãng Vans 01 tháng<br>Hỗ trợ bảo hành 3 tháng từ Nhà phân phối Drake VN</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">PHỤ KIỆN THEO KÈM</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Túi Vans<br>Phiếu bảo hành chính hãng<br>Hộp giày</span></div></li></ul>', 'product_img/_1720632712.jpg', 30, '38,39,40,41,42,43', 'new', 'active', 1600000, 5, 1, 1, NULL, 1, '2024-07-10 17:31:52', '2024-07-10 17:31:52');
 INSERT INTO `products` VALUES (3, 'Chuck Taylor All Star 1970s', 'chuck-taylor-all-star-1970s', '<p><span style=\"color: rgb(51, 51, 51); font-family: Roboto, sans-serif; font-size: 15px;\">Ấn tượng với phối màu mới mẻ được lấy cảm hứng từ lông chim mòng két, Converse Chuck 70s Teal Universe nổi bật với tone màu xanh lam ấn tượng. Tone màu đại diện cho sự cởi mở, sáng suốt và sáng tạo mang đến cảm giác nhẹ nhàng Thiết kế cổ cao và cổ thấp cùng kết cấu nội thất tiện nghi sẽ làm bạn hài lòng với item này.</span><br></p>', '<ul class=\"attribute-list\" style=\"margin-right: 0px; margin-bottom: 0px; margin-left: 0px; list-style: none; padding: 0px; color: rgb(51, 51, 51); font-family: Roboto, sans-serif;\"><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">MÃ SẢN PHẨM</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">A05589C</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">DÒNG SẢN PHẨM</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Chuck Taylor All Star 1970s</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">NƠI SẢN XUẤT</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Việt Nam</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">CHẾ ĐỘ BẢO HÀNH</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Bảo hành chính hãng Converse một tháng<br>Hỗ trợ bảo hành 3 tháng từ Nhà phân phối Drake VN</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">PHỤ KIỆN THEO KÈM</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Túi Converse<br>Phiếu bảo hành chính hãng<br>Hộp giày</span></div></li></ul>', 'product_img/_1720632858.jpg', 34, '38,39,40', 'new', 'active', 1700000, 3, 1, 1, NULL, 2, '2024-07-10 17:34:18', '2024-07-10 17:34:18');
 INSERT INTO `products` VALUES (4, 'Converse Chuck Taylor All Star Construct', 'converse-chuck-taylor-all-star-construct', '<p><span style=\"color: rgb(51, 51, 51); font-family: Roboto, sans-serif; font-size: 15px;\">Phá bỏ những định kiến cũ, Converse Chuck Taylor All Star Construct bứt phá hoàn hảo với diện mạo “độc bản”. Thiết kế thông minh từ phần thân giày đến phần đế đều thể hiện sự tinh tế và cầu kỳ trong từng chi tiết. Bắt mắt với phần đế cao ấn tượng và đế ngoài kim cương truyền thống được phủ bằng kết cấu xương cá để có độ bám tốt hơn. Item với vẻ ngoài táo bạo cùng những nội thất cao cấp, hứa hẹn sẽ đồng hành cùng bạn trên mọi hành trình bền vững.</span><br></p>', '<ul class=\"attribute-list\" style=\"margin-right: 0px; margin-bottom: 0px; margin-left: 0px; list-style: none; padding: 0px; color: rgb(51, 51, 51); font-family: Roboto, sans-serif;\"><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">MÃ SẢN PHẨM</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">A05094C</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">DÒNG SẢN PHẨM</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Chuck Taylor All Star</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">BỘ SƯU TẬP</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Chuck Taylor All Star</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">NƠI SẢN XUẤT</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Việt Nam</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">CHẾ ĐỘ BẢO HÀNH</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Bảo hành chính hãng Converse một tháng<br>Hỗ trợ bảo hành 3 tháng từ Nhà phân phối Drake VN</span></div></li><li style=\"font-size: 13px; border-bottom: 1px solid rgb(219, 223, 229); margin-bottom: 10px; padding-bottom: 8px; float: left; width: 547.455px;\"><label class=\"label\" style=\"display: inline; max-width: 100%; margin: 0px; font-weight: 600; padding: 0px; line-height: 18px; color: rgb(36, 39, 43); vertical-align: baseline; border-radius: 0.25em; text-transform: uppercase; float: left; width: 257.295px;\">PHỤ KIỆN THEO KÈM</label><div class=\"attribute-data\" style=\"float: left; line-height: 18px; color: rgb(0, 0, 0); width: 290.148px; font-family: Tahoma, sans-serif;\"><span class=\"data\">Túi Converse<br>Phiếu bảo hành chính hãng<br>Hộp giày</span></div></li></ul>', 'product_img/_1720632990.jpg', 20, '38,39,40,41', 'new', 'active', 2200000, 4, 1, 1, NULL, 2, '2024-07-10 17:36:30', '2024-07-10 17:36:30');
-INSERT INTO `products` VALUES (5, 'ADIDAS X CRAZYFAST ELITE TF ENERGY CITRUS - SOLAR RED', 'adidas-x-crazyfast-elite-tf-energy-citrus-solar-red', '<p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px; text-align: justify;\">Hòa mình trong không khí sôi động của mùa giải sắp tới,&nbsp;<span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Adidas&nbsp;</span>đã chính thức cho ra mắt bộ sưu tập mới “<span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Energy Citrus”</span>&nbsp;sử dụng những gam màu rực rỡ và nổi bật. Bộ sưu tập này sẽ bao gồm ba mẫu thiết kế là&nbsp;<span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Copa Pure 2, X Crazyfast và Predator 24.</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px; text-align: justify;\">Adidas X Crazyfast - đôi giày đánh dấu dòng&nbsp;<a href=\"https://neymarsport.com/collections/adidas-x\" style=\"padding: 0px; margin: 0px; outline: none; max-width: 100%; color: rgb(241, 198, 22) !important;\">adidas X</a>&nbsp;cuối cùng được ra mắt trước khi bị thay thế bởi Adidas F50.&nbsp;<a href=\"https://neymarsport.com/\" style=\"padding: 0px; margin: 0px; outline: none; max-width: 100%; color: rgb(241, 198, 22) !important;\">Giày đá banh</a>&nbsp;X Crazyfast nổi bật nhờ những gam màu rực rỡ Solar Red, White và Solar Yellow, đây là một sự đảo ngược bất ngờ so với phiên bản \"Solar Energy\" đầu tiên được thương hiệu Adidas phát hành vào đầu năm 2024.&nbsp;</p>', '<p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Cầu thủ nổi tiếng đại diện:</span>&nbsp;Mohamed Salah, Son Hueng Min, Lionel Messi...</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Bộ sưu tập:&nbsp;</span></span>Energy Citrus</p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Năm sản xuất:&nbsp;</span>2024.</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Chất liệu:</span>&nbsp;<span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">AEROPACITY SPEEDSKIN</span>&nbsp;- một lớp lưới đơn có khả năng thoáng khí, tạo cảm giác thoải mái cho đôi chân của người chơi hơn bao giờ hết.</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Công nghệ:</span>&nbsp;Stability Wing Carbon mới, cổ thun Primknit ôm chân và đệm Lightstrike êm ái.</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Trọng lượng:&nbsp;</span>241 gram/chiếc (Size 41).</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Phong cách:&nbsp;</span>Tấn công, tốc độ.</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Vị trí:&nbsp;</span>Tiền vệ cánh, tiền đạo.</span></p>', 'product_img/_1720633222.jpg', 30, '38,39,40', 'hot', 'active', 2600000, 7, 1, 2, NULL, 4, '2024-07-10 17:40:22', '2024-07-10 17:40:22');
-INSERT INTO `products` VALUES (6, 'Nike Flex Experience Rn 12', 'nike-flex-experience-rn-12', '<p><span style=\"color: rgb(27, 27, 27); font-family: NunitoSans-Regular; font-size: 14px;\">Đặt những mục tiêu chạy bộ đầy tham vọng và chinh phục chúng cùng Giày Chạy Bộ Nam Nike Flex Experience Run 12! Được thiết kế với phong cách tối giản nhưng đầy tính năng,được thiết kế với sự tối giản và linh hoạt tối ưu, giúp bạn cảm nhận trọn vẹn từng chuyển động trên mọi cung đường. Đôi giày này sẽ trở thành người bạn đồng hành đáng tin cậy, giúp bạn chuyển động tự do và thoải mái trên mọi cung đường.</span><br></p>', '<ul style=\"margin: 1em 0px; padding: 0px 0px 0px 40px; color: rgb(27, 27, 27); font-family: NunitoSans-Regular; font-size: 14px;\"><li>Phần thân giày dệt kim mềm mại, ôm sát chân, co giãn nhẹ nhàng</li><li>Lớp lót giày được thiết kế đệm êm ái, giúp hấp thụ lực chạm đất hiệu quả</li><li>Các rãnh dẻo dân ở phần đế ngoài giúp chuyển động một cách linh hoạt</li><li>Phần gót giày được thiết kế với độ cao vừa phải, giúp ôm sát cổ chân một cách chắc chắn</li><li>Đế giày có độ cao thấp lý tưởng giúp giảm thiểu trọng lượng tổng thể của giày</li><li>Mã sản phẩm: DV0740-004</li></ul>', 'product_img/_1720633336.jpg', 22, '39,40,41', 'new', 'active', 1400000, 6, 1, 3, NULL, 3, '2024-07-10 17:42:16', '2024-07-10 17:42:16');
+INSERT INTO `products` VALUES (5, 'ADIDAS X CRAZYFAST ELITE TF ENERGY CITRUS - SOLAR RED', 'adidas-x-crazyfast-elite-tf-energy-citrus-solar-red', '<p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px; text-align: justify;\">Hòa mình trong không khí sôi động của mùa giải sắp tới,&nbsp;<span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Adidas&nbsp;</span>đã chính thức cho ra mắt bộ sưu tập mới “<span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Energy Citrus”</span>&nbsp;sử dụng những gam màu rực rỡ và nổi bật. Bộ sưu tập này sẽ bao gồm ba mẫu thiết kế là&nbsp;<span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Copa Pure 2, X Crazyfast và Predator 24.</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px; text-align: justify;\">Adidas X Crazyfast - đôi giày đánh dấu dòng&nbsp;<a href=\"https://neymarsport.com/collections/adidas-x\" style=\"padding: 0px; margin: 0px; outline: none; max-width: 100%; color: rgb(241, 198, 22) !important;\">adidas X</a>&nbsp;cuối cùng được ra mắt trước khi bị thay thế bởi Adidas F50.&nbsp;<a href=\"https://neymarsport.com/\" style=\"padding: 0px; margin: 0px; outline: none; max-width: 100%; color: rgb(241, 198, 22) !important;\">Giày đá banh</a>&nbsp;X Crazyfast nổi bật nhờ những gam màu rực rỡ Solar Red, White và Solar Yellow, đây là một sự đảo ngược bất ngờ so với phiên bản \"Solar Energy\" đầu tiên được thương hiệu Adidas phát hành vào đầu năm 2024.&nbsp;</p>', '<p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Cầu thủ nổi tiếng đại diện:</span>&nbsp;Mohamed Salah, Son Hueng Min, Lionel Messi...</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Bộ sưu tập:&nbsp;</span></span>Energy Citrus</p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Năm sản xuất:&nbsp;</span>2024.</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Chất liệu:</span>&nbsp;<span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">AEROPACITY SPEEDSKIN</span>&nbsp;- một lớp lưới đơn có khả năng thoáng khí, tạo cảm giác thoải mái cho đôi chân của người chơi hơn bao giờ hết.</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Công nghệ:</span>&nbsp;Stability Wing Carbon mới, cổ thun Primknit ôm chân và đệm Lightstrike êm ái.</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Trọng lượng:&nbsp;</span>241 gram/chiếc (Size 41).</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Phong cách:&nbsp;</span>Tấn công, tốc độ.</span></p><p style=\"padding: 0px; font-family: &quot;Roboto Condensed&quot;, sans-serif; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; line-height: 21px; max-width: 100%; color: rgb(85, 85, 85); font-size: 14px;\"><span style=\"padding: 0px; margin: 0px; max-width: 100%; color: rgb(0, 0, 0);\"><span style=\"padding: 0px; margin: 0px; font-weight: 700; max-width: 100%;\">Vị trí:&nbsp;</span>Tiền vệ cánh, tiền đạo.</span></p>', 'product_img/_1720633222.jpg', 29, '38,39,40', 'hot', 'active', 2600000, 7, 1, 2, NULL, 4, '2024-07-10 17:40:22', '2024-07-11 16:49:42');
+INSERT INTO `products` VALUES (6, 'Nike Flex Experience Rn 12', 'nike-flex-experience-rn-12', '<p><span style=\"color: rgb(27, 27, 27); font-family: NunitoSans-Regular; font-size: 14px;\">Đặt những mục tiêu chạy bộ đầy tham vọng và chinh phục chúng cùng Giày Chạy Bộ Nam Nike Flex Experience Run 12! Được thiết kế với phong cách tối giản nhưng đầy tính năng,được thiết kế với sự tối giản và linh hoạt tối ưu, giúp bạn cảm nhận trọn vẹn từng chuyển động trên mọi cung đường. Đôi giày này sẽ trở thành người bạn đồng hành đáng tin cậy, giúp bạn chuyển động tự do và thoải mái trên mọi cung đường.</span><br></p>', '<ul style=\"margin: 1em 0px; padding: 0px 0px 0px 40px; color: rgb(27, 27, 27); font-family: NunitoSans-Regular; font-size: 14px;\"><li>Phần thân giày dệt kim mềm mại, ôm sát chân, co giãn nhẹ nhàng</li><li>Lớp lót giày được thiết kế đệm êm ái, giúp hấp thụ lực chạm đất hiệu quả</li><li>Các rãnh dẻo dân ở phần đế ngoài giúp chuyển động một cách linh hoạt</li><li>Phần gót giày được thiết kế với độ cao vừa phải, giúp ôm sát cổ chân một cách chắc chắn</li><li>Đế giày có độ cao thấp lý tưởng giúp giảm thiểu trọng lượng tổng thể của giày</li><li>Mã sản phẩm: DV0740-004</li></ul>', 'product_img/_1720633336.jpg', 18, '39,40,41', 'new', 'active', 1400000, 6, 1, 3, NULL, 3, '2024-07-10 17:42:16', '2024-07-11 17:00:27');
 
 -- ----------------------------
 -- Table structure for settings
@@ -480,7 +501,7 @@ CREATE TABLE `settings`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of settings
@@ -498,7 +519,7 @@ CREATE TABLE `shippings`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of shippings
@@ -526,12 +547,13 @@ CREATE TABLE `users`  (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `users_email_unique`(`email` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
 INSERT INTO `users` VALUES (1, 'Admin', 'admin@gmail.com', NULL, '$2y$10$urskJdHzyjUaG2wu/I0GD.PO3kFFSdybxnAOANlugY011vZGo0AhC', NULL, 'admin', NULL, NULL, 'active', NULL, NULL, NULL);
+INSERT INTO `users` VALUES (2, 'Hoài Nhân', 'hoainhan@gmail.com', NULL, '$2y$10$xHqvA92am.RDj1ERSf2uhupit60mjRaDlJLofm9r67lhfY4VExciC', NULL, 'user', NULL, NULL, 'active', NULL, '2024-07-11 13:58:47', '2024-07-11 13:58:47');
 
 -- ----------------------------
 -- Table structure for wishlists
@@ -554,7 +576,7 @@ CREATE TABLE `wishlists`  (
   CONSTRAINT `wishlists_cart_id_foreign` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `wishlists_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `wishlists_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of wishlists
