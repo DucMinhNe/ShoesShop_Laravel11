@@ -209,13 +209,9 @@ class OrderController extends Controller
     
         // Check if the resultCode indicates success
         if ($resultCode == '9000') {
-            $user = auth()->user();
-            $firstName = $user->name; // or use $user->name if first_name is not available
-            $email = $user->email;
-    
             // Merge first name and email into the request
             $request->merge([
-            'first_name' => $firstName,
+            'first_name' => 'Hoài Nhân',
             'last_name'=>'',
             'address1'=>'',
             'address2'=>null,
@@ -224,7 +220,7 @@ class OrderController extends Controller
             'post_code'=>null,
             'country'=>'VN',
             'shipping'=> 2,
-            'email'=> $email,
+            'email'=> 'hoainhan@gmail',
             'payment_method'=> 'momo'
             ]);
             // Call the store method
@@ -245,14 +241,9 @@ class OrderController extends Controller
         
         // Check if the response code indicates success
         if ($responseCode == '00') {
-            // Get authenticated user's first name and email
-            $user = auth()->user();
-            $firstName = $user->name; // or use $user->name if first_name is not available
-            $email = $user->email;
-    
             // Merge first name and email into the request
             $request->merge([
-            'first_name' => $firstName,
+            'first_name' => 'Hoài Nhân',
             'last_name'=>'',
             'address1'=>'',
             'address2'=>null,
@@ -261,7 +252,7 @@ class OrderController extends Controller
             'post_code'=>null,
             'country'=>'VN',
             'shipping'=> 2,
-            'email'=> $email,
+            'email'=> 'hoainhan@gmail',
             'payment_method'=> 'vnpay'
             ]);
             // Call the store method
