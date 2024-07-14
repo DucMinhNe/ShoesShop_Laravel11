@@ -18,6 +18,7 @@ class OrderController extends Controller
 {
     private $partnerCode = "MOMOBKUN20180529";
     private $returnUrl = "http://localhost:8000/momo-return";
+    // private $returnUrl = "http://giayxin.io.vn/momo-return"; //host
     private $paymentUrl = "https://test-payment.momo.vn/v2/gateway/api/create";
     private $ipnUrl = "https://localhost:7196/payment/api/momo-ipn";
     private $accessKey = "klm05TvNBzhg7h7j";
@@ -123,6 +124,7 @@ class OrderController extends Controller
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = "http://localhost:8000/vnpay-return";
+        // $vnp_Returnurl = "http://giayxin.io.vn/vnpay-return"; //host
         $vnp_TmnCode = "S6RMUB02";//Mã website tại VNPAY 
         $vnp_HashSecret = "3R1YUK6L2EVEHT36KDR7S5K25OTXI7M9"; //Chuỗi bí mật
 
