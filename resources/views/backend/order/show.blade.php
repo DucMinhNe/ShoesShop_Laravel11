@@ -50,20 +50,21 @@
         </tr>
       </tbody>
     </table>
-
+    <h4>Sản phẩm</h4>
     <table class="table table-striped table-hover" width="100%" cellspacing="0">
       <thead>
         <tr>
           <th>STT</th>
           <th>Tiêu đề</th>
           <th>Danh mục</th>
-          <th>Nổi bật ?</th>
+          <!-- <th>Nổi bật ?</th> -->
           <th>Giá</th>
           <!-- <th>Giảm giá</th> -->
           <!-- <th>Size</th> -->
-          <th>Tình trạng</th>
+          <th>Số lượng</th>
+          <!-- <th>Tình trạng</th> -->
           <th>Thương hiệu</th>
-          <th>Kho</th>
+          <!-- <th>Kho</th> -->
           <th>Ảnh</th>
           <th>Trạng thái</th>
           <th>Thao tác</th>
@@ -77,19 +78,31 @@
             <td>{{ $product->cat_info['title'] }}
               <sub>/{{ $product->sub_cat_info->title ?? '' }}</sub>
             </td>
-            <td>{{ $product->is_featured == 1 ? 'Yes' : 'No' }}</td>
+            <!--    <td>{{ $product->is_featured == 1 ? 'Nổi Bật' : 'Không' }}</td> -->
             <td>{{ $product->price }} đ</td>
             <!-- <td>{{ $product->discount }}%</td> -->
             <!-- <td>{{ $product->size }}</td> -->
-            <td>{{ $product->condition }}</td>
-            <td>{{ ucfirst($product->brand->title) }}</td>
             <td>
+                @php
+                    $cartItem = \App\Models\Cart::where('product_id', $product->id)
+                        ->where('order_id', $order->id)
+                        ->first();
+                @endphp
+                @if ($cartItem)
+                    {{ $cartItem->quantity }}
+                @else
+                    0
+                @endif
+            </td>
+            <!-- <td>{{ $product->condition }}</td> -->
+            <td>{{ ucfirst($product->brand->title) }}</td>
+            <!-- <td>
               @if ($product->stock > 0)
                 <span class="badge badge-primary">{{ $product->stock }}</span>
               @else
                 <span class="badge badge-danger">{{ $product->stock }}</span>
               @endif
-            </td>
+            </td> -->
             <td>
               @if ($product->photo)
                 <img src="{{ asset($product->photo) }}" class="img-fluid zoom" style="max-width:80px" alt="{{ $product->photo }}">
@@ -106,11 +119,11 @@
             </td>
             <td>
               <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
-              <form method="POST" action="{{ route('product.destroy', [$product->id]) }}">
+              <!-- <form method="POST" action="{{ route('product.destroy', [$product->id]) }}">
                 @csrf
                 @method('delete')
                 <button class="btn btn-danger btn-sm dltBtn" data-id={{ $product->id }} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
-              </form>
+              </form> -->
             </td>
           </tr>
         @endforeach
@@ -163,7 +176,8 @@
                 </tr>
                 <tr>
                   <td>Phương thức thanh toán</td>
-                  <td> : @if($order->payment_method=='cod') Thanh toán khi nhận hàng @else Paypal @endif</td>
+                  <td> : @if($order->payment_method=='cod') Thanh toán bằng tiền mặt @elseif($order->payment_method=='vnpay') Thanh toán qua VnPay 
+                  @elseif($order->payment_method=='momo') Thanh toán qua Momo @endif</td>
                 </tr>
                 <tr>
                   <td>Trạng thái thanh toán</td>

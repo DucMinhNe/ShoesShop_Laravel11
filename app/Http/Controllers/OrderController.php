@@ -177,6 +177,23 @@ class OrderController extends Controller
 
     public function checkPayment(Request $request)
     {
+         // Validate the request data
+    $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => ['required', 'regex:/^(0|\+84)?([3-9]\d{8})$/'],
+        'address1' => 'required|string|max:255',
+    ], [
+        'first_name.required' => 'Vui lòng nhập tên của bạn.',
+        'last_name.required' => 'Vui lòng nhập họ của bạn.',
+        'email.required' => 'Vui lòng nhập địa chỉ email.',
+        'email.email' => 'Địa chỉ email không hợp lệ.',
+        'phone.required' => 'Vui lòng nhập số điện thoại.',
+        'phone.regex' => 'Số điện thoại không hợp lệ.',
+        'address1.required' => 'Vui lòng nhập địa chỉ.',
+    ]);
+
         // Retrieve all data from the request
         $order_data = $request->all();
         // Initialize the payment URL variable

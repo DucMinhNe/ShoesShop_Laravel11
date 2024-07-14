@@ -68,10 +68,10 @@
             <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
             Đổi mật khẩu
           </a>
-          <a class="dropdown-item" href="{{route('settings')}}">
+          <!-- <a class="dropdown-item" href="{{route('settings')}}">
             <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
             Cài đặt
-          </a>
+          </a> -->
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{ route('logout') }}"
                 onclick="event.preventDefault();

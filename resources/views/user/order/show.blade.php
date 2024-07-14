@@ -58,6 +58,7 @@ use App\Http\Controllers\OrderController;
         </tr>
       </tbody>
     </table>
+    <h4>Sản phẩm</h4>
     <table class="table table-striped table-hover" width="100%" cellspacing="0">
       <thead>
         <tr>
@@ -150,8 +151,8 @@ use App\Http\Controllers\OrderController;
                   <td> : {{number_format($order->total_amount,0)}} đ</td>
                 </tr>
                 <tr>
-                  <td>Phương thức vận chyển</td>
-                  <td> : @if($order->payment_method=='cod') Thanh toán khi nhận hàng @elseif($order->payment_method=='vnpay') Thanh toán qua VnPay 
+                  <td>Phương thức thanh toán</td>
+                  <td> : @if($order->payment_method=='cod') Thanh toán bằng tiền mặt @elseif($order->payment_method=='vnpay') Thanh toán qua VnPay 
                   @elseif($order->payment_method=='momo') Thanh toán qua Momo @endif</td>
                 </tr>
                 <tr>
@@ -197,10 +198,13 @@ use App\Http\Controllers\OrderController;
               </table>
             </div>
             @if($order->status == 'new' || $order->status == 'process')
+
+            <div class="text-center pt-4 ">
             <form id="cancel-order-form" method="POST" action="{{ route('order.cancel', $order->id) }}">
                 @csrf
                 <button type="button" id="cancel-order-btn" class="btn btn-danger">Hủy Đơn Hàng</button>
             </form>
+            </div>
             @endif
           </div>
         </div>

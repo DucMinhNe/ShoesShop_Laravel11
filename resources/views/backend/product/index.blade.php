@@ -22,7 +22,7 @@
                                 <th>STT</th>
                                 <th>Tiêu đề</th>
                                 <th>Danh mục</th>
-                                <th>Nổi bật ?</th>
+                                <th>Nổi bật</th>
                                 <th>Giá</th>
                                 <th>Giảm giá</th>
                                 <th>Size</th>
@@ -39,7 +39,7 @@
                                 <th>STT</th>
                                 <th>Tiêu đề</th>
                                 <th>Danh mục</th>
-                                <th>Nổi bật ?</th>
+                                <th>Nổi bật</th>
                                 <th>Giá</th>
                                 <th>Giảm giá</th>
                                 <th>Size</th>
@@ -73,7 +73,7 @@
                                             /{{ $product->sub_cat_info->title ?? '' }}
                                         </sub>
                                     </td>
-                                    <td>{{ $product->is_featured == 1 ? 'Yes' : 'No' }}</td>
+                                    <td>{{ $product->is_featured == 1 ? 'Nổi Bật' : 'Không' }}</td>
                                     <td>{{ $product->price }} đ</td>
                                     <td>{{ $product->discount }}%</td>
                                     <td>{{ $product->size }}</td>
