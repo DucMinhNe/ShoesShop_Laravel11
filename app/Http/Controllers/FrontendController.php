@@ -17,6 +17,8 @@ use DB;
 use Hash;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
 class FrontendController extends Controller
 {
 
@@ -48,11 +50,26 @@ class FrontendController extends Controller
         return view('frontend.pages.contact');
     }
 
-    public function productDetail($slug){
-        $product_detail= Product::getProductBySlug($slug);
-        // dd($product_detail);
-        return view('frontend.pages.product_detail')->with('product_detail',$product_detail);
+    public function productDetail($slug)
+    {
+        $product_detail = Product::getProductBySlug($slug);
+    
+        $user = auth()->user();
+        $hasPurchased = false;
+    
+        if ($user) {
+            // Kiểm tra xem người dùng đã mua sản phẩm này chưa
+            $hasPurchased = DB::table('carts')
+                ->join('orders', 'carts.order_id', '=', 'orders.id')
+                ->where('orders.user_id', $user->id)
+                ->where('carts.product_id', $product_detail->id)
+                ->where('orders.status', 'delivered')
+                ->exists();
+        }
+    
+        return view('frontend.pages.product_detail', compact('product_detail', 'hasPurchased'));
     }
+    
 
     public function productGrids(){
         $products=Product::query();
@@ -374,11 +391,31 @@ class FrontendController extends Controller
     }
     public function registerSubmit(Request $request){
         // return $request->all();
-        $this->validate($request,[
-            'name'=>'string|required|min:2',
-            'email'=>'string|required|unique:users,email',
-            'password'=>'required|min:6|confirmed',
-        ]);
+        $this->validate($request, [
+            'name' => 'string|required|min:2',
+            'email' => 'string|required|unique:users,email',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'max:30',
+                'confirmed',
+                'regex:/^(?=.*[A-Z])(?=.*\d).+$/'
+            ],
+        ], [
+            'name.required' => 'Tên là bắt buộc.',
+            'name.string' => 'Tên phải là chuỗi ký tự.',
+            'name.min' => 'Tên phải có ít nhất 2 ký tự.',
+            'email.required' => 'Email là bắt buộc.',
+            'email.string' => 'Email phải là chuỗi ký tự.',
+            'email.unique' => 'Email đã tồn tại.',
+            'password.required' => 'Mật khẩu là bắt buộc.',
+            'password.string' => 'Mật khẩu phải là chuỗi ký tự.',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự.',
+            'password.max' => 'Mật khẩu không được vượt quá 30 ký tự.',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+            'password.regex' => 'Mật khẩu phải có ít nhất một chữ hoa và một chữ số.',
+        ]);            
         $data=$request->all();
         // dd($data);
         $check=$this->create($data);
@@ -400,9 +437,44 @@ class FrontendController extends Controller
             'status'=>'active'
             ]);
     }
-    // Reset password
-    public function showResetForm(){
-        return view('auth.passwords.old-reset');
+
+  // Hiển thị form yêu cầu đặt lại mật khẩu
+  public function showLinkRequestForm()
+  {
+      return view('auth.passwords.email');
+  }
+
+  // Gửi liên kết đặt lại mật khẩu
+  public function sendResetLinkEmail(Request $request)
+  {
+      $request->validate(['email' => 'required|email']);
+
+      $status = Password::sendResetLink(
+          $request->only('email')
+      );
+
+      return $status === Password::RESET_LINK_SENT
+          ? back()->with(['status' => __($status)])
+          : back()->withErrors(['email' => __($status)]);
+  }
+
+  // Hiển thị form đặt lại mật khẩu
+  public function showResetForm(Request $request, $token = null)
+  {
+      return view('auth.passwords.reset')->with(['token' => $token, 'email' => $request->email]);
+  }
+
+    // Đặt lại mật khẩu
+    public function reset(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|confirmed',
+        ]);
+
+        User::where('email', $request->email)->first()->update(['password'=> Hash::make($request->password)]);
+        request()->session()->flash('success','Đặt lại mật khẩu thành công');
+        return redirect()->route('home');
     }
 
     public function subscribe(Request $request){

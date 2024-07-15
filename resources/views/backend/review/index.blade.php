@@ -1,3 +1,6 @@
+@php
+    use App\Http\Controllers\OrderController;
+@endphp
 @extends('backend.layouts.master')
 
 @section('main-content')
@@ -57,7 +60,7 @@
                         @endfor
                      </ul>
                     </td>
-                    <td>{{$review->created_at->format('M d D, Y g: i a')}}</td>
+                    <td>{{ OrderController::formatDateToVietnamese($review->created_at) }}</td>
                     <td>
                         @if($review->status=='active')
                           <span class="badge badge-success">Hoạt Động</span>

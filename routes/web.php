@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\FrontendController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +23,11 @@ Route::get('user/register','FrontendController@register')->name('register.form')
 Route::post('user/register','FrontendController@registerSubmit')->name('register.submit');
 // Reset password
 Route::get('password-reset', 'FrontendController@showResetForm')->name('password.reset');
+// Reset Password Routes
+Route::get('password/reset', [FrontendController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [FrontendController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [FrontendController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [FrontendController::class, 'reset'])->name('password.update');
 // Socialite
 Route::get('login/{provider}/', 'Auth\LoginController@redirect')->name('login.redirect');
 Route::get('login/{provider}/callback/', 'Auth\LoginController@Callback')->name('login.callback');

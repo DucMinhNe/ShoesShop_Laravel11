@@ -184,7 +184,8 @@
 													<div class="tab-single review-panel">
 														<div class="row">
 															<div class="col-12">
-
+															@auth
+																@if($hasPurchased==true)
 																<!-- Review -->
 																<div class="comment-review">
 																	<div class="add-review">
@@ -194,7 +195,7 @@
 																	<h4>Đánh giá (sao) <span class="text-danger">*</span></h4>
 																	<div class="review-inner">
 																			<!-- Form -->
-																@auth
+																
 																<form class="form" method="post" action="{{route('review.store',$product_detail->slug)}}">
                                                                     @csrf
                                                                     <div class="row">
@@ -232,6 +233,7 @@
 																		</div>
 																	</div>
 																</form>
+																@endif
 																@else
 																<p class="text-center p-5">
 																	Bạn cần phải <a href="{{route('login.form')}}" style="color:rgb(54, 54, 204)">Đăng nhập</a> hoặc <a style="color:blue" href="{{route('register.form')}}">Đăng ký</a>

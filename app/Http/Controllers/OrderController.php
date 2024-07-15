@@ -179,39 +179,41 @@ class OrderController extends Controller
 
     public function checkPayment(Request $request)
     {
-         // Validate the request data
-    $request->validate([
-        'first_name' => 'required|string|max:255',
-        'last_name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'phone' => ['required', 'regex:/^(0|\+84)?([3-9]\d{8})$/'],
-        'address1' => 'required|string|max:255',
-    ], [
-        'first_name.required' => 'Vui lòng nhập tên của bạn.',
-        'last_name.required' => 'Vui lòng nhập họ của bạn.',
-        'email.required' => 'Vui lòng nhập địa chỉ email.',
-        'email.email' => 'Địa chỉ email không hợp lệ.',
-        'phone.required' => 'Vui lòng nhập số điện thoại.',
-        'phone.regex' => 'Số điện thoại không hợp lệ.',
-        'address1.required' => 'Vui lòng nhập địa chỉ.',
-    ]);
-
-        // Retrieve all data from the request
-        $order_data = $request->all();
+        // Validate the request data
+        $request->validate([
+            'first_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễễịảẦẳỡ ]+$/u'],
+            'last_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễễịảẦẳỡ ]+$/u'],
+            'email' => 'required|email|max:255',
+            'phone' => ['required', 'regex:/^(0|\+84)?([3-9]\d{8})$/'],
+            'address1' => 'required|string|max:255',
+        ], [
+            'first_name.required' => 'Vui lòng nhập tên của bạn.',
+            'first_name.regex' => 'Tên không được chứa số.',
+            'last_name.required' => 'Vui lòng nhập họ của bạn.',
+            'last_name.regex' => 'Họ không được chứa số.',
+            'email.required' => 'Vui lòng nhập địa chỉ email.',
+            'email.email' => 'Địa chỉ email không hợp lệ.',
+            'phone.required' => 'Vui lòng nhập số điện thoại.',
+            'phone.regex' => 'Số điện thoại không hợp lệ.',
+            'address1.required' => 'Vui lòng nhập địa chỉ.',
+        ]);
+    
+        // Lưu dữ liệu request vào session
+        $request->session()->put('order_data', $request->all());
+    
         // Initialize the payment URL variable
         $payUrl = '';
-        $totalCartPrice =Helper::totalCartPrice();
+        $totalCartPrice = Helper::totalCartPrice();
+    
         if ($request->input('payment_method') == 'momo') {
             // Assuming createMomoPayment() is a function that returns an object with properties including 'payUrl'
             $momoPayment = $this->createMomoPayment($totalCartPrice); // Adjust the amount (10000) as per your requirement
-            // dd($momoPayment->getdata()->payUrl);
             $payUrl = $momoPayment->getdata()->payUrl; // Assuming 'payUrl' is a property of the returned object
             return redirect()->away($payUrl);
         }
         if ($request->input('payment_method') == 'vnpay') {
             // Assuming createMomoPayment() is a function that returns an object with properties including 'payUrl'
             $vnpayPayment = $this->createVnPayPayment($totalCartPrice); // Adjust the amount (10000) as per your requirement
-            // dd($momoPayment->getdata()->payUrl);
             $payUrl = $vnpayPayment; // Assuming 'payUrl' is a property of the returned object
             return redirect()->away($payUrl);
         }
@@ -220,7 +222,7 @@ class OrderController extends Controller
         }
         // Redirect to the payment URL
         return null;
-    }
+    }    
     public function momoReturn(Request $request)
     {
         // Extract the resultCode from the request
@@ -228,26 +230,27 @@ class OrderController extends Controller
     
         // Check if the resultCode indicates success
         if ($resultCode == '9000') {
-            // Merge first name and email into the request
-            $request->merge([
-            'first_name' => 'Hoài Nhân',
-            'last_name'=>'',
-            'address1'=>'',
-            'address2'=>null,
-            'coupon'=>'',
-            'phone'=>'',
-            'post_code'=>null,
-            'country'=>'VN',
-            'shipping'=> 2,
-            'email'=> 'hoainhan@gmail',
-            'payment_method'=> 'momo'
-            ]);
+            // Lấy dữ liệu từ session
+            $order_data = $request->session()->get('order_data');
+    
+            // Nếu dữ liệu không tồn tại trong session, chuyển hướng về trang chủ với thông báo lỗi
+            if (!$order_data) {
+                request()->session()->flash('error', 'Không tìm thấy thông tin đơn hàng. Vui lòng thử lại.');
+                return redirect()->route('home');
+            }
+    
+            // Gộp dữ liệu với request hiện tại
+            $request->merge($order_data);
+            $request->merge(['payment_method' => 'momo']);
+    
             // Call the store method
             $this->store($request);
+
+            $request->session()->forget('order_data');
+    
             request()->session()->flash('success', 'Thanh toán thành công!');
             return redirect()->route('home');
         } else {
-          
             request()->session()->flash('error', 'Thanh toán thất bại. Vui lòng thử lại.');
             return redirect()->route('home');
         }
@@ -257,31 +260,31 @@ class OrderController extends Controller
     {
         // Extract the response code from the request
         $responseCode = $request->input('vnp_ResponseCode');
-        
+    
         // Check if the response code indicates success
         if ($responseCode == '00') {
-            // Merge first name and email into the request
-            $request->merge([
-            'first_name' => 'Hoài Nhân',
-            'last_name'=>'',
-            'address1'=>'',
-            'address2'=>null,
-            'coupon'=>'',
-            'phone'=>'',
-            'post_code'=>null,
-            'country'=>'VN',
-            'shipping'=> 2,
-            'email'=> 'hoainhan@gmail',
-            'payment_method'=> 'vnpay'
-            ]);
+            // Lấy dữ liệu từ session
+            $order_data = $request->session()->get('order_data');
+    
+            // Nếu dữ liệu không tồn tại trong session, chuyển hướng về trang chủ với thông báo lỗi
+            if (!$order_data) {
+                request()->session()->flash('error', 'Không tìm thấy thông tin đơn hàng. Vui lòng thử lại.');
+                return redirect()->route('home');
+            }
+    
+            // Gộp dữ liệu với request hiện tại
+            $request->merge($order_data);
+            $request->merge(['payment_method' => 'vnpay']);
+    
             // Call the store method
             $this->store($request);
     
-            // Redirect to home with success message
+            // Xóa dữ liệu đơn hàng trong session
+            $request->session()->forget('order_data');
+    
             request()->session()->flash('success', 'Thanh toán thành công!');
             return redirect()->route('home');
         } else {
-            // Payment failed, redirect to home page or show an error message
             request()->session()->flash('error', 'Thanh toán thất bại. Vui lòng thử lại.');
             return redirect()->route('home');
         }

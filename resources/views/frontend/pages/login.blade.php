@@ -54,7 +54,7 @@
                                 <div class="checkbox">
                                     <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">Lưu đăng nhập</label>
                                 </div>
-                                <a class="lost-pass mt-2" href="{{ route('password.reset') }}">
+                                <a class="lost-pass mt-2" href="{{ route('password.request') }}">
                                     Quên mật khẩu?
                                 </a>
                             </div>
