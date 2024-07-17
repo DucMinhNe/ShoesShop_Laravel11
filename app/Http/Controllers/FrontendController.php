@@ -393,7 +393,12 @@ class FrontendController extends Controller
         // return $request->all();
         $this->validate($request, [
             'name' => 'string|required|min:2',
-            'email' => 'string|required|unique:users,email',
+            'email' => [
+                'required',
+                'string',
+                'unique:users,email',
+                'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'
+            ],
             'password' => [
                 'required',
                 'string',
@@ -409,13 +414,14 @@ class FrontendController extends Controller
             'email.required' => 'Email là bắt buộc.',
             'email.string' => 'Email phải là chuỗi ký tự.',
             'email.unique' => 'Email đã tồn tại.',
+            'email.regex' => 'Email phải là địa chỉ Gmail.',
             'password.required' => 'Mật khẩu là bắt buộc.',
             'password.string' => 'Mật khẩu phải là chuỗi ký tự.',
             'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự.',
             'password.max' => 'Mật khẩu không được vượt quá 30 ký tự.',
             'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
             'password.regex' => 'Mật khẩu phải có ít nhất một chữ hoa và một chữ số.',
-        ]);            
+        ]);                
         $data=$request->all();
         // dd($data);
         $check=$this->create($data);

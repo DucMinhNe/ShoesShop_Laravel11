@@ -181,18 +181,25 @@ class OrderController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'first_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễễịảẦẳỡ ]+$/u'],
-            'last_name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƠƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễễịảẦẳỡ ]+$/u'],
-            'email' => 'required|email|max:255',
+            'first_name' => ['required', 'string', 'max:255', 'regex:/^[\p{L}\s]+$/u'],
+            'last_name' => ['required', 'string', 'max:255', 'regex:/^[\p{L}\s]+$/u'],
+            'email' => [
+                'required',
+                'string',
+                'unique:users,email',
+                'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'
+            ],
             'phone' => ['required', 'regex:/^(0|\+84)?([3-9]\d{8})$/'],
             'address1' => 'required|string|max:255',
         ], [
-            'first_name.required' => 'Vui lòng nhập tên của bạn.',
-            'first_name.regex' => 'Tên không được chứa số.',
-            'last_name.required' => 'Vui lòng nhập họ của bạn.',
-            'last_name.regex' => 'Họ không được chứa số.',
-            'email.required' => 'Vui lòng nhập địa chỉ email.',
-            'email.email' => 'Địa chỉ email không hợp lệ.',
+            'first_name.required' => 'Vui lòng nhập họ của bạn.',
+            'first_name.regex' => 'Họ không được chứa số.',
+            'last_name.required' => 'Vui lòng nhập tên của bạn.',
+            'last_name.regex' => 'Tên không được chứa số.',
+            'email.required' => 'Email là bắt buộc.',
+            'email.string' => 'Email phải là chuỗi ký tự.',
+            'email.unique' => 'Email đã tồn tại.',
+            'email.regex' => 'Email phải là địa chỉ Gmail.',
             'phone.required' => 'Vui lòng nhập số điện thoại.',
             'phone.regex' => 'Số điện thoại không hợp lệ.',
             'address1.required' => 'Vui lòng nhập địa chỉ.',

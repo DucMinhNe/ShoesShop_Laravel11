@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+@extends('frontend.layouts.mastercheckout')
 
 @section('title', 'Shopgiay || Thanh Toán')
 
@@ -84,12 +84,12 @@
                     <div class="col-lg-8 col-12">
                         <div class="checkout-form">
                             <h2>Thực Hiện Thanh Toán</h2>
-                            <p>Vui lòng đăng ký để việc thanh toán nhanh chóng hơn.</p>
+                            <p></p>
                             <!-- Form -->
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
-                                        <label>Tên<span>*</span></label>
+                                        <label>Họ<span>*</span></label>
                                         <input type="text" name="first_name" placeholder=""
                                             value="{{ old('first_name') }}" value="{{ old('first_name') }}">
                                         @error('first_name')
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <div class="form-group">
-                                        <label>Họ<span>*</span></label>
+                                        <label>Tên <span>*</span></label>
                                         <input type="text" name="last_name" placeholder="" value="{{ old('lat_name') }}">
                                         @error('last_name')
                                             <span class='text-danger'>{{ $message }}</span>
@@ -125,16 +125,92 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-12">
+                                <div class="col-lg-12 col-md-6 col-12">
                                     <div class="form-group">
                                         <label>Địa chỉ<span>*</span></label>
-                                        <input type="text" name="address1" placeholder="" value="{{ old('address1') }}">
+                                        <input type="text" name="address" id="address" placeholder="" value="{{ old('address1') }}">
                                         @error('address1')
                                             <span class='text-danger'>{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
+                                <input type="text" name="address1" id="address1" value="" hidden>
                                 <input type="text" name="country" id="country" value="VN" hidden>
+                                <div>
+<select class="form-select form-select mb-3" id="city">
+<option value="" selected>Chọn tỉnh thành</option>           
+</select>
+          
+<select class="form-select form-select mb-3" id="district">
+<option value="" selected>Chọn quận huyện</option>
+</select>
+
+<select class="form-select form-select mb-3" id="ward">
+<option value="" selected>Chọn phường xã</option>
+</select>
+ </div>    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+	var citis = document.getElementById("city");
+    var districts = document.getElementById("district");
+    var wards = document.getElementById("ward");
+    var address = document.getElementById("address");
+    var address1 = document.getElementById("address1");
+    var address2 = "";
+    var Parameter = {
+  url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json", 
+  method: "GET", 
+  responseType: "application/json", 
+};
+var promise = axios(Parameter);
+promise.then(function (result) {
+  renderCity(result.data);
+});
+
+function renderCity(data) {
+  for (const x of data) {
+    citis.options[citis.options.length] = new Option(x.Name, x.Id);
+  }
+  citis.onchange = function () {
+    district.length = 1;
+    ward.length = 1;
+    address2 = citis.options[citis.selectedIndex].text;
+    address1.value = address.value + ', ' + address2;
+    if(this.value != ""){
+      const result = data.filter(n => n.Id === this.value);
+
+      for (const k of result[0].Districts) {
+        district.options[district.options.length] = new Option(k.Name, k.Id);
+      }
+    }
+  };
+  district.onchange = function () {
+    ward.length = 1;
+    const dataCity = data.filter((n) => n.Id === citis.value);
+    address2 = district.options[district.selectedIndex].text + ', ' +   citis.options[citis.selectedIndex].text;
+    address1.value = address.value + ', ' + address2;
+    if (this.value != "") {
+      const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+      for (const w of dataWards) {
+        wards.options[wards.options.length] = new Option(w.Name, w.Id);
+      }
+    }
+  };
+  wards.onchange = function () {
+                address2 = wards.options[wards.selectedIndex].text + ', ' + district.options[district.selectedIndex].text + ', '+ citis.options[citis.selectedIndex].text  ;
+                address1.value = address.value + ', ' + address2;
+                console.log(address1.value)
+            };
+            address.onkeydown = function () {
+                address2 = wards.options[wards.selectedIndex].text + ', ' + district.options[district.selectedIndex].text + ', '+ citis.options[citis.selectedIndex].text  ;
+                address1.value = address.value + ', ' + address2;
+                console.log(address1.value)
+            };
+}
+	</script>
                                 <!-- <div class="col-lg-6 col-md-6 col-12">
                                                         <div class="form-group">
                                                             <label>Địa chỉ 2</label>
@@ -205,21 +281,29 @@
                                 </div>
                             </div>
                             <!--/ End Order Widget -->
+                             <!--/ End Order Widget -->
                             <!-- Order Widget -->
                             <div class="single-widget">
                                 <h2>Phương Thức Thanh Toán</h2>
                                 <div class="content">
                                     <div class="checkbox">
-                                        {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                         <form-group>
-                                            <input name="payment_method" type="radio" value="cod" checked> <label> Thanh Toán
-                                                Khi Giao Hàng</label><br>
-                                            <input name="payment_method" type="radio" value="momo"> <label>
-                                                Momo</label><br>
-                                            <input name="payment_method" type="radio" value="vnpay"> <label>
-                                                VnPay</label>
+                                            <input name="payment_method" type="radio" value="cod" checked> 
+                                            <label>
+                                                <img src="{{ asset('payment_logo/cash_logo.jpg') }}" alt="Thanh Toán Bằng Tiền Mặt" style="width:70px; height:50px;">
+                                                Thanh Toán Bằng Tiền Mặt
+                                            </label><br>
+                                            <input name="payment_method" type="radio" value="momo"> 
+                                            <label>
+                                                <img src="{{ asset('payment_logo/momo_logo.jpg') }}" alt="Momo" style="width:50px; height:40px;padding-left:7px;">
+                                                Momo
+                                            </label><br>
+                                            <input name="payment_method" type="radio" value="vnpay"> 
+                                            <label>
+                                                <img src="{{ asset('payment_logo/vnpay_logo.jpg') }}" alt="VnPay" style="width:50px; height:auto;padding-left:8px;">
+                                                VnPay
+                                            </label>
                                         </form-group>
-
                                     </div>
                                 </div>
                             </div>
@@ -370,13 +454,13 @@
     </style>
 @endpush
 @push('scripts')
-    <script src="{{ asset('frontend/js/nice-select/js/jquery.nice-select.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/select2/js/select2.min.js') }}"></script>
+    <!-- <script src="{{ asset('frontend/js/nice-select/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/select2/js/select2.min.js') }}"></script> -->
     <script>
-        $(document).ready(function() {
-            $("select.select2").select2();
-        });
-        $('select.nice-select').niceSelect();
+        // $(document).ready(function() {
+        //     $("select.select2").select2();
+        // });
+        // $('select.nice-select').niceSelect();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
