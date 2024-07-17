@@ -186,7 +186,6 @@ class OrderController extends Controller
             'email' => [
                 'required',
                 'string',
-                'unique:users,email',
                 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'
             ],
             'phone' => ['required', 'regex:/^(0|\+84)?([3-9]\d{8})$/'],
@@ -198,7 +197,6 @@ class OrderController extends Controller
             'last_name.regex' => 'Tên không được chứa số.',
             'email.required' => 'Email là bắt buộc.',
             'email.string' => 'Email phải là chuỗi ký tự.',
-            'email.unique' => 'Email đã tồn tại.',
             'email.regex' => 'Email phải là địa chỉ Gmail.',
             'phone.required' => 'Vui lòng nhập số điện thoại.',
             'phone.regex' => 'Số điện thoại không hợp lệ.',
