@@ -14,7 +14,7 @@
 							@php
 								$settings=DB::table('settings')->get();
 							@endphp
-							<p class="text">Mong muốn đáp ứng nhu cầu của khách hàng.</p>
+							<p class="text">Chúng tôi hiểu rằng một đôi giày tốt không chỉ mang lại sự thoải mái mà còn là biểu tượng của phong cách và cá tính. Vì vậy, chúng tôi cam kết cung cấp những sản phẩm giày dép chất lượng, bền đẹp và hợp thời trang. Từ những đôi giày công sở sang trọng, giày thể thao năng động đến những đôi giày dạo phố trẻ trung, chúng tôi đều có sẵn để đáp ứng mọi nhu cầu và sở thích của bạn.</p>
 							<!-- <p class="call">Nếu bạn có câu hỏi? Gọi ngay cho chúng tôi.<span style="margin-top: 10px"><a href="tel:0398314279" >@foreach($settings as $data) {{$data->phone}} @endforeach</a></span></p> -->
 						</div>
 						<!-- End Single Widget -->

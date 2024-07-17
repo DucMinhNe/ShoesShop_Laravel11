@@ -13,7 +13,7 @@
           <div class="col">
             <div class="form-group">
               <label for="inputTitle" class="col-form-label">Tiêu đề <span class="text-danger">*</span></label>
-              <input id="inputTitle" type="text" name="title" placeholder="Enter title" value="{{$brand->title}}" class="form-control">
+              <input id="inputTitle" type="text" name="title" placeholder="Nhập tiêu đề" value="{{$brand->title}}" class="form-control">
               @error('title')
               <span class="text-danger">{{$message}}</span>
               @enderror
@@ -22,7 +22,7 @@
           <div class="col">
             <div class="form-group">
               <label for="inputSlug" class="col-form-label">Slug <span class="text-danger">*</span></label>
-              <input id="inputSlug" type="text" name="slug" placeholder="Enter title" value="{{$brand->slug}}" class="form-control">
+              <input id="inputSlug" type="text" name="slug" placeholder="Nhập tiêu đề" value="{{$brand->slug}}" class="form-control">
               @error('title')
               <span class="text-danger">{{$message}}</span>
               @enderror

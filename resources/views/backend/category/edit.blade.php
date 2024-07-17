@@ -17,7 +17,7 @@
       </div>
       <div class="form-group">
         <label for="inputSlug" class="col-form-label">Slug <span class="text-danger">*</span></label>
-        <input id="inputSlug" type="text" name="slug" placeholder="Enter title" value="{{$category->slug}}" class="form-control">
+        <input id="inputSlug" type="text" name="slug" placeholder="Nhập tiêu đề" value="{{$category->slug}}" class="form-control">
         @error('title')
         <span class="text-danger">{{$message}}</span>
         @enderror
