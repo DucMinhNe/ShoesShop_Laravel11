@@ -49,7 +49,7 @@ class BrandController extends Controller
         // return $data;
         $status=Brand::create($data);
         if($status){
-            request()->session()->flash('success','Brand successfully created');
+            request()->session()->flash('success','Thêm thương hiệu thành công');
         }
         else{
             request()->session()->flash('error','Error, Please try again');

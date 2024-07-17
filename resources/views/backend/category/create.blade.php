@@ -15,21 +15,21 @@
           @enderror
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="summary" class="col-form-label">Tóm tắt</label>
           <textarea class="form-control" id="summary" name="summary">{{old('summary')}}</textarea>
           @error('summary')
           <span class="text-danger">{{$message}}</span>
           @enderror
-        </div>
+        </div> -->
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="is_parent">Danh mục cha</label>
-          <input type="checkbox" name='is_parent' id='is_parent' value='1' checked>
+          <input type="checkbox" name='is_parent' id='is_parent' value='1' checked hidden>
         </div>
-        {{-- {{$parent_cats}} --}}
-
-        <div class="form-group d-none" id='parent_cat_div'>
+        {{-- {{$parent_cats}} --}} -->
+        <input type="checkbox" name='is_parent' id='is_parent' value='1' checked hidden>
+        <!-- <div class="form-group d-none" id='parent_cat_div'>
           <label for="parent_id">Danh mục cha</label>
           <select name="parent_id" class="form-control">
               <option value="">--Lựa chọn danh mục cha--</option>
@@ -45,7 +45,7 @@
           @error('photo')
           <span class="text-danger">{{$message}}</span>
           @enderror
-        </div>
+        </div> -->
 
         <div class="form-group">
           <label for="status" class="col-form-label">Trạng thái <span class="text-danger">*</span></label>

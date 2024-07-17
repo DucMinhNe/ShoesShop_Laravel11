@@ -31,7 +31,7 @@
           <td>{{$order->first_name}} {{$order->last_name}}</td>
           <td>{{$order->email}}</td>
           <td>{{$order->quantity}}</td>
-          <td>{{$order->shipping->price}}đ</td>
+          <td>{{$order->shipping->price}} đ</td>
           <td>{{number_format($order->total_amount,0)}}đ</td>
           <td>
             @if($order->status=='new')
@@ -60,7 +60,7 @@
           <!-- <th>Nổi bật ?</th> -->
           <th>Giá</th>
           <!-- <th>Giảm giá</th> -->
-          <!-- <th>Size</th> -->
+          <th>Size</th>
           <th>Số lượng</th>
           <!-- <th>Tình trạng</th> -->
           <th>Thương hiệu</th>
@@ -79,9 +79,33 @@
               <sub>/{{ $product->sub_cat_info->title ?? '' }}</sub>
             </td>
             <!--    <td>{{ $product->is_featured == 1 ? 'Nổi Bật' : 'Không' }}</td> -->
-            <td>{{ $product->price }} đ</td>
+            <td>
+                @php
+                  $cartItem = \App\Models\Cart::where('product_id', $product->id)
+                        ->where('order_id', $order->id)
+                        ->first();
+                @endphp
+                @if ($cartItem)
+                    {{ $cartItem->price }} đ
+                @else
+                    0
+                @endif
+            </td>
+            <!-- <td>{{ $product->price }} đ</td> -->
             <!-- <td>{{ $product->discount }}%</td> -->
             <!-- <td>{{ $product->size }}</td> -->
+            <td>
+                @php
+                  $cartItem = \App\Models\Cart::where('product_id', $product->id)
+                        ->where('order_id', $order->id)
+                        ->first();
+                @endphp
+                @if ($cartItem)
+                    {{ $cartItem->size }}
+                @else
+                    0
+                @endif
+            </td>
             <td>
                 @php
                     $cartItem = \App\Models\Cart::where('product_id', $product->id)

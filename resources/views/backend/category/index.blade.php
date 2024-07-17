@@ -21,9 +21,9 @@
               <th>STT</th>
               <th>Tiêu đề</th>
               <th>Slug</th>
-              <th>Danh mục cha?</th>
+              <!-- <th>Danh mục cha?</th>
               <th>Danh mục cha</th>
-              <th>Ảnh</th>
+              <th>Ảnh</th> -->
               <th>Trạng thái</th>
               <th>Thao tác</th>
             </tr>
@@ -33,9 +33,9 @@
                 <th>STT</th>
                 <th>Tiêu đề</th>
                 <th>Slug</th>
-                <th>Danh mục cha?</th>
+                <!-- <th>Danh mục cha?</th>
                 <th>Danh mục cha</th>
-                <th>Ảnh</th>
+                <th>Ảnh</th> -->
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
             </tr>
@@ -49,7 +49,7 @@
                     <td>{{$category->id}}</td>
                     <td>{{$category->title}}</td>
                     <td>{{$category->slug}}</td>
-                    <td>{{(($category->is_parent==1)? 'Đúng': 'Không')}}</td>
+                    <!-- <td>{{(($category->is_parent==1)? 'Đúng': 'Không')}}</td>
                     <td>
                         {{$category->parent_info->title ?? ''}}
                     </td>
@@ -59,7 +59,7 @@
                         @else
                             <img src="{{asset('backend/img/thumbnail-default.jpg')}}" class="img-fluid" style="max-width:80px" alt="avatar.png">
                         @endif
-                    </td>
+                    </td> -->
                     <td>
                         @if($category->status=='active')
                            <span class="badge badge-success">Hoạt Động</span>

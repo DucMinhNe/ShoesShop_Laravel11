@@ -33,6 +33,7 @@
 							<tr class="main-hading">
 								<th>Ảnh Sản Phẩm</th>
 								<th>Tên Sản Phẩm</th>
+                                <th>Size</th>
 								<th class="text-center">Đơn Giá</th>
 								<th class="text-center">Số Lượng</th>
 								<th class="text-center">Tổng Tiền</th>
@@ -53,6 +54,7 @@
 												<p class="product-name"><a href="{{route('product-detail',$cart->product['slug'])}}" target="_blank">{{$cart->product['title']}}</a></p>
 												<p class="product-des">{!!($cart['summary']) !!}</p>
 											</td>
+                                            <td class="size" data-title="size"><span>{{$cart->size}}</span></td>
 											<td class="price" data-title="Price"><span>{{number_format($cart['price'],0)}} đ</span></td>
 										
                                             <td class="qty" data-title="Qty"><span class="money">{{$cart->quantity}}</span></td>
@@ -341,7 +343,7 @@ function renderCity(data) {
                     <div class="single-service">
                         <i class="ti-rocket"></i>
                         <h4>Miễn Phí Giao Hàng</h4>
-                        <p>Cho đơn hàng trên 1.000.000 đ</p>
+                        <p>Miễn phí giao hàng nội thành</p>
                     </div>
                     <!-- End Single Service -->
                 </div>

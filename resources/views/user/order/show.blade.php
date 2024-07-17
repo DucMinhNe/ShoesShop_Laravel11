@@ -66,7 +66,7 @@ use App\Http\Controllers\OrderController;
           <th>Tiêu đề</th>
           <th>Giá</th>
           <!-- <th>Giảm giá</th> -->
-          <!-- <th>Size</th> -->
+          <th>Size</th>
           <th>Số lượng</th>
           <th>Thương hiệu</th>
           <th>Ảnh</th>
@@ -77,13 +77,35 @@ use App\Http\Controllers\OrderController;
           <tr>
             <td>{{ $product->id }}</td>
             <td>{{ $product->title }}</td>
-            <td>{{ $product->price }} đ</td>
-            <!-- <td>{{ $product->discount }}%</td> -->
-            <!-- <td>{{ $product->size }}</td> -->
+            <!-- <td>{{ $product->price }} đ</td> -->
             <td>
                 @php
-                    $cartItem = \App\Models\Cart::where('user_id', auth()->user()->id)
-                        ->where('product_id', $product->id)
+                $cartItem = \App\Models\Cart::where('product_id', $product->id)
+                        ->where('order_id', $order->id)
+                        ->first();
+                @endphp
+                @if ($cartItem)
+                    {{ $cartItem->price }} đ
+                @else
+                    0
+                @endif
+            </td>
+            <!-- <td>{{ $product->discount }}%</td> -->
+            <td>
+                @php
+                $cartItem = \App\Models\Cart::where('product_id', $product->id)
+                        ->where('order_id', $order->id)
+                        ->first();
+                @endphp
+                @if ($cartItem)
+                    {{ $cartItem->size }}
+                @else
+                    0
+                @endif
+            </td>
+            <td>
+                @php
+                $cartItem = \App\Models\Cart::where('product_id', $product->id)
                         ->where('order_id', $order->id)
                         ->first();
                 @endphp

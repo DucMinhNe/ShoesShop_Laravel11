@@ -287,7 +287,9 @@
                                 <div class="col-lg-6 col-md-6 col-12 no-padding">
                                     <div class="content">
                                         <h4 class="title"><a href="#">{{$product->title}}</a></h4>
+                                        @if($product->discount > 0)
                                         <p class="price with-discount"> Giảm {{number_format($product->discount,0)}} %</p>
+                                        @endif
                                     </div>
                                 </div>
                                 </div>
@@ -343,7 +345,7 @@
                 <div class="single-service">
                     <i class="ti-rocket"></i>
                     <h4>Miễn Phí Giao Hàng</h4>
-                    <p>Cho đơn hàng trên 1.000.000 đ</p>
+                    <p>Miễn phí giao hàng nội thành</p>
                 </div>
                 <!-- End Single Service -->
             </div>

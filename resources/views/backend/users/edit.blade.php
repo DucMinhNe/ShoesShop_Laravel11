@@ -18,19 +18,19 @@
 
       <div class="form-group">
         <label for="inputEmail" class="col-form-label">Email</label>
-        <input id="inputEmail" type="email" name="email" placeholder="Enter email" value="{{$user->email}}" class="form-control">
+        <input id="inputEmail" type="email" name="email" placeholder="Enter email" value="{{$user->email}}" class="form-control" disabled>
         @error('email')
         <span class="text-danger">{{$message}}</span>
         @enderror
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="inputPhoto" class="col-form-label">Ảnh</label>
         <input id="inputPhoto" type="file" name="photo" class="form-control" onchange="previewImage(event)">
         @error('photo')
         <span class="text-danger">{{$message}}</span>
         @enderror
-      </div>
+      </div> -->
 
       @if($user->photo)
       <div class="form-group">

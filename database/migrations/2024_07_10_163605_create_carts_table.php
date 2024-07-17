@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('status', ['new', 'progress', 'delivered', 'cancel'])->default('new');
             $table->integer('quantity');
             $table->double('amount', 10, 2);
-            //$table->double('size', 10, 2);
+            $table->integer('size');
             $table->timestamps();
         });
     }

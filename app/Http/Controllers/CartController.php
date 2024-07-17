@@ -88,6 +88,7 @@ class CartController extends Controller
 
             $cart = new Cart;
             $cart->user_id = auth()->user()->id;
+            $cart->size = $request->size;
             $cart->product_id = $product->id;
             $cart->price = ($product->price-($product->price*$product->discount)/100);
             $cart->quantity = $request->quant[1];

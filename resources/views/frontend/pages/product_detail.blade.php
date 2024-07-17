@@ -101,19 +101,18 @@
 											<!--/ End Color -->
 											<!-- Size -->
 											@if($product_detail->size)
-												<div class="size mt-4">
-													<h4>Size</h4>
-													<ul>
-														@php
-															$sizes=explode(',',$product_detail->size);
-															// dd($sizes);
-														@endphp
-														@foreach($sizes as $size)
-														<li><a href="#" class="one">{{$size}}</a></li>
-														@endforeach
-													</ul>
-												</div>
-											@endif
+    <div class="size mt-4">
+        <h4>Size</h4>
+        <ul>
+            @php
+                $sizes=explode(',',$product_detail->size);
+            @endphp
+            @foreach($sizes as $size)
+            <li><a href="javascript:void(0);" class="size-option" data-size="{{$size}}">{{$size}}</a></li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 											<!--/ End Size -->
 											<!-- Product Buy -->
 											<div class="product-buy">
@@ -129,6 +128,7 @@
 																</button>
 															</div>
 															<input type="hidden" name="slug" value="{{$product_detail->slug}}">
+															<input type="hidden" name="size" value="" id="selected-size">
 															<input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="1000000" value="1" id="quantity">
 															<div class="button plus">
 																<button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
@@ -334,7 +334,7 @@
                                         </a>
                                         <div class="button-head">
                                             <div class="product-action">
-                                                <a data-toggle="modal" data-target="#modelExample" title="Quick View" href="#"><i class=" ti-eye"></i><span>Mua Ngay</span></a>
+                                                <!-- <a data-toggle="modal" data-target="#modelExample" title="Quick View" href="#"><i class=" ti-eye"></i><span>Mua Ngay</span></a> -->
                                                 <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Thêm vào danh sách yêu thích</span></a>
                                                 <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>So Sánh</span></a>
                                             </div>
@@ -368,118 +368,52 @@
 
 
   <!-- Modal -->
-  <div class="modal fade" id="modelExample" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close" aria-hidden="true"></span></button>
-            </div>
-            <div class="modal-body">
-                <div class="row no-gutters">
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        <!-- Product Slider -->
-                            <div class="product-gallery">
-                                <div class="quickview-slider-active">
-                                    <div class="single-slider">
-                                        <img src="images/modal1.png" alt="#">
-                                    </div>
-                                    <div class="single-slider">
-                                        <img src="images/modal2.png" alt="#">
-                                    </div>
-                                    <div class="single-slider">
-                                        <img src="images/modal3.png" alt="#">
-                                    </div>
-                                    <div class="single-slider">
-                                        <img src="images/modal4.png" alt="#">
-                                    </div>
-                                </div>
-                            </div>
-                        <!-- End Product slider -->
-                    </div>
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        <div class="quickview-content">
-                            <h2>Flared Shift Dress</h2>
-                            <div class="quickview-ratting-review">
-                                <div class="quickview-ratting-wrap">
-                                    <div class="quickview-ratting">
-                                        <i class="yellow fa fa-star"></i>
-                                        <i class="yellow fa fa-star"></i>
-                                        <i class="yellow fa fa-star"></i>
-                                        <i class="yellow fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <a href="#"> (1 customer review)</a>
-                                </div>
-                                <div class="quickview-stock">
-                                    <span><i class="fa fa-check-circle-o"></i> in stock</span>
-                                </div>
-                            </div>
-                            <h3>$29.00</h3>
-                            <div class="quickview-peragraph">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam.</p>
-                            </div>
-                            <div class="size">
-                                <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <h5 class="title">Size</h5>
-                                        <select>
-                                            <option selected="selected">s</option>
-                                            <option>m</option>
-                                            <option>l</option>
-                                            <option>xl</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <h5 class="title">Color</h5>
-                                        <select>
-                                            <option selected="selected">orange</option>
-                                            <option>purple</option>
-                                            <option>black</option>
-                                            <option>pink</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="quantity">
-                                <!-- Input Order -->
-                                <div class="input-group">
-                                    <div class="button minus">
-                                        <button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-                                            <i class="ti-minus"></i>
-                                        </button>
-									</div>
-                                    <input type="text" name="qty" class="input-number"  data-min="1" data-max="1000000" value="1">
-                                    <div class="button plus">
-                                        <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
-                                            <i class="ti-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <!--/ End Input Order -->
-                            </div>
-                            <div class="add-to-cart">
-                                <a href="#" class="btn">Add to cart</a>
-                                <a href="#" class="btn min"><i class="ti-heart"></i></a>
-                                <a href="#" class="btn min"><i class="fa fa-compress"></i></a>
-                            </div>
-                            <div class="default-social">
-                                <h4 class="share-now">Share:</h4>
-                                <ul>
-                                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                    <li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+  
 <!-- Modal end -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let selectedSize = '';
 
+        document.querySelectorAll('.size-option').forEach(function(element) {
+            element.addEventListener('click', function() {
+                selectedSize = this.dataset.size;
+                document.getElementById('selected-size').value = selectedSize;
+
+                document.querySelectorAll('.size-option').forEach(function(el) {
+                    el.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+
+        document.querySelectorAll('.btn-number').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const fieldName = this.getAttribute('data-field');
+                const type = this.getAttribute('data-type');
+                const input = document.querySelector("input[name='" + fieldName + "']");
+                const currentValue = parseInt(input.value);
+
+                if (!isNaN(currentValue)) {
+                    if (type === 'minus' && currentValue > input.getAttribute('data-min')) {
+                        input.value = currentValue - 1;
+                    } else if (type === 'plus' && currentValue < input.getAttribute('data-max')) {
+                        input.value = currentValue + 1;
+                    }
+                } else {
+                    input.value = 1;
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    .size-option.selected {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
 @endsection
 @push('styles')
 	<style>

@@ -3,7 +3,7 @@
 @section('main-content')
 
 <div class="card">
-  <h5 class="card-header">Thêm người dùng</h5>
+  <h5 class="card-header">Thêm quản trị viên</h5>
   <div class="card-body">
     <form method="post" action="{{ route('users.store') }}" enctype="multipart/form-data">
       {{ csrf_field() }}
@@ -46,10 +46,11 @@
       <div class="form-group">
         <label for="role" class="col-form-label">Phân quyền</label>
         <select name="role" class="form-control">
-          <option value="">-----Lựa chọn-----</option>
-          @foreach($roles as $role)
+          <!-- <option value="">-----Lựa chọn-----</option> -->
+          <!-- @foreach($roles as $role)
           <option value="{{ $role->role }}">{{ $role->role }}</option>
-          @endforeach
+          @endforeach -->
+          <option value="admin">admin</option>
         </select>
         @error('role')
         <span class="text-danger">{{ $message }}</span>
@@ -69,7 +70,7 @@
 
       <div class="form-group mb-3">
         <button type="reset" class="btn btn-warning">Làm lại</button>
-        <button class="btn btn-success" type="submit">Thêm người dùng</button>
+        <button class="btn btn-success" type="submit">Thêm quản trị viên</button>
       </div>
     </form>
   </div>

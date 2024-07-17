@@ -62,7 +62,7 @@
                     <div class="single-service">
                         <i class="ti-rocket"></i>
                         <h4>Miễn Phí Giao Hàng</h4>
-                        <p>Cho đơn hàng trên 1.000.000 đ</p>
+                        <p>Miễn phí giao hàng nội thành</p>
                     </div>
                     <!-- End Single Service -->
                 </div>
