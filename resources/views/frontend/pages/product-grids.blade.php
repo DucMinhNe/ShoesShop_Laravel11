@@ -207,7 +207,9 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 justify-content-center d-flex">
-                                {{$products->appends($_GET)->links()}}
+                            {{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
+                            <!-- {{ $products->appends(request()->query())->links() }} -->
+                                <!-- {{$products->appends($_GET)->links()}} -->
                             </div>
                           </div>
 
@@ -369,6 +371,7 @@
 
 @endsection
 @push('styles')
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
     .pagination{
         display:inline-flex;

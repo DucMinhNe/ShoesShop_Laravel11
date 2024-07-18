@@ -232,6 +232,7 @@
 							</div>
 							 <div class="row">
                             <div class="col-md-12 justify-content-center d-flex">
+							{{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
                                 {{-- {{$products->appends($_GET)->links()}}  --}}
                             </div>
                           </div>
@@ -378,6 +379,7 @@
 </style>
 @endpush
 @push('scripts')
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
     {{-- <script>
