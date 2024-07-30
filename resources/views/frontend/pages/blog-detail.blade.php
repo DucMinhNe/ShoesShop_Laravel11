@@ -29,7 +29,8 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="image">
-                                    <img src="{{$post->photo}}" alt="{{$post->photo}}">
+                                    <img src="{{asset($post->photo)}}" alt="{{asset($post->photo)}}">
+                                    <!-- <img src="{{$post->photo}}" alt="{{$post->photo}}"> -->
                                 </div>
                                 <div class="blog-detail">
                                     <h2 class="blog-title">{{$post->title}}</h2>
@@ -105,7 +106,7 @@
 
                             @else
                             <p class="text-center p-5">
-                                You need to <a href="{{route('login.form')}}" style="color:rgb(54, 54, 204)">Đăng Nhập</a> OR <a style="color:blue" href="{{route('register.form')}}">Đăng Ký</a> để bình luận.
+                                Bạn cần phải <a href="{{route('login.form')}}" style="color:rgb(54, 54, 204)">Đăng Nhập</a> hoặc <a style="color:blue" href="{{route('register.form')}}">Đăng Ký</a> để bình luận.
 
                             </p>
 
@@ -151,7 +152,8 @@
                                 <!-- Single Post -->
                                 <div class="single-post">
                                     <div class="image">
-                                        <img src="{{$post->photo}}" alt="{{$post->photo}}">
+                                    <img src="{{asset($post->photo)}}" alt="{{asset($post->photo)}}">
+                                        <!-- <img src="{{$post->photo}}" alt="{{$post->photo}}"> -->
                                     </div>
                                     <div class="content">
                                         <h5><a href="#">{{$post->title}}</a></h5>

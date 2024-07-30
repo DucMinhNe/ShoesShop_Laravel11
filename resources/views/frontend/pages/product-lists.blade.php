@@ -233,7 +233,6 @@
 							 <div class="row">
                             <div class="col-md-12 justify-content-center d-flex">
 							{{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
-                                {{-- {{$products->appends($_GET)->links()}}  --}}
                             </div>
                           </div>
 						</div>
